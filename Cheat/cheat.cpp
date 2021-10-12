@@ -531,7 +531,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
            {
                if (localWeapon->WeaponParameters.UsesScope == true) //check if sniper
                {               
-                   localWeapon->WeaponParameters.InAimFOV    = (float)cfg.misc.sniper.aim_fov;
+                   localWeapon->WeaponParameters.InAimFOV = (float)cfg.misc.sniper.aim_fov;
                }
            }
 
@@ -596,7 +596,20 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             if (cfg.misc.bEnable && cfg.misc.client.bEnable)
                  localController->FOV(cfg.misc.client.fov);
 
-            if (ImGui::IsKeyPressed(VK_F10))
+            //if (ImGui::IsKeyPressed(VK_F10))
+            //{
+            //   
+            //    localController->PlayerCameraManager->ViewTarget.POV.Location = localCharacter->K2_GetActorLocation() + (localCharacter->GetActorForwardVector() * 400.f);
+            //   
+            //}
+
+          /*  {
+                if (ImGui::IsKeyPressed(VK_F10))
+                {
+                    Sleep(2000);
+                }
+            }
+           */
 
             //cannon trajectory
             if (isCannon)
@@ -1586,17 +1599,17 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     char name[0x64];
                                     auto len = island->LocalisedName->multi(name, 0x50);
-                                    
+
                                     snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.islands.textCol);
-                                    
-                                    
+
+
                                 }
-                                
+
                             }
 
                         } while (false);
-                    
+
                         
                     }
                 }
@@ -2278,24 +2291,21 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         if (krakenService) { krakenService->IsKrakenActive(); }
                     }
                     ImGui::Text("Kraken Active: %d", isActive);
-                    ImGui::Text("0 = False | 1 = True");
-
-                    ///ImGui::Separator();
-                    ///ImGui::Text("Experimental Options");
-                    /// if (ImGui::Button("Attempt To Request Kraken"))
-                    ///{
-                    ///    auto const world = *UWorld::GWorld;
-                    ///    auto const game = world->GameInstance;
-                    ///    auto const localPlayer = game->LocalPlayers[0];
-                    ///    auto const localController = localPlayer->PlayerController;
-                    ///   auto const localCharacter = localController->Character;
-                    ///    if (krakenService) { krakenService->RequestKrakenWithLocation(localCharacter->K2_GetActorLocation(), localCharacter); }
-                    ///
-                    ///}
-                    ///if (ImGui::Button("Attempt To Dismiss Kraken"))
-                    ///{
-                    ///   if (krakenService) { krakenService->DismissKraken(); }
-                    ///}
+                    ImGui::Separator();
+                    ImGui::Text("Experimental Options");
+                    if (ImGui::Button("Attempt To Request Kraken"))
+                    {
+                        auto const world = *UWorld::GWorld;
+                        auto const game = world->GameInstance;
+                        auto const localPlayer = game->LocalPlayers[0];
+                        auto const localController = localPlayer->PlayerController;
+                        auto const localCharacter = localController->Character;
+                        if (krakenService) { krakenService->RequestKrakenWithLocation(localCharacter->K2_GetActorLocation(), localCharacter); }
+                    }
+                    if (ImGui::Button("Attempt To Dismiss Kraken"))
+                    {
+                        if (krakenService) { krakenService->DismissKraken(); }
+                    }
                 }
                 ImGui::EndChild();
 
