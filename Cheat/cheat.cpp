@@ -2262,6 +2262,16 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::NextColumn();
 
+                ImGui::Text("All Weapons");
+                if (ImGui::BeginChild("All WeaponsMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.misc.allweapons.bEnable);
+                    ImGui::Checkbox("Faster Reloading", &cfg.misc.allweapons.fasterreloading);
+                }
+                ImGui::EndChild();
+
+                ImGui::NextColumn();
+
                 ImGui::Text("Blunderbuss");
                 if (ImGui::BeginChild("ShotGunMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
