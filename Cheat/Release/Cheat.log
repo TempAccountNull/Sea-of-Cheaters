@@ -1,1 +1,115 @@
-﻿  Cheat.vcxproj -> C:\Users\Bigga\Desktop\sot\sot-hook-updated\bin\Release\Cheat.dll
+﻿  imgui.cpp
+  imgui_draw.cpp
+  imgui_impl_dx11.cpp
+  imgui_impl_win32.cpp
+  imgui_widgets.cpp
+  UE4.cpp
+  cheat.cpp
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(360,20): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(319): message : see declaration of 'APlayerState'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(801,65): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(812,70): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(823,27): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(319): message : see declaration of 'APlayerState'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(878,20): warning C4099: 'AShipService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(835): message : see declaration of 'AShipService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(884,20): warning C4099: 'ACrewService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(830): message : see declaration of 'ACrewService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(887,22): warning C4099: 'AIslandService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(713): message : see declaration of 'AIslandService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(902,22): warning C4099: 'AKrakenService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(846): message : see declaration of 'AKrakenService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(975,30): warning C4099: 'USkeletalMeshComponent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(501): message : see declaration of 'USkeletalMeshComponent'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1037,17): warning C4099: 'AItemInfo': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(601): message : see declaration of 'AItemInfo'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1636,29): warning C4099: 'UMeleeAttackDataAsset': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1624): message : see declaration of 'UMeleeAttackDataAsset'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(239,32): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(373,24): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(679,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(824,51): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(839,97): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(839,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1065,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1065,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1082,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1082,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1170,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1170,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1300,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1300,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1397,82): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1397,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1461,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1461,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1475,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1475,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1483,99): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1537,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1537,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1560,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1560,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1600,77): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1600,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1644,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1764,83): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1803,88): warning C4305: 'argument': truncation from 'ImGuiColumnsFlags_' to 'bool'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1753,29): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1758,29): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(1765,29): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\Bigga\Desktop\sot\xD\Cheat\cheat.cpp(2577,5): warning C4996: 'freopen': This function or variable may be unsafe. Consider using freopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  main.cpp
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(360,20): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(319): message : see declaration of 'APlayerState'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(801,65): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(812,70): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(823,27): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(319): message : see declaration of 'APlayerState'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(878,20): warning C4099: 'AShipService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(835): message : see declaration of 'AShipService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(884,20): warning C4099: 'ACrewService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(830): message : see declaration of 'ACrewService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(887,22): warning C4099: 'AIslandService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(713): message : see declaration of 'AIslandService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(902,22): warning C4099: 'AKrakenService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(846): message : see declaration of 'AKrakenService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(975,30): warning C4099: 'USkeletalMeshComponent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(501): message : see declaration of 'USkeletalMeshComponent'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1037,17): warning C4099: 'AItemInfo': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(601): message : see declaration of 'AItemInfo'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1636,29): warning C4099: 'UMeleeAttackDataAsset': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1624): message : see declaration of 'UMeleeAttackDataAsset'
+  SDK.cpp
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(360,20): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(319): message : see declaration of 'APlayerState'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(801,65): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(812,70): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(823,27): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(319): message : see declaration of 'APlayerState'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(878,20): warning C4099: 'AShipService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(835): message : see declaration of 'AShipService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(884,20): warning C4099: 'ACrewService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(830): message : see declaration of 'ACrewService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(887,22): warning C4099: 'AIslandService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(713): message : see declaration of 'AIslandService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(902,22): warning C4099: 'AKrakenService': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(846): message : see declaration of 'AKrakenService'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(975,30): warning C4099: 'USkeletalMeshComponent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(501): message : see declaration of 'USkeletalMeshComponent'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1037,17): warning C4099: 'AItemInfo': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(601): message : see declaration of 'AItemInfo'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1636,29): warning C4099: 'UMeleeAttackDataAsset': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\xD\Cheat\SDK.h(1624): message : see declaration of 'UMeleeAttackDataAsset'
+  Generating code
+  1983 of 2031 functions (97.6%) were compiled, the rest were copied from previous compilation.
+    14 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Cheat.vcxproj -> C:\Users\Bigga\Desktop\sot\xD\bin\Release\Cheat.dll
