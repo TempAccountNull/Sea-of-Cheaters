@@ -599,8 +599,8 @@ struct UItemDesc {
 };
 
 struct AItemInfo {
-	char pad[0x0440];
-	UItemDesc* Desc; // 0x0440
+	char pad[0x0430];
+	UItemDesc* Desc; // 0x0430
 };
 
 struct UWieldedItemComponent {
@@ -712,7 +712,7 @@ struct UIslandDataAsset {
 
 struct AIslandService {
 	char pad[0x0458];
-	UIslandDataAsset* IslandDataAsset; // 0x0458
+	UIslandDataAsset* IslandDataAsset; // 0x460
 };
 
 struct ASlidingDoor {
@@ -987,8 +987,8 @@ struct ACannon {
 	struct FName                                       InsideCannonRTPCName;                                      // 0x0578(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UClass* ProjectileClass;                                           // 0x0580(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
 	float                                              TimePerFire;                                               // 0x0588(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              ProjectileSpeed;                                           // 0x058C(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              ProjectileGravityScale;                                    // 0x0590(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ProjectileSpeed;                                           // 0x05a4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ProjectileGravityScale;                                    // 0x05A8(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	FFloatRange PitchRange;
 	FFloatRange YawRange;
 	float                                              PitchSpeed;                                                // 0x05B4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1034,10 +1034,10 @@ struct ACannon {
 	class UClass* DefaultLoadedItemDesc;                                     // 0x0718(0x0008) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
 	float                                              ClientRotationBlendTime;                                   // 0x0720(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	unsigned char                                      UnknownData_5WSD[0x4];                                     // 0x0724(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	class AItemInfo* LoadedItemInfo;                                            // 0x0728(0x0008) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, Protected, HasGetValueTypeHash)
+	class AItemInfo* LoadedItemInfo;                                            // 0x0740(0x0008) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, Protected, HasGetValueTypeHash)
 	unsigned char                                      UnknownData_LECI[0xC];                                     // 0x0730(0x000C) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	float                                              ServerPitch;                                               // 0x073C(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
-	float                                              ServerYaw;                                                 // 0x0740(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
+	float                                              ServerPitch;                                               // 0x0754(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
+	float                                              ServerYaw;                                                 // 0x0758(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
 
 
 	bool IsReadyToFire() {

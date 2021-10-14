@@ -536,8 +536,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
            }
 
            if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.shotgun.bEnable)
-           {
 
+           {
                if (localWeapon->WeaponParameters.NumberOfProjectiles > 1) //check if shotgun
                {
                    if (cfg.misc.shotgun.nospread_aim)
