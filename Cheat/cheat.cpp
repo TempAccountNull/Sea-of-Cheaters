@@ -2272,16 +2272,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::NextColumn();
 
-                ImGui::Text("Freecam");
-                if (ImGui::BeginChild("CamMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
-                {
-                    ImGui::Checkbox("Enable", &cfg.misc.freecam.bEnable);
-                }
-                ImGui::EndChild();
-
-                ImGui::NextColumn();
-
-
                 ImGui::Text("Blunderbuss");
                 if (ImGui::BeginChild("ShotGunMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
