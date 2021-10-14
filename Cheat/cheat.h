@@ -192,6 +192,9 @@ private:
             } allweapons;
             struct {
                 bool bEnable = false;
+            } freecam;
+            struct {
+                bool bEnable = false;
                 bool nospread_hip = false;
                 bool nospread_aim = false;
             } shotgun;
