@@ -662,8 +662,8 @@ struct FProjectileWeaponParameters {
 };
 
 struct AProjectileWeapon {
-	char pad[0x07B0]; // 0
-	FProjectileWeaponParameters WeaponParameters; // 0x07B0
+	char pad[0x07c0]; // 0
+	FProjectileWeaponParameters WeaponParameters; // 0x07c0
 
 	bool CanFire()
 	{
