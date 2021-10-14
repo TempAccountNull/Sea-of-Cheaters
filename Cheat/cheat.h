@@ -85,6 +85,7 @@ private:
             struct {
                 bool bEnable = false;
                 bool bName = false;
+                bool barrelitems = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } items;
             struct {
@@ -192,7 +193,12 @@ private:
             } allweapons;
             struct {
                 bool bEnable = false;
-            } freecam;
+                bool freecam = false;
+            } camera;
+            struct {
+                bool bEnable = false;
+                bool fishingbot = false;
+            } fishingmods;
             struct {
                 bool bEnable = false;
                 bool nospread_hip = false;

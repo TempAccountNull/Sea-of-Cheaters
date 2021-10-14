@@ -1996,6 +1996,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.items.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.items.bName);
+                    ImGui::Checkbox("Barrel Items", &cfg.visuals.items.barrelitems);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.items.textCol.x, 0);
                 }
                 ImGui::EndChild();
@@ -2272,10 +2273,21 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::NextColumn();
 
-                ImGui::Text("Freecam");
+                ImGui::Text("Camera");
                 if (ImGui::BeginChild("CamMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
-                    ImGui::Checkbox("Enable", &cfg.misc.freecam.bEnable);
+                    ImGui::Checkbox("Enable", &cfg.misc.camera.bEnable);
+                    ImGui::Checkbox("Freecam", &cfg.misc.camera.freecam);
+                }
+                ImGui::EndChild();
+
+                ImGui::NextColumn();
+
+                ImGui::Text("Fishing");
+                if (ImGui::BeginChild("Fishing Mods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.misc.fishingmods.bEnable);
+                    ImGui::Checkbox("Fishing Bot", &cfg.misc.fishingmods.fishingbot);
                 }
                 ImGui::EndChild();
 
