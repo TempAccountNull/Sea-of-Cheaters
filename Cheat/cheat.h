@@ -212,6 +212,10 @@ private:
                 bool bEnable = false;
                 bool bShowKrakenState = false;
             } kraken;
+            struct {
+                bool bEnable = false;
+                bool fpsboost = false;
+            } render;
         } misc;
     } cfg;
     class Hacks {
