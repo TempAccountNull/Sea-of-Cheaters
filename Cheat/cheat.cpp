@@ -500,7 +500,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 if (cfg.misc.sword.noblockreduce)
                 {
                     auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
-                    localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__Default;
+                    localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__EMeleeWeaponMovementSpeed_MAX;
                 }
                 else
                 {
@@ -559,8 +559,16 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                    }
                }
            }
-               
 
+           if (cfg.misc.bEnable && cfg.misc.render.bEnable)
+
+           {
+               if (&cfg.misc.render.fpsboost)
+               {
+               //Needs to be coded
+               }
+
+           }
 
            ACharacter* attachObject = localCharacter->GetAttachParentActor();
            
@@ -2342,8 +2350,18 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
                 ImGui::EndChild();
 
-                ImGui::Columns();
+                ImGui::NextColumn();
 
+                ImGui::Text("Render Settings");
+                if (ImGui::BeginChild("RenderMods", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.misc.render.bEnable);
+                    ImGui::Checkbox("FPS Boost", &cfg.misc.render.fpsboost);
+
+                }
+                ImGui::EndChild();
+
+                ImGui::NextColumn();
 
                 ImGui::EndTabItem();
             }
