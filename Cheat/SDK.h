@@ -711,7 +711,7 @@ struct UIslandDataAsset {
 };
 
 struct AIslandService {
-	char pad[0x0458];
+	char pad[0x0460];
 	UIslandDataAsset* IslandDataAsset; // 0x460
 };
 
@@ -987,7 +987,7 @@ struct ACannon {
 	struct FName                                       InsideCannonRTPCName;                                      // 0x0578(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UClass* ProjectileClass;                                           // 0x0580(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
 	float                                              TimePerFire;                                               // 0x0588(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              ProjectileSpeed;                                           // 0x05a4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ProjectileSpeed;                                           // 0x05A4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	float                                              ProjectileGravityScale;                                    // 0x05A8(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	FFloatRange PitchRange;
 	FFloatRange YawRange;
