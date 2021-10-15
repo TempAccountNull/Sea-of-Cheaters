@@ -1069,7 +1069,15 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
                                     };
                                 }
-
+                                if (cfg.visuals.items.barrelitems)
+                                {
+                                    auto location = actor->K2_GetActorLocation();
+                                    FVector2D screen;
+                                    if (localController->ProjectWorldLocationToScreen(location, screen))
+                                    {
+                                        //Needs to be written
+                                    };
+                                }
                                 continue;
                             }
 

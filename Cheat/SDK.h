@@ -1078,6 +1078,11 @@ struct ACannon {
 
 };
 
+struct FStorageContainerNode {
+	struct UClass* ItemDesc; // 0x00(0x08)
+	int32_t NumItems; // 0x08(0x04)
+	char UnknownData_C[0x4]; // 0x0c(0x04)
+};
 
 struct AHarpoonLauncher {
 	char pad[0x0860];
