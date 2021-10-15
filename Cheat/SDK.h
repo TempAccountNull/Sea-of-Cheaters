@@ -600,7 +600,7 @@ struct UItemDesc {
 
 struct AItemInfo {
 	char pad[0x0430];
-	UItemDesc* Desc; // 0x0430
+	UItemDesc* Desc; // 0x0430(0x08)
 };
 
 struct UWieldedItemComponent {
@@ -971,7 +971,6 @@ struct FFloatRange {
 };
 
 struct ACannon {
-	char pad_4324[0x0528];
 	class USkeletalMeshComponent* BaseMeshComponent;                                         // 0x0528(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UStaticMeshComponent* BarrelMeshComponent;                                       // 0x0530(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UStaticMeshComponent* FuseMeshComponent;                                         // 0x00538(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1035,7 +1034,7 @@ struct ACannon {
 	float                                              ClientRotationBlendTime;                                   // 0x0720(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	unsigned char                                      UnknownData_5WSD[0x4];                                     // 0x0724(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
 	class AItemInfo* LoadedItemInfo;                                            // 0x0740(0x0008) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, Protected, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_LECI[0xC];                                     // 0x0730(0x000C) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	unsigned char                                      UnknownData_LECI[0xc];                                     // 0x0730(0x000C) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
 	float                                              ServerPitch;                                               // 0x0754(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
 	float                                              ServerYaw;                                                 // 0x0758(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
 
