@@ -595,7 +595,7 @@ struct FAIEncounterSpecification
 
 struct UItemDesc {
 	char pad[0x0028];
-	FString* Title; // 0x0028(0x0038)
+	FString* Title; // 0x0028(0x10)
 };
 
 struct AItemInfo {
