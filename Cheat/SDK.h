@@ -401,7 +401,7 @@ struct AController {
 	char pad_0480[0x70];
 	APlayerCameraManager* PlayerCameraManager; //0x0460
 	char pad_04f8[0x1031];
-	bool IdleDisconnectEnabled; // 0x14b9
+	bool IdleDisconnectEnabled; // 0x1499
 
 	void SendToConsole(FString& cmd) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.SendToConsole");
@@ -1144,6 +1144,18 @@ struct UInventoryManipulatorComponent {
 	}
 };
 
+struct FAthenaCharacterSwimParams {
+	char pad1[0x7C];
+	FAthenaCharacterSwimSpeed* SurfaceSwimSpeeds; // 0x7C
+	FAthenaCharacterSwimSpeed* UnderwaterSwimSpeeds; // 0x88
+};
+
+struct UAthenaCharacterMovementComponent {
+	char pad[0x560];
+	FAthenaCharacterSwimParams* SwimParams; // 0x560
+	float SprintSpdAmp;
+	float SprintAccelAmp;
+};
 
 class ACharacter : public UObject {
 public:
@@ -1155,14 +1167,15 @@ public:
 	char pad3[0x38];
 	USkeletalMeshComponent* Mesh; // 0x0448
 	UCharacterMovementComponent* CharacterMovement; // 0x450
+	UAthenaCharacterMovementComponent* AthenaCharacterMovementComponent; // 0x0708
 	char pad4[0x3C8];
 	UWieldedItemComponent* WieldedItemComponent; // 0x0820
 	char pad43[0x8];
 	UInventoryManipulatorComponent* InventoryManipulatorComponent; // 0x0830
 	char pad5[0x10];
 	UHealthComponent* HealthComponent; // 0x0848
-	char pad6[0x4D8];
-	UDrowningComponent* DrowningComponent; // 0x0D28
+	char pad6[0x04E8];
+	UDrowningComponent* DrowningComponent; // 0x0D38
 
 	void ReceiveTick(float DeltaSeconds)
 	{

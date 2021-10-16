@@ -560,45 +560,61 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                }
            }
 
-           //if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.allweapons.bEnable)
+           if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.allweapons.bEnable)
 
-           //{
-               //if (localWeapon->WeaponParameters.NumberOfProjectiles > 0)
-               //{
-                   //if (cfg.misc.allweapons.fasterreloading)
-                   //{
-                       //localWeapon->WeaponParameters.ReloadDuration = 0.f;
-                       //localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
-                       //localWeapon->WeaponParameters.EquipDuration = 0.f;
-                       //localWeapon->WeaponParameters.RecoilDuration = 0.f;
-                   //}
-                   //}if (cfg.misc.allweapons.higherrange)
-                   //}{
-                       //}localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileMaximumRange = 5000.f;
-                       //}localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileMaximumRange = 5000.f;
-                   //}}
-                   //}if (cfg.misc.allweapons.higherdamage)
-                   //}{
-                       //}localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDamage = 1000.f;
-                       //}localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamage = 1000.f;
-                   //}}
-               //}}
-           //}}
+           {
+               if (localWeapon->WeaponParameters.NumberOfProjectiles > 0)
+               {
+                   if (cfg.misc.allweapons.fasterreloading)
+                   {
+                       localWeapon->WeaponParameters.ReloadDuration = 0.f;
+                       localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
+                       localWeapon->WeaponParameters.EquipDuration = 0.f;
+                       localWeapon->WeaponParameters.RecoilDuration = 0.f;
+                   }
+                   if (cfg.misc.allweapons.higherrange)
+                   {
+                       localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileMaximumRange = 5000.f;
+                       localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileMaximumRange = 5000.f;
+                   }
+                   if (cfg.misc.allweapons.higherdamage)
+                   {
+                       localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDamage = 100.f;
+                       localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamage = 100.f;
+                       localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDamageMultiplierAtMaximumRange = 10.f;
+                       localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamageMultiplierAtMaximumRange = 10.f;
+                   }
+               }
+           }
 
            if (cfg.misc.bEnable && cfg.misc.playerspeed.bEnable)
 
            {
                if (cfg.misc.playerspeed.fasteronland)
                {
-                   
+                   //localCharacter->AthenaCharacterMovementComponent->SprintSpdAmp = 10.f;
+               }
+               else
+               {
+                   //localCharacter->AthenaCharacterMovementComponent->SprintSpdAmp = 1.f;
                }
                if (cfg.misc.playerspeed.fasterinwater)
                {
-
+                   //localCharacter->AthenaCharacterMovementComponent->SwimParams->SurfaceSwimSpeeds->SprintSpdAmp = 10.f;
+                   //localCharacter->AthenaCharacterMovementComponent->SwimParams->UnderwaterSwimSpeeds->SprintSpdAmp = 10.f;
+               }
+               else
+               {
+                   //localCharacter->AthenaCharacterMovementComponent->SwimParams->SurfaceSwimSpeeds->SprintSpdAmp = 1.f;
+                   //localCharacter->AthenaCharacterMovementComponent->SwimParams->UnderwaterSwimSpeeds->SprintSpdAmp = 1.f;
                }
                if (cfg.misc.playerspeed.fasterwhileholdingitem)
                {
-
+                   //Needs to be coded
+               }
+               else
+               {
+                   //Needs to be coded
                }
            }
 
