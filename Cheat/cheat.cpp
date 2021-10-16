@@ -560,6 +560,48 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                }
            }
 
+           //if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.allweapons.bEnable)
+
+           //{
+               //if (localWeapon->WeaponParameters.NumberOfProjectiles > 0)
+               //{
+                   //if (cfg.misc.allweapons.fasterreloading)
+                   //{
+                       //localWeapon->WeaponParameters.ReloadDuration = 0.f;
+                       //localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
+                       //localWeapon->WeaponParameters.EquipDuration = 0.f;
+                       //localWeapon->WeaponParameters.RecoilDuration = 0.f;
+                   //}
+                   //}if (cfg.misc.allweapons.higherrange)
+                   //}{
+                       //}localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileMaximumRange = 5000.f;
+                       //}localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileMaximumRange = 5000.f;
+                   //}}
+                   //}if (cfg.misc.allweapons.higherdamage)
+                   //}{
+                       //}localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDamage = 1000.f;
+                       //}localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamage = 1000.f;
+                   //}}
+               //}}
+           //}}
+
+           if (cfg.misc.bEnable && cfg.misc.playerspeed.bEnable)
+
+           {
+               if (cfg.misc.playerspeed.fasteronland)
+               {
+                   
+               }
+               if (cfg.misc.playerspeed.fasterinwater)
+               {
+
+               }
+               if (cfg.misc.playerspeed.fasterwhileholdingitem)
+               {
+
+               }
+           }
+
            if (cfg.misc.bEnable && cfg.misc.render.bEnable)
 
            {
@@ -623,14 +665,14 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             {
                 auto cannon = reinterpret_cast<ACannon*>(attachObject);
                 
-                if (cannon->LoadedItemInfo)
-                {
-                    std::wstring loaded_name = cannon->LoadedItemInfo->Desc->Title->wide();
-                    if (L"Chainshot" == loaded_name) // Checks if Cannon has loaded Chainshot via name of loaded item.
-                        cfg.aim.cannon.b_chain_shots = true;
-                    else
-                        cfg.aim.cannon.b_chain_shots = false;
-                }
+                //if (cannon->LoadedItemInfo)
+                //{
+                   // std::wstring loaded_name = cannon->LoadedItemInfo->Desc->Title->wide();
+                    //if (L"Chainshot" == loaded_name) // Checks if Cannon has loaded Chainshot via name of loaded item.
+                        //cfg.aim.cannon.b_chain_shots = true;
+                   // else
+                       // cfg.aim.cannon.b_chain_shots = false;
+                //}
 
                 float gravity_scale = cannon->ProjectileGravityScale;
                 if (cfg.aim.cannon.b_chain_shots)
@@ -2284,6 +2326,20 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.allweapons.bEnable);
                     ImGui::Checkbox("Faster Reloading", &cfg.misc.allweapons.fasterreloading);
+                    ImGui::Checkbox("Higher Range", &cfg.misc.allweapons.higherrange);
+                    ImGui::Checkbox("Higher Damage", &cfg.misc.allweapons.higherdamage);
+                }
+                ImGui::EndChild();
+
+                ImGui::NextColumn();
+
+                ImGui::Text("Player Speed");
+                if (ImGui::BeginChild("All PlayerSpeedMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.misc.playerspeed.bEnable);
+                    ImGui::Checkbox("Faster on Land", &cfg.misc.playerspeed.fasteronland);
+                    ImGui::Checkbox("Faster in Water", &cfg.misc.playerspeed.fasterinwater);
+                    ImGui::Checkbox("Faster while Holding Item", &cfg.misc.playerspeed.fasterwhileholdingitem);
                 }
                 ImGui::EndChild();
 

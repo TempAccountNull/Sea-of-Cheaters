@@ -190,7 +190,15 @@ private:
             struct {
                 bool bEnable = false;
                 bool fasterreloading = false;
+                bool higherrange = false;
+                bool higherdamage = false;
             } allweapons;
+            struct {
+                bool bEnable = false;
+                bool fasteronland = false;
+                bool fasterinwater = false;
+                bool fasterwhileholdingitem = false;
+            } playerspeed;
             struct {
                 bool bEnable = false;
                 bool freecam = false;

@@ -401,7 +401,7 @@ struct AController {
 	char pad_0480[0x70];
 	APlayerCameraManager* PlayerCameraManager; //0x0460
 	char pad_04f8[0x1031];
-	bool IdleDisconnectEnabled; // 0x1499
+	bool IdleDisconnectEnabled; // 0x14b9
 
 	void SendToConsole(FString& cmd) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.SendToConsole");
@@ -962,6 +962,29 @@ struct UCharacterMovementComponent {
 	}
 };
 
+// ScriptStruct Athena.AthenaCharacterDodgeParams
+// Size: 0x10 (Inherited: 0x00)
+struct FAthenaCharacterDodgeParams {
+	float DodgeCooldown; // 0x00(0x04)
+	float DodgeForce; // 0x04(0x04)
+	float GroundLaunchAngle; // 0x08(0x04)
+	bool DodgePerpendicularToGround; // 0x0c(0x01)
+	bool Disabled; // 0x0d(0x01)
+	char UnknownData_E[0x2]; // 0x0e(0x02)
+};
+
+// ScriptStruct Athena.WalkConditionsParams
+// Size: 0x08 (Inherited: 0x00)
+struct FWalkConditionsParams {
+	float WalkSpeedMultiplier; // 0x00(0x04)
+	float WalkStopThreshold; // 0x04(0x04)
+};
+
+struct FAthenaCharacterSwimSpeed {
+	float SprintSpdAmp; // 0x00(0x04)
+	float SprintAccelAmp; // 0x04(0x04)
+	float TurnSpeedScalar; // 0x08(0x04)
+};
 
 struct FFloatRange {
 	float pad1;
