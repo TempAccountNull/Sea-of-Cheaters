@@ -348,7 +348,7 @@ struct FMinimalViewInfo {
 
 struct FCameraCacheEntry {
 	float TimeStamp;
-	char pad[0x0010];
+	char pad[0xc];
 	FMinimalViewInfo POV;
 };
 
@@ -1131,15 +1131,15 @@ public:
 	AController* Controller; // 0x0408
 	char pad3[0x38];
 	USkeletalMeshComponent* Mesh; // 0x0448
-	UCharacterMovementComponent* CharacterMovement; // 0x0708
+	UCharacterMovementComponent* CharacterMovement; // 0x458
 	char pad4[0x3C8];
 	UWieldedItemComponent* WieldedItemComponent; // 0x0820
 	char pad43[0x8];
 	UInventoryManipulatorComponent* InventoryManipulatorComponent; // 0x0830
 	char pad5[0x10];
 	UHealthComponent* HealthComponent; // 0x0848
-	char pad6[0x04E8];
-	UDrowningComponent* DrowningComponent; // 0x0D38
+	char pad6[0x4D8];
+	UDrowningComponent* DrowningComponent; // 0x0D28
 
 	void ReceiveTick(float DeltaSeconds)
 	{
