@@ -1131,7 +1131,7 @@ public:
 	AController* Controller; // 0x0408
 	char pad3[0x38];
 	USkeletalMeshComponent* Mesh; // 0x0448
-	UCharacterMovementComponent* CharacterMovement; // 0x458
+	UCharacterMovementComponent* CharacterMovement; // 0x450
 	char pad4[0x3C8];
 	UWieldedItemComponent* WieldedItemComponent; // 0x0820
 	char pad43[0x8];
