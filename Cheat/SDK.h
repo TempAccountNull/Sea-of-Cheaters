@@ -971,6 +971,7 @@ struct FFloatRange {
 };
 
 struct ACannon {
+	char pad[0x0528];
 	class USkeletalMeshComponent* BaseMeshComponent;                                         // 0x0528(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UStaticMeshComponent* BarrelMeshComponent;                                       // 0x0530(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UStaticMeshComponent* FuseMeshComponent;                                         // 0x00538(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
