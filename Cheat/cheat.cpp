@@ -689,7 +689,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 //    else
                 //        cfg.aim.cannon.b_chain_shots = false;
                 //}
-                //
+                
                 float gravity_scale = cannon->ProjectileGravityScale;
                 //if (cfg.aim.cannon.b_chain_shots)
                 //    gravity_scale = 1.f;

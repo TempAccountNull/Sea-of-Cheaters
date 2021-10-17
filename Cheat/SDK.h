@@ -595,7 +595,7 @@ struct FAIEncounterSpecification
 
 struct UItemDesc {
 	char pad[0x0028];
-	FString* Title; // 0x0028(0x10)
+	FString* Title; // 0x0028(0x38)
 };
 
 struct AItemInfo {
@@ -1055,7 +1055,7 @@ struct ACannon {
 	float ClientRotationBlendTime; // 0x738(0x04)
 	char UnknownData_73C[0x4]; // 0x73c(0x04)
 	struct AItemInfo* LoadedItemInfo; // 0x740(0x08)
-	char UnknownData_748[0xc]; // 0x748(0x0c)
+	unsigned char UnknownData_LECI[0xc]; // 0x748(0x0c)
 	float ServerPitch; // 0x754(0x04)
 	float ServerYaw; // 0x758(0x04)
 	char UnknownData_75C[0x4]; // 0x75c(0x04)
