@@ -1942,42 +1942,42 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
     if (bIsOpen) {
         ImGui::SetNextWindowSize(ImVec2(1375, 825), ImGuiCond_Once);
-        ImGui::Begin("Sot-Hook Reborn", 0, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
+        ImGui::Begin("Sea of Cheaters", 0, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 
         ImGuiStyle* style = &ImGui::GetStyle();
 
-        style->WindowPadding = ImVec2(15, 15);
-        style->WindowRounding = 5.0f;
-        style->FramePadding = ImVec2(5, 5);
-        style->FrameRounding = 4.0f;
-        style->ItemSpacing = ImVec2(12, 8);
-        style->ItemInnerSpacing = ImVec2(8, 6);
-        style->IndentSpacing = 25.0f;
-        style->ScrollbarSize = 15.0f;
+        style->WindowPadding = ImVec2(8, 8);
+        style->WindowRounding = 7.0f;
+        style->FramePadding = ImVec2(4, 3);
+        style->FrameRounding = 0.0f;
+        style->ItemSpacing = ImVec2(6, 4);
+        style->ItemInnerSpacing = ImVec2(4, 4);
+        style->IndentSpacing = 20.0f;
+        style->ScrollbarSize = 14.0f;
         style->ScrollbarRounding = 9.0f;
         style->GrabMinSize = 5.0f;
-        style->GrabRounding = 3.0f;
+        style->GrabRounding = 0.0f;
         style->WindowBorderSize = 0;
-        style->WindowTitleAlign = ImVec2(0.5, 0.5);
-        style->FramePadding = ImVec2(8, 6);
+        style->WindowTitleAlign = ImVec2(0.0f, 0.5f);
+        style->FramePadding = ImVec2(4, 3);
 
-        style->Colors[ImGuiCol_TitleBg] = ImColor(1, 133, 116, 225);
-        style->Colors[ImGuiCol_TitleBgActive] = ImColor(1, 133, 116, 225);
+        style->Colors[ImGuiCol_TitleBg] = ImColor(1, 32, 255, 225);
+        style->Colors[ImGuiCol_TitleBgActive] = ImColor(1, 32, 255, 225);
 
-        style->Colors[ImGuiCol_Button] = ImColor(31, 30, 31, 255);
-        style->Colors[ImGuiCol_ButtonActive] = ImColor(31, 30, 31, 255);
+        style->Colors[ImGuiCol_Button] = ImColor(1, 32, 255, 225);
+        style->Colors[ImGuiCol_ButtonActive] = ImColor(1, 32, 255, 225);
         style->Colors[ImGuiCol_ButtonHovered] = ImColor(41, 40, 41, 255);
 
         style->Colors[ImGuiCol_Separator] = ImColor(70, 70, 70, 255);
         style->Colors[ImGuiCol_SeparatorActive] = ImColor(76, 76, 76, 255);
         style->Colors[ImGuiCol_SeparatorHovered] = ImColor(76, 76, 76, 255);
 
-        style->Colors[ImGuiCol_Tab] = ImColor(29, 138, 153, 255);
-        style->Colors[ImGuiCol_TabHovered] = ImColor(122, 158, 159, 255);
-        style->Colors[ImGuiCol_TabActive] = ImColor(122, 158, 159, 255);
+        style->Colors[ImGuiCol_Tab] = ImColor(1, 32, 230, 225);
+        style->Colors[ImGuiCol_TabHovered] = ImColor(1, 32, 238, 225);
+        style->Colors[ImGuiCol_TabActive] = ImColor(1, 32, 238, 225);
 
-        style->Colors[ImGuiCol_SliderGrab] = ImColor(11, 201, 205, 255);
-        style->Colors[ImGuiCol_SliderGrabActive] = ImColor(11, 201, 205, 255);
+        style->Colors[ImGuiCol_SliderGrab] = ImColor(1, 32, 255, 225);
+        style->Colors[ImGuiCol_SliderGrabActive] = ImColor(1, 32, 255, 225);
 
         style->Colors[ImGuiCol_MenuBarBg] = ImColor(76, 76, 76, 255);
 
@@ -2003,7 +2003,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 const char* boxes[] = { "None", "2DBox", "3DBox" };
                 
                 ImGui::Text("Players");
-                if (ImGui::BeginChild("PlayersSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("PlayersSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     const char* bars[] = { "None", "2DRectLeft", "2DRectRight", "2DRectBottom", "2DRectTop" };
                     ImGui::Checkbox("Enable", &cfg.visuals.players.bEnable);
@@ -2023,7 +2023,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Skeletons");
-                if (ImGui::BeginChild("SkeletonsSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("SkeletonsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.skeletons.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.skeletons.bName);
@@ -2039,7 +2039,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Ships");
-                if (ImGui::BeginChild("ShipsSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse)) {
+                if (ImGui::BeginChild("ShipsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse)) {
 
                     const char* shipBoxes[] = {"None", "3DBox"};
                     ImGui::Checkbox("Enable", &cfg.visuals.ships.bEnable);
@@ -2055,7 +2055,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Islands");
-                if (ImGui::BeginChild("IslandsSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse)) {
+                if (ImGui::BeginChild("IslandsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse)) {
                     ImGui::Checkbox("Enable", &cfg.visuals.islands.bEnable);
                     ImGui::Checkbox("Draw Names", &cfg.visuals.islands.bName);
                     ImGui::SliderInt("Max Distance", &cfg.visuals.islands.intMaxDist, 100, 2750, "%d", ImGuiSliderFlags_AlwaysClamp);
@@ -2066,7 +2066,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Items");
-                if (ImGui::BeginChild("ItemsSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("ItemsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.items.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.items.bName);
@@ -2078,7 +2078,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Animals");
-                if (ImGui::BeginChild("AnimalsSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("AnimalsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.animals.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.animals.bName);
@@ -2093,7 +2093,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Sharks");
-                if (ImGui::BeginChild("SharksSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("SharksSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.sharks.bEnable);
                     ImGui::Checkbox("Draw Skeleton", &cfg.visuals.sharks.bSkeleton);
@@ -2108,7 +2108,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Puzzles");
-                if (ImGui::BeginChild("PuzzlesSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("PuzzlesSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
 
                     ImGui::Checkbox("Enable", &cfg.visuals.puzzles.bEnable);
@@ -2121,7 +2121,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Shipwrecks");
-                if (ImGui::BeginChild("ShipwrecksSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("ShipwrecksSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.shipwrecks.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.shipwrecks.bName);
@@ -2132,7 +2132,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Client");
-                if (ImGui::BeginChild("ClientSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("ClientSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
 
                     ImGui::Checkbox("Crosshair", &cfg.visuals.client.bCrosshair);
@@ -2164,7 +2164,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Ship Radar");
-                if (ImGui::BeginChild("RadarSettings", ImVec2(0.f, 220.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("RadarSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                     {
                         ImGui::Checkbox("Enable", &cfg.visuals.radar.bEnable);
                         ImGui::SliderInt("Radar Size", &cfg.visuals.radar.i_size, 100, 250);
@@ -2190,13 +2190,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 
                 ImGui::Columns(2, "CLM1", false);
                 ImGui::Text("Players");
-                if (ImGui::BeginChild("PlayersSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("PlayersSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.aim.players.bEnable);
                     ImGui::Checkbox("Visible Only", &cfg.aim.players.bVisibleOnly);
                     ImGui::Checkbox("Aim At Teammates", &cfg.aim.players.bTeam);
-                    ImGui::SliderFloat("Yaw", &cfg.aim.players.fYaw, 1.f, 180.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
-                    ImGui::SliderFloat("Pitch", &cfg.aim.players.fPitch, 1.f, 180.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::SliderFloat("Yaw", &cfg.aim.players.fYaw, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::SliderFloat("Pitch", &cfg.aim.players.fPitch, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     ImGui::SliderFloat("Smoothness", &cfg.aim.players.fSmoothness, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                 }
                 ImGui::EndChild();
@@ -2204,12 +2204,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Skeletons");
-                if (ImGui::BeginChild("SkeletonsSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("SkeletonsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.aim.skeletons.bEnable);
                     ImGui::Checkbox("Visible Only", &cfg.aim.skeletons.bVisibleOnly);
-                    ImGui::SliderFloat("Yaw", &cfg.aim.skeletons.fYaw, 1.f, 180.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
-                    ImGui::SliderFloat("Pitch", &cfg.aim.skeletons.fPitch, 1.f, 180.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::SliderFloat("Yaw", &cfg.aim.skeletons.fYaw, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::SliderFloat("Pitch", &cfg.aim.skeletons.fPitch, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     ImGui::SliderFloat("Smoothness", &cfg.aim.skeletons.fSmoothness, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     
 
@@ -2219,7 +2219,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Harpoon");
-                if (ImGui::BeginChild("HarpoonSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("HarpoonSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.aim.harpoon.bEnable);
                     ImGui::Checkbox("Visible Only", &cfg.aim.harpoon.bVisibleOnly);
@@ -2231,7 +2231,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
                
                 ImGui::Text("Cannon");
-                if (ImGui::BeginChild("CannonSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("CannonSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.aim.cannon.bEnable);
                     ImGui::Checkbox("Chain Aimbot", &cfg.aim.cannon.b_chain_shots);
@@ -2257,14 +2257,14 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::Columns(2, "CLM1", false);
                 ImGui::Text("Client");
-                if (ImGui::BeginChild("ClientSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("ClientSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.client.bEnable);
                     ImGui::Checkbox("Ship Info", &cfg.misc.client.bShipInfo);
                     ImGui::Checkbox("Crew Map Pins", &cfg.misc.client.b_map_pins);
                     ImGui::Checkbox("Disable Idle Kick", &cfg.misc.client.bIdleKick);
                     ImGui::Checkbox("Bunny Hop", &cfg.misc.client.b_bunnyhop);
-                    ImGui::SliderFloat("FOV", &cfg.misc.client.fov, 90.f, 120.f, "%.0f");
+                    ImGui::SliderFloat("FOV", &cfg.misc.client.fov, 90.f, 180.f, "%.0f");
 
                     ImGui::Separator();
                     if (ImGui::Button("Save Settings"))
@@ -2318,7 +2318,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Game");
-                if (ImGui::BeginChild("GameSettings", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("GameSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.game.bEnable);
                     ImGui::Checkbox("Show Players List", &cfg.misc.game.bShowPlayers);
@@ -2328,7 +2328,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Sword");
-                if (ImGui::BeginChild("SwordMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("SwordMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.sword.bEnable);
                     ImGui::Checkbox("Heavy NoCameraClamp", &cfg.misc.sword.noclamp);
@@ -2339,7 +2339,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("All Weapons");
-                if (ImGui::BeginChild("All WeaponsMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("All WeaponsMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.allweapons.bEnable);
                     ImGui::Checkbox("Faster Reloading", &cfg.misc.allweapons.fasterreloading);
@@ -2351,7 +2351,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Player Speed");
-                if (ImGui::BeginChild("All PlayerSpeedMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("All PlayerSpeedMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.playerspeed.bEnable);
                     ImGui::Checkbox("Faster on Land", &cfg.misc.playerspeed.fasteronland);
@@ -2363,7 +2363,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Camera");
-                if (ImGui::BeginChild("CamMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("CamMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.camera.bEnable);
                     ImGui::Checkbox("Freecam", &cfg.misc.camera.freecam);
@@ -2373,7 +2373,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Fishing");
-                if (ImGui::BeginChild("Fishing Mods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("Fishing Mods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.fishingmods.bEnable);
                     ImGui::Checkbox("Fishing Bot", &cfg.misc.fishingmods.fishingbot);
@@ -2383,7 +2383,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Blunderbuss");
-                if (ImGui::BeginChild("ShotGunMods", ImVec2(0.f, 310.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("ShotGunMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.shotgun.bEnable);
                     ImGui::Checkbox("HipFire NoSpread", &cfg.misc.shotgun.nospread_hip);
@@ -2394,7 +2394,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Eye of Reach");
-                if (ImGui::BeginChild("SniperMods", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("SniperMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.sniper.bEnable);
                     ImGui::Separator();
@@ -2406,7 +2406,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Kraken");
-                if (ImGui::BeginChild("KrakenSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("KrakenSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     AKrakenService* krakenService;
                     bool isActive = false;
@@ -2426,7 +2426,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Render Settings");
-                if (ImGui::BeginChild("RenderMods", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("RenderMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.render.bEnable);
                     ImGui::Checkbox("FPS Boost", &cfg.misc.render.fpsboost);
