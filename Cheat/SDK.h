@@ -342,7 +342,7 @@ struct APlayerState {
 struct FMinimalViewInfo {
 	FVector Location;
 	FRotator Rotation;
-	char UnknownData00[0x10];
+	char UnknownData_18[0x10];
 	float FOV;
 };
 
@@ -401,7 +401,7 @@ struct AController {
 	char pad_0480[0x70];
 	APlayerCameraManager* PlayerCameraManager; //0x0460
 	char pad_04f8[0x1031];
-	bool IdleDisconnectEnabled; // 0x1499
+	bool IdleDisconnectEnabled; // 0x14b9
 
 	void SendToConsole(FString& cmd) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.SendToConsole");
@@ -994,74 +994,75 @@ struct FFloatRange {
 };
 
 struct ACannon {
-	char pad[0x0528];
-	class USkeletalMeshComponent* BaseMeshComponent;                                         // 0x0528(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent* BarrelMeshComponent;                                       // 0x0530(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent* FuseMeshComponent;                                         // 0x00538(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UReplicatedShipPartCustomizationComponent* CustomizationComponent;                                    // 0x0540(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class ULoadableComponent* LoadableComponent;                                         // 0x0538(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class ULoadingPointComponent* LoadingPointComponent;                                     // 0x0540(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UChildActorComponent* CannonBarrelInteractionComponent;                          // 0x0548(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       CameraSocket;                                              // 0x0550(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       CameraInsideCannonSocket;                                  // 0x0558(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       LaunchSocket;                                              // 0x0560(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       TooltipSocket;                                             // 0x0568(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       AudioAimRTPCName;                                          // 0x0570(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       InsideCannonRTPCName;                                      // 0x0578(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UClass* ProjectileClass;                                           // 0x0580(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	float                                              TimePerFire;                                               // 0x0588(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              ProjectileSpeed;                                           // 0x05A4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              ProjectileGravityScale;                                    // 0x05A8(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	FFloatRange PitchRange;
-	FFloatRange YawRange;
-	float                                              PitchSpeed;                                                // 0x05B4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              YawSpeed;                                                  // 0x05B8(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_5UHE[0x4];                                     // 0x05BC(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	class UClass* CameraShake;                                               // 0x05C0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	float                                              ShakeInnerRadius;                                          // 0x05C8(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              ShakeOuterRadius;                                          // 0x05CC(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              CannonFiredAINoiseRange;                                   // 0x05D0(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       AINoiseTag;                                                // 0x05D4(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_WIJI[0x4];                                     // 0x05DC(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	char pad_956335424[0x18];
-	unsigned char                                      UnknownData_YCZ3[0x20];                                    // 0x05DC(0x0020) FIX WRONG TYPE SIZE OF PREVIOUS PROPERTY
-	char pad_9335443224[0x18];
-	unsigned char                                      UnknownData_BEDV[0x20];                                    // 0x0618(0x0020) FIX WRONG TYPE SIZE OF PREVIOUS PROPERTY
-	float                                              DefaultFOV;                                                // 0x0650(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              AimFOV;                                                    // 0x0654(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              IntoAimBlendSpeed;                                         // 0x0658(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              OutOfAimBlendSpeed;                                        // 0x065C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* FireSfx;                                                   // 0x0660(0x0008) (Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* DryFireSfx;                                                // 0x0668(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* LoadingSfx_Play;                                           // 0x0670(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* LoadingSfx_Stop;                                           // 0x0678(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* UnloadingSfx_Play;                                         // 0x0680(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* UnloadingSfx_Stop;                                         // 0x0688(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* LoadedPlayerSfx;                                           // 0x0690(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* UnloadedPlayerSfx;                                         // 0x0698(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* FiredPlayerSfx;                                            // 0x06A0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseObjectPoolWrapper* SfxPool;                                                   // 0x06A8(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* StartPitchMovement;                                        // 0x06B0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* StopPitchMovement;                                         // 0x06B8(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* StartYawMovement;                                          // 0x06C0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* StopYawMovement;                                           // 0x06C8(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseEvent* StopMovementAtEnd;                                         // 0x06D0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UWwiseObjectPoolWrapper* SfxMovementPool;                                           // 0x06D8(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UObject* FuseVfxFirstPerson;                                        // 0x06E0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UObject* FuseVfxThirdPerson;                                        // 0x06E8(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UObject* MuzzleFlashVfxFirstPerson;                                 // 0x06F0(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UObject* MuzzleFlashVfxThirdPerson;                                 // 0x06F8(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       FuseSocketName;                                            // 0x0700(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FName                                       BarrelSocketName;                                          // 0x0708(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UClass* RadialCategoryFilter;                                      // 0x0710(0x0008) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UClass* DefaultLoadedItemDesc;                                     // 0x0718(0x0008) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	float                                              ClientRotationBlendTime;                                   // 0x0720(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_5WSD[0x4];                                     // 0x0724(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	class AItemInfo* LoadedItemInfo;                                            // 0x0740(0x0008) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, Protected, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_LECI[0xc];                                     // 0x0730(0x000C) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	float                                              ServerPitch;                                               // 0x0754(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
-	float                                              ServerYaw;                                                 // 0x0758(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
-
+	char pad_4324[0x0528];
+	struct USkeletalMeshComponent* BaseMeshComponent; // 0x528(0x08)
+	struct UStaticMeshComponent* BarrelMeshComponent; // 0x530(0x08)
+	struct UStaticMeshComponent* FuseMeshComponent; // 0x538(0x08)
+	struct UReplicatedShipPartCustomizationComponent* CustomizationComponent; // 0x540(0x08)
+	struct ULoadableComponent* LoadableComponent; // 0x548(0x08)
+	struct ULoadingPointComponent* LoadingPointComponent; // 0x550(0x08)
+	struct UChildActorComponent* CannonBarrelInteractionComponent; // 0x558(0x08)
+	struct UFuseComponent* FuseComponent; // 0x560(0x08)
+	struct FName CameraSocket; // 0x568(0x08)
+	struct FName CameraInsideCannonSocket; // 0x570(0x08)
+	struct FName LaunchSocket; // 0x578(0x08)
+	struct FName TooltipSocket; // 0x580(0x08)
+	struct FName AudioAimRTPCName; // 0x588(0x08)
+	struct FName InsideCannonRTPCName; // 0x590(0x08)
+	struct UClass* ProjectileClass; // 0x598(0x08)
+	float TimePerFire; // 0x5a0(0x04)
+	float ProjectileSpeed; // 0x5a4(0x04)
+	float ProjectileGravityScale; // 0x5a8(0x04)
+	struct FFloatRange PitchRange; // 0x5ac(0x10)
+	struct FFloatRange YawRange; // 0x5bc(0x10)
+	float PitchSpeed; // 0x5cc(0x04)
+	float YawSpeed; // 0x5d0(0x04)
+	char UnknownData_5D4[0x4]; // 0x5d4(0x04)
+	struct UClass* CameraShake; // 0x5d8(0x08)
+	float ShakeInnerRadius; // 0x5e0(0x04)
+	float ShakeOuterRadius; // 0x5e4(0x04)
+	float CannonFiredAINoiseRange; // 0x5e8(0x04)
+	struct FName AINoiseTag; // 0x5ec(0x08)
+	char UnknownData_5F4[0x4]; // 0x5f4(0x04)
+	float DefaultFOV; // 0x668(0x04)
+	float AimFOV; // 0x66c(0x04)
+	float IntoAimBlendSpeed; // 0x670(0x04)
+	float OutOfAimBlendSpeed; // 0x674(0x04)
+	struct UWwiseEvent* FireSfx; // 0x678(0x08)
+	struct UWwiseEvent* DryFireSfx; // 0x680(0x08)
+	struct UWwiseEvent* LoadingSfx_Play; // 0x688(0x08)
+	struct UWwiseEvent* LoadingSfx_Stop; // 0x690(0x08)
+	struct UWwiseEvent* UnloadingSfx_Play; // 0x698(0x08)
+	struct UWwiseEvent* UnloadingSfx_Stop; // 0x6a0(0x08)
+	struct UWwiseEvent* LoadedPlayerSfx; // 0x6a8(0x08)
+	struct UWwiseEvent* UnloadedPlayerSfx; // 0x6b0(0x08)
+	struct UWwiseEvent* FiredPlayerSfx; // 0x6b8(0x08)
+	struct UWwiseObjectPoolWrapper* SfxPool; // 0x6c0(0x08)
+	struct UWwiseEvent* StartPitchMovement; // 0x6c8(0x08)
+	struct UWwiseEvent* StopPitchMovement; // 0x6d0(0x08)
+	struct UWwiseEvent* StartYawMovement; // 0x6d8(0x08)
+	struct UWwiseEvent* StopYawMovement; // 0x6e0(0x08)
+	struct UWwiseEvent* StopMovementAtEnd; // 0x6e8(0x08)
+	struct UWwiseObjectPoolWrapper* SfxMovementPool; // 0x6f0(0x08)
+	struct UObject* FuseVfxFirstPerson; // 0x6f8(0x08)
+	struct UObject* FuseVfxThirdPerson; // 0x700(0x08)
+	struct UObject* MuzzleFlashVfxFirstPerson; // 0x708(0x08)
+	struct UObject* MuzzleFlashVfxThirdPerson; // 0x710(0x08)
+	struct FName FuseSocketName; // 0x718(0x08)
+	struct FName BarrelSocketName; // 0x720(0x08)
+	struct UClass* RadialCategoryFilter; // 0x728(0x08)
+	struct UClass* DefaultLoadedItemDesc; // 0x730(0x08)
+	float ClientRotationBlendTime; // 0x738(0x04)
+	char UnknownData_73C[0x4]; // 0x73c(0x04)
+	struct AItemInfo* LoadedItemInfo; // 0x740(0x08)
+	char UnknownData_748[0xc]; // 0x748(0x0c)
+	float ServerPitch; // 0x754(0x04)
+	float ServerYaw; // 0x758(0x04)
+	char UnknownData_75C[0x4]; // 0x75c(0x04)
+	struct UParticleSystemComponent* LoadedItemVFXComp; // 0x760(0x08)
+	char UnknownData_768[0x478]; // 0x768(0x478)
+	char InteractionState; // 0xbe0(0x01)
+	char UnknownData_BE1[0x7]; // 0xbe1(0x07)
 
 	bool IsReadyToFire() {
 		static auto fn = UObject::FindObject<UFunction>("Function Athena.Cannon.IsReadyToFire");
@@ -1167,7 +1168,6 @@ public:
 	char pad3[0x38];
 	USkeletalMeshComponent* Mesh; // 0x0448
 	UCharacterMovementComponent* CharacterMovement; // 0x450
-	UAthenaCharacterMovementComponent* AthenaCharacterMovementComponent; // 0x0708
 	char pad4[0x3C8];
 	UWieldedItemComponent* WieldedItemComponent; // 0x0820
 	char pad43[0x8];
