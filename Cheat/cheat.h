@@ -160,9 +160,9 @@ private:
             } harpoon;
             struct {
                 bool bEnable = false;
+                bool b_chain_shots = false;
                 bool bVisibleOnly = false;
                 bool b_instant_shoot = false;
-                bool b_chain_shots = false;
                 float fYaw = 1.f;
                 float fPitch = 1.f;
             } cannon;

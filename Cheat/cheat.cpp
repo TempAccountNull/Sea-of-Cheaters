@@ -691,8 +691,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 //}
                 
                 float gravity_scale = cannon->ProjectileGravityScale;
-                //if (cfg.aim.cannon.b_chain_shots)
-                //    gravity_scale = 1.f;
+                if (cfg.aim.cannon.b_chain_shots)
+                    gravity_scale = 1.f;
 
                 float gravity = 981.f * gravity_scale;
                 float launchspeed = cannon->ProjectileSpeed;
@@ -2234,6 +2234,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 if (ImGui::BeginChild("CannonSettings", ImVec2(0.f, 280.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.aim.cannon.bEnable);
+                    ImGui::Checkbox("Chain Aimbot", &cfg.aim.cannon.b_chain_shots);
                     ImGui::Checkbox("Visible Only", &cfg.aim.cannon.bVisibleOnly);
                     ImGui::Checkbox("Instant Shoot", &cfg.aim.cannon.b_instant_shoot);
                     ImGui::SliderFloat("Yaw", &cfg.aim.cannon.fYaw, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
