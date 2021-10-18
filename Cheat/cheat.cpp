@@ -567,10 +567,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                {
                    if (cfg.misc.allweapons.fasterreloading)
                    {
-                       localWeapon->WeaponParameters.ReloadDuration = 0.f;
-                       localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
-                       localWeapon->WeaponParameters.EquipDuration = 0.f;
-                       localWeapon->WeaponParameters.RecoilDuration = 0.f;
+                       localWeapon->WeaponParameters.IntoAimingDuration = 0.1f;
+                       localWeapon->WeaponParameters.EquipDuration = 0.1f;
+                       localWeapon->WeaponParameters.RecoilDuration = 0.1f;
+                       localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.f;
+                       localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
+                       localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
                    }
                    if (cfg.misc.allweapons.higherrange)
                    {
@@ -583,6 +585,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                        localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamage = 100.f;
                        localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDamageMultiplierAtMaximumRange = 10.f;
                        localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamageMultiplierAtMaximumRange = 10.f;
+                   }
+                   if (cfg.misc.allweapons.fasteraimingspeed)
+                   {
+                       localWeapon->WeaponParameters.AimingMoveSpeedScalar = 200.f;
                    }
                }
            }
@@ -686,7 +692,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 //    std::wstring loaded_name = cannon->LoadedItemInfo->Desc->Title->wide();
                 //    if (L"Chainshot" == loaded_name) // Checks if Cannon has loaded Chainshot via name of loaded item.
                 //        cfg.aim.cannon.b_chain_shots = true;
-                //    else
+                ///   else
                 //        cfg.aim.cannon.b_chain_shots = false;
                 //}
                 
@@ -2345,6 +2351,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Faster Reloading", &cfg.misc.allweapons.fasterreloading);
                     ImGui::Checkbox("Higher Range", &cfg.misc.allweapons.higherrange);
                     ImGui::Checkbox("Higher Damage", &cfg.misc.allweapons.higherdamage);
+                    ImGui::Checkbox("Higher Damage", &cfg.misc.allweapons.fasteraimingspeed);
                 }
                 ImGui::EndChild();
 

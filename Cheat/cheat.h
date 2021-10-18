@@ -192,6 +192,7 @@ private:
                 bool fasterreloading = false;
                 bool higherrange = false;
                 bool higherdamage = false;
+                bool fasteraimingspeed = false;
             } allweapons;
             struct {
                 bool bEnable = false;
