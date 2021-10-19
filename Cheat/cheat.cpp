@@ -1682,10 +1682,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 FVector2D screen;
                                 if (localController->ProjectWorldLocationToScreen(islandLoc, screen))
                                 {
-                                    char name[0x64];
-                                    auto len = island->LocalisedName->multi(name, 0x50);
-                                    sprintf_s(name + len, sizeof(name) - len, " [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.islands.textCol);
+                                    char buf[0x128];
+                                    auto len = island->LocalisedName->multi(buf, 0x128);
+                                    sprintf_s(buf + len, sizeof(buf) - len, " [%dm]", dist);
+                                    Drawing::RenderText(buf, screen, cfg.visuals.islands.textCol);
 
                                 }
 
@@ -1861,7 +1861,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
                 if (cfg.misc.game.bEnable)
                 {
-                    if (cfg.misc.game.bShowPlayers) 
+                    if (cfg.misc.game.bShowPlayers && !localCharacter->IsLoading())
                     {
                         ImGui::PopStyleColor();
                         ImGui::PopStyleVar(2);
@@ -1907,9 +1907,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     }
                                     ImGui::Separator();
                                 }
-
-                                
-                                
                                 
                             }
                             ImGui::Columns();
@@ -2351,7 +2348,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Faster Reloading", &cfg.misc.allweapons.fasterreloading);
                     ImGui::Checkbox("Higher Range", &cfg.misc.allweapons.higherrange);
                     ImGui::Checkbox("Higher Damage", &cfg.misc.allweapons.higherdamage);
-                    ImGui::Checkbox("Higher Damage", &cfg.misc.allweapons.fasteraimingspeed);
+                    ImGui::Checkbox("Faster Walking Speed while Aiming after switching to another Gun", &cfg.misc.allweapons.fasteraimingspeed);
                 }
                 ImGui::EndChild();
 

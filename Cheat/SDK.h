@@ -593,16 +593,6 @@ struct FAIEncounterSpecification
 	FString* LocalisableName; // 0x0080
 };
 
-struct UItemDesc {
-	char pad[0x0028];
-	FString* Title; // 0x0028(0x38)
-};
-
-struct AItemInfo {
-	char pad[0x0430];
-	UItemDesc* Desc; // 0x0430(0x08)
-};
-
 struct UWieldedItemComponent {
 	char pad[0x02C0];
 	ACharacter* CurrentlyWieldedItem; // 0x02C0
@@ -1102,6 +1092,16 @@ struct ACannon {
 
 };
 
+struct UItemDesc {
+	char pad[0x0028];
+	FString* Title; // 0x0028(0x38)
+};
+
+struct AItemInfo {
+	char pad[0x0430];
+	UItemDesc* Desc; // 0x0430(0x08)
+};
+
 struct FStorageContainerNode {
 	struct UClass* ItemDesc; // 0x00(0x08)
 	int32_t NumItems; // 0x08(0x04)
@@ -1262,6 +1262,13 @@ public:
 		bool isInWater = false;
 		ProcessEvent(this, fn, &isInWater);
 		return isInWater;
+	}
+
+	bool IsLoading() {
+		static auto fn = UObject::FindObject<UFunction>("Function AthenaLoadingScreen.AthenaLoadingScreenBlueprintFunctionLibrary.IsLoadingScreenVisible");
+		bool isLoading = true;
+		ProcessEvent(this, fn, &isLoading);
+		return isLoading;
 	}
 
 	FRotator K2_GetActorRotation() {
@@ -1748,84 +1755,8 @@ struct UPrimitiveComponent : USceneComponent {
 	struct UPrimitiveComponent* LODParentPrimitive; // 0x528(0x08)
 	struct UPrimitiveComponent* MergedCollisionComponentParent; // 0x580(0x08)
 	char UnknownData_588[0x8]; // 0x588(0x08)
-
-	void WakeRigidBody(struct FName BoneName); // Function Engine.PrimitiveComponent.WakeRigidBody // Native|Public|BlueprintCallable // @ game+0x2bce8c0
-	void WakeAllRigidBodies(); // Function Engine.PrimitiveComponent.WakeAllRigidBodies // Native|Public|BlueprintCallable // @ game+0x2bce8a0
-	void SetWalkableSlopeOverride(struct FWalkableSlopeOverride NewOverride); // Function Engine.PrimitiveComponent.SetWalkableSlopeOverride // Final|Native|Public|HasOutParms|BlueprintCallable // @ game+0x2bcd770
-	void SetTranslucentSortPriority(int32_t NewTranslucentSortPriority); // Function Engine.PrimitiveComponent.SetTranslucentSortPriority // Final|Native|Public|BlueprintCallable // @ game+0x2bcd430
-	void SetSimulatePhysics(bool bSimulate); // Function Engine.PrimitiveComponent.SetSimulatePhysics // Native|Public|BlueprintCallable // @ game+0x2bccb50
-	void SetRenderInMainPass(bool bValue); // Function Engine.PrimitiveComponent.SetRenderInMainPass // Final|Native|Public|BlueprintCallable // @ game+0x2bcc9a0
-	void SetRenderCustomDepth(bool bValue); // Function Engine.PrimitiveComponent.SetRenderCustomDepth // Final|Native|Public|BlueprintCallable // @ game+0x2bcc910
-	void SetPhysMaterialOverride(struct UPhysicalMaterial* NewPhysMaterial); // Function Engine.PrimitiveComponent.SetPhysMaterialOverride // Native|Public|BlueprintCallable // @ game+0x2bcbe50
-	void SetPhysicsMaxAngularVelocity(float NewMaxAngVel, bool bAddToCurrent, struct FName BoneName); // Function Engine.PrimitiveComponent.SetPhysicsMaxAngularVelocity // Final|Native|Public|BlueprintCallable // @ game+0x2bcc250
-	void SetPhysicsLinearVelocity(struct FVector NewVel, bool bAddToCurrent, struct FName BoneName); // Function Engine.PrimitiveComponent.SetPhysicsLinearVelocity // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bcc140
-	void SetPhysicsAngularVelocity(struct FVector NewAngVel, bool bAddToCurrent, struct FName BoneName); // Function Engine.PrimitiveComponent.SetPhysicsAngularVelocity // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bcbee0
-	void SetOwnerNoSee(bool bNewOwnerNoSee); // Function Engine.PrimitiveComponent.SetOwnerNoSee // Final|Native|Public|BlueprintCallable // @ game+0x2bcbdc0
-	void SetOnlyOwnerSee(bool bNewOnlyOwnerSee); // Function Engine.PrimitiveComponent.SetOnlyOwnerSee // Final|Native|Public|BlueprintCallable // @ game+0x2bcbcb0
-	void SetNotifyRigidBodyCollision(bool bNewNotifyRigidBodyCollision); // Function Engine.PrimitiveComponent.SetNotifyRigidBodyCollision // Native|Public|BlueprintCallable // @ game+0x2bcbc20
-	void SetMaterial(int32_t ElementIndex, struct UMaterialInterface* Material); // Function Engine.PrimitiveComponent.SetMaterial // Native|Public|BlueprintCallable // @ game+0x2bcb840
-	void SetMassScale(struct FName BoneName, float InMassScale); // Function Engine.PrimitiveComponent.SetMassScale // Native|Public|BlueprintCallable // @ game+0x2bcb6f0
-	void SetMassOverrideInKg(struct FName BoneName, float MassInKg, bool bOverrideMass); // Function Engine.PrimitiveComponent.SetMassOverrideInKg // Native|Public|BlueprintCallable // @ game+0x2bcb5f0
-	void SetLockedAxis(char LockedAxis); // Function Engine.PrimitiveComponent.SetLockedAxis // Native|Public|BlueprintCallable // @ game+0x2bcb4e0
-	void SetLinearDamping(float InDamping); // Function Engine.PrimitiveComponent.SetLinearDamping // Native|Public|BlueprintCallable // @ game+0x2bcaca0
-	void SetGenerateOverlapEvents(bool bEnable); // Function Engine.PrimitiveComponent.SetGenerateOverlapEvents // Final|Native|Public|BlueprintCallable // @ game+0x2bca420
-	void SetEnableGravity(bool bGravityEnabled); // Function Engine.PrimitiveComponent.SetEnableGravity // Native|Public|BlueprintCallable // @ game+0x2bca040
-	void SetCustomPrimitiveVector(int32_t Index, struct FVector Value); // Function Engine.PrimitiveComponent.SetCustomPrimitiveVector // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bc9c20
-	void SetCustomPrimitiveScalar(int32_t Index, float Value); // Function Engine.PrimitiveComponent.SetCustomPrimitiveScalar // Final|Native|Public|BlueprintCallable // @ game+0x2bc9b50
-	void SetCustomDepthStencilValue(int32_t Value); // Function Engine.PrimitiveComponent.SetCustomDepthStencilValue // Final|Native|Public|BlueprintCallable // @ game+0x2bc9970
-	void SetCullDistance(float NewCullDistance); // Function Engine.PrimitiveComponent.SetCullDistance // Final|Native|Public|BlueprintCallable // @ game+0x2bc9870
-	void SetConstraintMode(char ConstraintMode); // Function Engine.PrimitiveComponent.SetConstraintMode // Native|Public|BlueprintCallable // @ game+0x2bc94e0
-	void SetCollisionResponseToChannel(char Channel, char NewResponse); // Function Engine.PrimitiveComponent.SetCollisionResponseToChannel // Final|Native|Public|BlueprintCallable // @ game+0x2bc9130
-	void SetCollisionResponseToAllChannels(char NewResponse); // Function Engine.PrimitiveComponent.SetCollisionResponseToAllChannels // Final|Native|Public|BlueprintCallable // @ game+0x2bc90b0
-	void SetCollisionProfileName(struct FName InCollisionProfileName); // Function Engine.PrimitiveComponent.SetCollisionProfileName // Native|Public|BlueprintCallable // @ game+0x2bc9020
-	void SetCollisionObjectType(char Channel); // Function Engine.PrimitiveComponent.SetCollisionObjectType // Final|Native|Public|BlueprintCallable // @ game+0x2bc8fa0
-	void SetCollisionEnabled(char NewType); // Function Engine.PrimitiveComponent.SetCollisionEnabled // Native|Public|BlueprintCallable // @ game+0x2bc8f20
-	void SetCenterOfMass(struct FVector CenterOfMassOffset, struct FName BoneName); // Function Engine.PrimitiveComponent.SetCenterOfMass // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bc8b80
-	void SetCastShadow(bool NewCastShadow); // Function Engine.PrimitiveComponent.SetCastShadow // Final|Native|Public|BlueprintCallable // @ game+0x2bc89d0
-	void SetAngularDamping(float InDamping); // Function Engine.PrimitiveComponent.SetAngularDamping // Native|Public|BlueprintCallable // @ game+0x2bc77b0
-	void SetAllPhysicsLinearVelocity(struct FVector NewVel, bool bAddToCurrent); // Function Engine.PrimitiveComponent.SetAllPhysicsLinearVelocity // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bc76d0
-	void SetAllMassScale(float InMassScale); // Function Engine.PrimitiveComponent.SetAllMassScale // Native|Public|BlueprintCallable // @ game+0x2bc72b0
-	struct FVector ScaleByMomentOfInertia(struct FVector InputVector, struct FName BoneName); // Function Engine.PrimitiveComponent.ScaleByMomentOfInertia // Native|Public|HasDefaults|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc6b30
-	void PutRigidBodyToSleep(struct FName BoneName); // Function Engine.PrimitiveComponent.PutRigidBodyToSleep // Final|Native|Public|BlueprintCallable // @ game+0x2bc6500
-	bool K2_LineTraceComponent(struct FVector TraceStart, struct FVector TraceEnd, bool bTraceComplex, bool bShowTrace, struct FVector HitLocation, struct FVector HitNormal, struct FName BoneName); // Function Engine.PrimitiveComponent.K2_LineTraceComponent // Final|Native|Public|HasOutParms|HasDefaults|BlueprintCallable // @ game+0x2bc4990
-	bool IsOverlappingComponent(struct UPrimitiveComponent* OtherComp); // Function Engine.PrimitiveComponent.IsOverlappingComponent // Final|Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc45a0
-	bool IsOverlappingActor(struct AActor* Other); // Function Engine.PrimitiveComponent.IsOverlappingActor // Final|Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc4510
-	bool IsGravityEnabled(); // Function Engine.PrimitiveComponent.IsGravityEnabled // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc4340
-	void IgnoreActorWhenMoving(struct AActor* Actor, bool bShouldIgnore); // Function Engine.PrimitiveComponent.IgnoreActorWhenMoving // Final|Native|Public|BlueprintCallable // @ game+0x2bc3ef0
-	struct FWalkableSlopeOverride GetWalkableSlopeOverride(); // Function Engine.PrimitiveComponent.GetWalkableSlopeOverride // Final|Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc3720
-	struct FVector GetPhysicsLinearVelocityAtPoint(struct FVector Point, struct FName BoneName); // Function Engine.PrimitiveComponent.GetPhysicsLinearVelocityAtPoint // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bc1410
-	struct FVector GetPhysicsLinearVelocity(struct FName BoneName); // Function Engine.PrimitiveComponent.GetPhysicsLinearVelocity // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bc1370
-	struct FVector GetPhysicsAngularVelocity(struct FName BoneName); // Function Engine.PrimitiveComponent.GetPhysicsAngularVelocity // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bc12d0
-	void GetOverlappingComponents(struct TArray<struct UPrimitiveComponent*> InOverlappingComponents); // Function Engine.PrimitiveComponent.GetOverlappingComponents // Final|Native|Public|HasOutParms|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc0c10
-	void GetOverlappingActors(struct TArray<struct AActor*> OverlappingActors, struct UClass* ClassFilter); // Function Engine.PrimitiveComponent.GetOverlappingActors // Final|Native|Public|HasOutParms|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc0b10
-	struct TArray<struct FOverlapInfo> GetOverlapInfos(); // Function Engine.PrimitiveComponent.GetOverlapInfos // Final|Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc08f0
-	int32_t GetNumMaterials(); // Function Engine.PrimitiveComponent.GetNumMaterials // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc0830
-	struct UMaterialInterface* GetMaterial(int32_t ElementIndex); // Function Engine.PrimitiveComponent.GetMaterial // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc0360
-	float GetMassScale(struct FName BoneName); // Function Engine.PrimitiveComponent.GetMassScale // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc02a0
-	float GetMass(); // Function Engine.PrimitiveComponent.GetMass // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bc0260
-	float GetLinearDamping(); // Function Engine.PrimitiveComponent.GetLinearDamping // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bbfc90
-	struct FVector GetInertiaTensor(struct FName BoneName); // Function Engine.PrimitiveComponent.GetInertiaTensor // Native|Public|HasDefaults|BlueprintCallable|BlueprintPure|Const // @ game+0x2bbfa50
-	char GetCollisionResponseToChannel(char Channel); // Function Engine.PrimitiveComponent.GetCollisionResponseToChannel // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bbf200
-	struct FName GetCollisionProfileName(); // Function Engine.PrimitiveComponent.GetCollisionProfileName // Final|Native|Public|BlueprintCallable // @ game+0x2bbf1c0
-	char GetCollisionObjectType(); // Function Engine.PrimitiveComponent.GetCollisionObjectType // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bbf190
-	float GetClosestPointOnCollision(struct FVector Point, struct FVector OutPointOnBody, struct FName BoneName); // Function Engine.PrimitiveComponent.GetClosestPointOnCollision // Final|Native|Public|HasOutParms|HasDefaults|BlueprintCallable|BlueprintPure|Const // @ game+0x2bbf020
-	struct FVector GetCenterOfMass(struct FName BoneName); // Function Engine.PrimitiveComponent.GetCenterOfMass // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbef80
-	float GetAngularDamping(); // Function Engine.PrimitiveComponent.GetAngularDamping // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bbece0
-	struct UMaterialInstanceDynamic* CreateDynamicMaterialInstance(int32_t ElementIndex, struct UMaterialInterface* SourceMaterial); // Function Engine.PrimitiveComponent.CreateDynamicMaterialInstance // Native|Public|BlueprintCallable // @ game+0x2bbca40
-	struct UMaterialInstanceDynamic* CreateAndSetMaterialInstanceDynamicFromMaterial(int32_t ElementIndex, struct UMaterialInterface* Parent); // Function Engine.PrimitiveComponent.CreateAndSetMaterialInstanceDynamicFromMaterial // Native|Public|BlueprintCallable // @ game+0x2bbc940
-	struct UMaterialInstanceDynamic* CreateAndSetMaterialInstanceDynamic(int32_t ElementIndex); // Function Engine.PrimitiveComponent.CreateAndSetMaterialInstanceDynamic // Native|Public|BlueprintCallable // @ game+0x2bbc8a0
-	struct TArray<struct AActor*> CopyArrayOfMoveIgnoreActors(); // Function Engine.PrimitiveComponent.CopyArrayOfMoveIgnoreActors // Final|Native|Public|BlueprintCallable // @ game+0x2bbc800
-	void ClearMoveIgnoreActors(int32_t InSlack); // Function Engine.PrimitiveComponent.ClearMoveIgnoreActors // Final|Native|Public|BlueprintCallable // @ game+0x2bbc3e0
-	bool CanCharacterStepUp(struct APawn* Pawn); // Function Engine.PrimitiveComponent.CanCharacterStepUp // Native|Public|BlueprintCallable|BlueprintPure|Const // @ game+0x2bbc000
-	void AddTorque(struct FVector Torque, struct FName BoneName, bool bAccelChange); // Function Engine.PrimitiveComponent.AddTorque // Final|Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbbc90
-	void AddRadialImpulse(struct FVector Origin, float Radius, float Strength, char Falloff, bool bVelChange); // Function Engine.PrimitiveComponent.AddRadialImpulse // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbb8d0
-	void AddRadialForce(struct FVector Origin, float Radius, float Strength, char Falloff, bool bAccelChange); // Function Engine.PrimitiveComponent.AddRadialForce // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbb710
-	void AddImpulseAtLocation(struct FVector Impulse, struct FVector Location, struct FName BoneName); // Function Engine.PrimitiveComponent.AddImpulseAtLocation // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbb340
-	void AddImpulse(struct FVector Impulse, struct FName BoneName, bool bVelChange); // Function Engine.PrimitiveComponent.AddImpulse // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbb220
-	void AddForceAtLocation(struct FVector Force, struct FVector Location, struct FName BoneName); // Function Engine.PrimitiveComponent.AddForceAtLocation // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbaf60
-	void AddForce(struct FVector Force, struct FName BoneName, bool bAccelChange); // Function Engine.PrimitiveComponent.AddForce // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bbae40
-	void AddAngularImpulse(struct FVector Impulse, struct FName BoneName, bool bVelChange); // Function Engine.PrimitiveComponent.AddAngularImpulse // Native|Public|HasDefaults|BlueprintCallable // @ game+0x2bba640
 };
+
 
 struct ASkellyFort
 {
@@ -1872,7 +1803,6 @@ struct AMapTable
 	char pad[0x04E0];
 	TArray<struct FVector2D> MapPins; // 0x04E0
 };
-
 
 #ifdef _MSC_VER
 #pragma pack(pop)
