@@ -659,6 +659,23 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             aimBest.target = nullptr;
             aimBest.best = FLT_MAX;
 
+            if (cfg.aim.cannon.bEnable)
+            {
+                if (ImGui::IsKeyPressed(VK_F5))
+                {
+                    if (cfg.aim.cannon.b_chain_shots == true)
+                    {
+                        cfg.aim.cannon.b_chain_shots = false;
+                    }
+                    else
+                    {
+                        if (cfg.aim.cannon.b_chain_shots == false)
+                        {
+                            cfg.aim.cannon.b_chain_shots = true;
+                        }
+                    }
+                }
+            }
 
             if (cfg.misc.bEnable && cfg.misc.client.bEnable && cfg.misc.client.b_bunnyhop)
                 if (ImGui::IsKeyPressed(VK_SPACE))
@@ -695,7 +712,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ///   else
                 //        cfg.aim.cannon.b_chain_shots = false;
                 //}
-                
+
                 float gravity_scale = cannon->ProjectileGravityScale;
                 if (cfg.aim.cannon.b_chain_shots)
                     gravity_scale = 1.f;
@@ -935,8 +952,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     {
                         if (isCannon)
                         {
-                            do {
-
+                            do 
+                            {
                                 if (!actor->isShip())                                   //target is no ship
                                     break;
 
