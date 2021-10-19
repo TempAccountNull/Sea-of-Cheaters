@@ -953,7 +953,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         if (isCannon)
                         {
                             do 
-                            {
+                            { //1234123
                                 if (!actor->isShip())                                   //target is no ship
                                     break;
 
@@ -970,6 +970,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                 auto cannon = reinterpret_cast<ACannon*>(attachObject);
                                 if (!cannon)
+                                    break;
+
+                                int amount = 0;
+                                auto water = actor->GetInternalWater();
+                                amount = water->GetNormalizedWaterAmount() * 100.f;
+                                if (amount == 100)
                                     break;
                                 
                                 float gravity_scale = cannon->ProjectileGravityScale;
