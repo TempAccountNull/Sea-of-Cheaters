@@ -165,6 +165,7 @@ private:
                 bool b_instant_shoot = false;
                 float fYaw = 1.f;
                 float fPitch = 1.f;
+                float fSmoothness = 1.f;
             } cannon;
         } aim;
 
@@ -173,11 +174,16 @@ private:
             struct {
                 bool bEnable = false;
                 bool bShipInfo = false;
-                bool bIdleKick = false;
                 bool b_map_pins = false;
-                bool b_bunnyhop = false;
                 float fov = 90.f;                
             } client;
+            struct {
+                bool bEnable = false;
+                bool b_bunnyhop = false;
+                bool bLootsprint = false;
+                bool takelootfrombarreltocrate = false;
+                bool bIdleKick = false;
+            } macro;
             struct {
                 bool bEnable = false;
                 bool bShowPlayers = false;
@@ -191,7 +197,6 @@ private:
                 bool bEnable = false;
                 bool fasterreloading = false;
                 bool higherrange = false;
-                bool higherdamage = false;
                 bool fasteraimingspeed = false;
             } allweapons;
             struct {

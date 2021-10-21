@@ -496,7 +496,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
             if (cfg.misc.bEnable && cfg.misc.sword.bEnable && item && item->isSword())
             {
-
                 if (cfg.misc.sword.noblockreduce)
                 {
                     auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
@@ -578,13 +577,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                    {
                        localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileMaximumRange = 5000.f;
                        localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileMaximumRange = 5000.f;
-                   }
-                   if (cfg.misc.allweapons.higherdamage)
-                   {
-                       localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDamage = 100.f;
-                       localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamage = 100.f;
-                       localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDamageMultiplierAtMaximumRange = 10.f;
-                       localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDamageMultiplierAtMaximumRange = 10.f;
                    }
                    if (cfg.misc.allweapons.fasteraimingspeed)
                    {
@@ -677,10 +669,23 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
             }
 
-            if (cfg.misc.bEnable && cfg.misc.client.bEnable && cfg.misc.client.b_bunnyhop)
+            if (cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.b_bunnyhop)
                 if (ImGui::IsKeyPressed(VK_SPACE))
                     if (localCharacter->CanJump())
                         localCharacter->Jump();
+
+            if (cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.bLootsprint)
+                if (GetAsyncKeyState(0x56) & 0x8000)
+                {
+                    keybd_event(0x58, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                    keybd_event(VK_LSHIFT, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                    keybd_event(VK_LSHIFT, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                    keybd_event(0x45, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                    keybd_event(0x45, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                    keybd_event(0x58, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                }
+
+            //if (cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.takelootfrombarreltocrate)
 
             if (cfg.misc.bEnable && cfg.misc.client.bEnable)
                  localController->FOV(cfg.misc.client.fov);
@@ -953,7 +958,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         if (isCannon)
                         {
                             do 
-                            { //1234123
+                            {
                                 if (!actor->isShip())                                   //target is no ship
                                     break;
 
@@ -969,8 +974,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     break;
 
                                 auto cannon = reinterpret_cast<ACannon*>(attachObject);
-                                if (!cannon)
-                                    break;
 
                                 int amount = 0;
                                 auto water = actor->GetInternalWater();
@@ -1008,7 +1011,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 float absPitch = abs(low.Pitch);
                                 float absYaw = abs(low.Yaw);
                                 if (absPitch > cfg.aim.cannon.fPitch || absYaw > cfg.aim.cannon.fYaw) { break; }
-                                float sum = absYaw + absPitch;                                
+                                float sum = absYaw + absPitch;  //ok   
                                 if (sum < aimBest.best)
                                 {
                                     aimBest.target = actor;
@@ -1159,10 +1162,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         if (!desc) continue;
                                         const int dist = localLoc.DistTo(location) * 0.01f;
                                         char name[0x64];
-                                        const int len = desc->Title->multi(name, 0x50);
+                                        const int len =desc->Title->multi(name, 0x50);
                                         snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
-                                    };
+                                    }; 
                                 }
                                 if (cfg.visuals.items.barrelitems)
                                 {
@@ -1170,7 +1173,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     FVector2D screen;
                                     if (localController->ProjectWorldLocationToScreen(location, screen))
                                     {
-                                        //Needs to be written
+                                        auto const desc = actor->GetItemInfo()->Desc;
+                                        if (!desc) continue;
+                                        const int dist = localLoc.DistTo(location) * 0.01f;
+                                        char name[0x64];
+                                        const int len = desc->Title->multi(name, 0x50);
+                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
+                                        Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
                                     };
                                 }
                                 continue;
@@ -1832,7 +1841,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                
             }
 
-            if (!localController->IdleDisconnectEnabled && !(cfg.misc.bEnable && cfg.misc.client.bEnable && cfg.misc.client.bIdleKick))
+            if (!localController->IdleDisconnectEnabled && !(cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.bIdleKick))
             {
                 localController->IdleDisconnectEnabled = true;
             }
@@ -1876,7 +1885,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             drawList->AddLine({ pos.X, pos.Y }, { pos.X + (100.f * internal_water_percent), pos.Y }, 0xFF0000FF, 4);
                         }
                     }
-                    if (localController->IdleDisconnectEnabled && cfg.misc.client.bIdleKick)
+                    if (localController->IdleDisconnectEnabled && cfg.misc.macro.bIdleKick)
                     {
                         localController->IdleDisconnectEnabled = false;
                     }
@@ -2288,8 +2297,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.misc.client.bEnable);
                     ImGui::Checkbox("Ship Info", &cfg.misc.client.bShipInfo);
                     ImGui::Checkbox("Crew Map Pins", &cfg.misc.client.b_map_pins);
-                    ImGui::Checkbox("Disable Idle Kick", &cfg.misc.client.bIdleKick);
-                    ImGui::Checkbox("Bunny Hop", &cfg.misc.client.b_bunnyhop);
                     ImGui::SliderFloat("FOV", &cfg.misc.client.fov, 90.f, 180.f, "%.0f");
 
                     ImGui::Separator();
@@ -2343,6 +2350,19 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::NextColumn();
 
+                ImGui::Text("Macros");
+                if (ImGui::BeginChild("MacrisSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.misc.macro.bEnable);
+                    ImGui::Checkbox("Bunny Hop", &cfg.misc.macro.b_bunnyhop);
+                    ImGui::Checkbox("Loot Sprint", &cfg.misc.macro.bLootsprint);
+                    ImGui::Checkbox("Take Loot from Barrel", &cfg.misc.macro.takelootfrombarreltocrate);
+                    ImGui::Checkbox("Disable Idle Kick", &cfg.misc.macro.bIdleKick);
+                }
+                ImGui::EndChild();
+
+                ImGui::NextColumn();
+
                 ImGui::Text("Game");
                 if (ImGui::BeginChild("GameSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse))
                 {
@@ -2370,7 +2390,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.misc.allweapons.bEnable);
                     ImGui::Checkbox("Faster Reloading", &cfg.misc.allweapons.fasterreloading);
                     ImGui::Checkbox("Higher Range", &cfg.misc.allweapons.higherrange);
-                    ImGui::Checkbox("Higher Damage", &cfg.misc.allweapons.higherdamage);
                     ImGui::Checkbox("Faster Walking Speed while Aiming after switching to another Gun", &cfg.misc.allweapons.fasteraimingspeed);
                 }
                 ImGui::EndChild();

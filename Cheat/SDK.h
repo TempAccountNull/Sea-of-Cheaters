@@ -1271,6 +1271,13 @@ public:
 		return isLoading;
 	}
 
+	bool IsSinking() {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.HullDamage.IsShipSinking");
+		bool isSinking = true;
+		ProcessEvent(this, fn, &isSinking);
+		return isSinking;
+	}
+
 	FRotator K2_GetActorRotation() {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.Actor.K2_GetActorRotation");
 		FRotator params;
@@ -1774,6 +1781,7 @@ enum class EMeleeWeaponMovementSpeed : uint8_t
 	EMeleeWeaponMovementSpeed__Slowed = 2,
 	EMeleeWeaponMovementSpeed__EMeleeWeaponMovementSpeed_MAX = 3
 };
+
 
 struct UMeleeAttackDataAsset
 {
