@@ -4,6 +4,9 @@
 #include <imgui/imgui_internal.h>
 #include <imgui/imgui_impl_win32.h>
 #include <HookLib/HookLib.h>
+#include "font.h"
+#include "iconcpp.h"
+#include "icons.h"
 
 
 #define STEAM
@@ -86,7 +89,10 @@ void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos
     }
     auto window = ImGui::GetCurrentWindow();
 
-    if (outlined) { window->DrawList->AddText(nullptr, 0.f, ImVec2(ImScreen.x - 1.f, ImScreen.y + 1.f), ImGui::GetColorU32(IM_COL32_BLACK), text); }
+    if (outlined) 
+    { 
+        window->DrawList->AddText(nullptr, 0.f, ImVec2(ImScreen.x - 1.f, ImScreen.y + 1.f), ImGui::GetColorU32(IM_COL32_BLACK), text); 
+    }
 
     window->DrawList->AddText(nullptr, 0.f, ImScreen, ImGui::GetColorU32(color), text);
 
@@ -413,11 +419,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
         {
             ImGuiIO& io = ImGui::GetIO();
+            static const ImWchar icons_ranges[] = { 0xf000, 0xf3ff, 0 };
+            ImFont* font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Tahoma.ttf", 17);
             ImFontConfig config;
-            config.GlyphRanges = io.Fonts->GetGlyphRangesCyrillic();
-            config.RasterizerMultiply = 1.125f;
-            io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\tahoma.ttf", 16.0f, &config);
-            io.IniFilename = nullptr;
+            config.MergeMode = true;
+            io.Fonts->AddFontFromMemoryCompressedTTF(font_awesome_data, font_awesome_size, 19.0f, &config, icons_ranges);
+            io.Fonts->Build();
         }
 #ifdef STEAM
         DXGI_SWAP_CHAIN_DESC desc;
@@ -486,6 +493,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             auto const localCharacter = localController->Character;
             if (!localCharacter) break;
 
+            auto const localPlayerCharacter = (AAthenaPlayerCharacter*)localController->K2_GetPawn();
+            if (!localPlayerCharacter) break;
+
+            auto const AACharacter = (AAthenaPlayerCharacter*)localCharacter;
+            if (!localPlayerCharacter) break;
+
             const auto levels = world->Levels;
             if (!levels.Data) break;
 
@@ -525,14 +538,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             
            // check isWieldedWeapon before accessing!
            auto const localWeapon = *reinterpret_cast<AProjectileWeapon**>(&item);
-
-           if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.sniper.bEnable)
-           {
-               if (localWeapon->WeaponParameters.UsesScope == true) //check if sniper
-               {               
-                   localWeapon->WeaponParameters.InAimFOV = (float)cfg.misc.sniper.aim_fov;
-               }
-           }
 
            if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.shotgun.bEnable)
 
@@ -685,10 +690,34 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     keybd_event(0x58, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
                 }
 
-            //if (cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.takelootfrombarreltocrate)
-
             if (cfg.misc.bEnable && cfg.misc.client.bEnable)
-                 localController->FOV(cfg.misc.client.fov);
+            {
+                int return_value = (int)localCharacter->GetTargetFOV(AACharacter);
+                if (return_value == 78) //normal fov
+                {
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
+                }
+                else if (return_value == 73) //steering wheel, harpoon, cannon
+                {
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
+                }
+                else if (return_value == 90) //sprinting
+                {
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
+                }
+                else if (return_value == 60) //pistol zoom
+                {
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
+                }
+                else if (return_value == 70) //blunderbuss
+                {
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
+                }
+                else if (return_value == 30) //sniper
+                {
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.38461538461f);
+                }
+            }
 
             //if (ImGui::IsKeyPressed(VK_F10))
             //{
@@ -990,7 +1019,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                     FVector loc_mast = loc;
 
-                                    //only for sloops
+                                    //FIND SLOOP MAST LOCATION
                                     loc_mast += forward * 80.f;
                                     loc_mast += up * 1300.f;
 
@@ -1122,7 +1151,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             }
                         }                        
                     }
-                    if (cfg.visuals.bEnable)
+                    if (cfg.visuals.bEnable && !localCharacter->IsLoading())
                     {
                         if (cfg.visuals.client.bDebug)
                         {
@@ -1169,18 +1198,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                                 if (cfg.visuals.items.barrelitems)
                                 {
-                                    auto location = actor->K2_GetActorLocation();
-                                    FVector2D screen;
-                                    if (localController->ProjectWorldLocationToScreen(location, screen))
-                                    {
-                                        auto const desc = actor->GetItemInfo()->Desc;
-                                        if (!desc) continue;
-                                        const int dist = localLoc.DistTo(location) * 0.01f;
-                                        char name[0x64];
-                                        const int len = desc->Title->multi(name, 0x50);
-                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
-                                        Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
-                                    };
+                                    //Needs to be coded
                                 }
                                 continue;
                             }
@@ -1714,10 +1732,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 FVector2D screen;
                                 if (localController->ProjectWorldLocationToScreen(islandLoc, screen))
                                 {
-                                    char buf[0x128];
-                                    auto len = island->LocalisedName->multi(buf, 0x128);
-                                    sprintf_s(buf + len, sizeof(buf) - len, " [%dm]", dist);
-                                    Drawing::RenderText(buf, screen, cfg.visuals.islands.textCol);
+                                    char name[0x64];
+                                    auto len = island->LocalisedName->multi(name, 0x50);
+                                    sprintf_s(name + len, sizeof(name) - len, " [%dm]", dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.islands.textCol);
 
                                 }
 
@@ -1904,7 +1922,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         if (shipsService)
                         {
                             ImGui::BeginChild("Info", { 0.f, 18.f });
-                            ImGui::Text("Server Player List");
+                            ImGui::Text("Server Player List | Total Ships (Including AI): %d", shipsService->GetNumShips());
                             ImGui::EndChild();
                         }
                         
@@ -1931,7 +1949,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         player->PlayerName.multi(buf, 0x50);
                                         ImGui::Text(buf);
                                         ImGui::NextColumn();
-                                        const char* actions[] = { "None", "Bailing", "Cannon", "CannonEnd", "Anchor", "AnchorEnd", "Carrying Item", "Carrying ItemEnd", "Dead", "DeadEnd", "Digging", "Extinguishing Fire", "Emptying Bucket", "Harpoon", "Harpoon_END", "Losing Health", "Repairing", "Sails", "Sails_END", "Wheel", "Wheel_END" };
+                                        const char* actions[] = { "None", "Bailing", "Cannon", "Cannon_END", "Anchor", "Anchor_END", "Carrying Item", "Carrying Item_END", "Dead", "Dead_END", "Digging", "Extinguishing Fire", "Emptying Bucket", "Harpoon", "Harpoon_END", "Losing Health", "Repairing", "Sails", "Sails_END", "Undoing Repair", "Wheel", "Wheel_END" };
                                         auto activity = (uint8_t)player->GetPlayerActivity();
                                         if (activity < 21) { ImGui::Text(actions[activity]); }
                                       
@@ -2025,8 +2043,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
         style->Colors[ImGuiCol_HeaderHovered] = ImColor(46, 46, 46, 255);
 
         if (ImGui::BeginTabBar("Bars")) {
-            if (ImGui::BeginTabItem(" Visuals")) {
-
+            if (ImGui::BeginTabItem(ICON_FA_EYE " Visuals")) 
+            {
                 ImGui::Text("Global Visuals");
                 if (ImGui::BeginChild("Global", ImVec2(170.f, 29.f), false, 0))
                 {
@@ -2213,7 +2231,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("Aim")) {
+            if (ImGui::BeginTabItem(ICON_FA_CROSSHAIRS " Aim")) {
 
                 ImGui::Text("Global Aim");
                 if (ImGui::BeginChild("Global", ImVec2(0.f, 29.f), false, 0 | ImGuiWindowFlags_NoScrollWithMouse))
@@ -2281,7 +2299,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::EndTabItem();
             }
-            if (ImGui::BeginTabItem("Misc")) {
+            if (ImGui::BeginTabItem(ICON_FA_SLIDERS_H " Misc")) {
 
                 ImGui::Text("Global Misc");
                 if (ImGui::BeginChild("Global", ImVec2(0.f, 29.f), false, 0 | ImGuiWindowFlags_NoScrollWithMouse))
@@ -2434,18 +2452,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.misc.shotgun.bEnable);
                     ImGui::Checkbox("HipFire NoSpread", &cfg.misc.shotgun.nospread_hip);
                     ImGui::Checkbox("Aiming NoSpread", &cfg.misc.shotgun.nospread_aim);
-                }
-                ImGui::EndChild();
-
-                ImGui::NextColumn();
-
-                ImGui::Text("Eye of Reach");
-                if (ImGui::BeginChild("SniperMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
-                {
-                    ImGui::Checkbox("Enable", &cfg.misc.sniper.bEnable);
-                    ImGui::Separator();
-                    ImGui::Text("DEPRECATED FEATURES. WILL BE REMOVED.");
-                    ImGui::SliderInt("Aiming FOV", &cfg.misc.sniper.aim_fov, 5, 100);
                 }
                 ImGui::EndChild();
 

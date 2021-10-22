@@ -307,13 +307,17 @@ enum class EPlayerActivityType : uint8_t
 	Repairing = 16,
 	Sails = 17,
 	Sails_END = 18,
-	Wheel = 19,
-	Wheel_END = 20
+	UndoingRepair = 19,
+	Wheel = 20,
+	Wheel_END = 21
 };
 
 struct FPirateDescription
 {
 
+};
+
+struct AAthenaPlayerCharacter {
 };
 
 struct APlayerState {
@@ -343,7 +347,28 @@ struct FMinimalViewInfo {
 	FVector Location;
 	FRotator Rotation;
 	char UnknownData_18[0x10];
-	float FOV;
+	//float FOV;
+};
+
+struct UFOVHandlerFunctions_GetTargetFOV_Params
+{
+	class AAthenaPlayerCharacter* Character;
+	float ReturnValue;
+};
+
+struct UFOVHandlerFunctions_SetTargetFOV_Params
+{
+	class AAthenaPlayerCharacter* Character;
+	float TargetFOV;
+
+	void SetTargetFOV(class AAthenaPlayerCharacter* Character, float TargetFOV)
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.FOVHandlerFunctions.SetTargetFOV");
+		UFOVHandlerFunctions_SetTargetFOV_Params params;
+		params.Character = Character;
+		params.TargetFOV = TargetFOV;
+		ProcessEvent(this, fn, &params);
+	}
 };
 
 struct FCameraCacheEntry {
@@ -360,6 +385,11 @@ struct FTViewTarget
 	class APlayerState* PlayerState;                                               // 0x05B0(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash)
 	unsigned char                                      UnknownData_QIMB[0x8];                                     // 0x05B8(0x0008) MISSED OFFSET (PADDING)
 
+};
+
+struct AController_K2_GetPawn_Params
+{
+	class APawn* ReturnValue;
 };
 
 struct APlayerCameraManager {
@@ -423,6 +453,14 @@ struct AController {
 		return params.ReturnValue;
 	}
 
+	APawn* K2_GetPawn() {
+		static auto fn = UObject::FindObject<UFunction>("Function Engine.Controller.K2_GetPawn");
+		AController_K2_GetPawn_Params params;
+		class APawn* ReturnValue;
+		ProcessEvent(this, fn, &params);
+		return params.ReturnValue;
+	}
+
 	bool ProjectWorldLocationToScreen(const FVector& WorldLocation, FVector2D& ScreenLocation) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.ProjectWorldLocationToScreen");
 		struct
@@ -462,10 +500,10 @@ struct AController {
 		ProcessEvent(this, fn, &Val);
 	}
 
-	void FOV(float NewFOV) {
-		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.FOV");
-		ProcessEvent(this, fn, &NewFOV);
-	}
+	//void FOV(float NewFOV) {
+	//	static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.FOV");
+	//	ProcessEvent(this, fn, &NewFOV);
+	//}
 
 	bool LineOfSightTo(ACharacter* Other, const FVector& ViewPoint, const bool bAlternateChecks) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.Controller.LineOfSightTo");
@@ -1450,6 +1488,22 @@ public:
 		ProcessEvent(this, fn, nullptr);
 	}
 
+	float GetTargetFOV(class AAthenaPlayerCharacter* Character) {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.FOVHandlerFunctions.GetTargetFOV");
+		UFOVHandlerFunctions_GetTargetFOV_Params params;
+		params.Character = Character;
+		ProcessEvent(this, fn, &params);
+		return params.ReturnValue;
+	}
+
+	void SetTargetFOV(class AAthenaPlayerCharacter* Character, float TargetFOV) {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.FOVHandlerFunctions.SetTargetFOV");
+		UFOVHandlerFunctions_SetTargetFOV_Params params;
+		params.Character = Character;
+		params.TargetFOV = TargetFOV;
+		ProcessEvent(this, fn, &params);
+	}
+
 	void LaunchCharacter(FVector& LaunchVelocity, bool bXYOverride, bool bZOverride) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.Character.LaunchCharacter");
 		
@@ -1765,12 +1819,12 @@ struct UPrimitiveComponent : USceneComponent {
 };
 
 
-struct ASkellyFort
-{
-	char pad[0x0544];
-	FVector SkullCloudLoc;  // 0x0544(0x000C) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, Protected)
-
-};
+//struct ASkellyFort
+//{
+//	char pad[0x0544];
+//	FVector SkullCloudLoc;  // 0x0544(0x000C) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, Protected)
+//
+//};
 
 
 // Enum Athena.EMeleeWeaponMovementSpeed
