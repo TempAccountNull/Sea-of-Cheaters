@@ -1051,7 +1051,11 @@ struct ACannon {
 	float ShakeOuterRadius; // 0x5e4(0x04)
 	float CannonFiredAINoiseRange; // 0x5e8(0x04)
 	struct FName AINoiseTag; // 0x5ec(0x08)
-	char UnknownData_5F4[0x4]; // 0x5f4(0x04)
+	unsigned char                                      UnknownData_WIJI[0x4];                                     // 0x05F4(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	char pad_956335424[0x18];
+	unsigned char                                      UnknownData_YCZ3[0x20];                                    // 0x05F4(0x0020) FIX WRONG TYPE SIZE OF PREVIOUS PROPERTY
+	char pad_9335443224[0x18];
+	unsigned char                                      UnknownData_BEDV[0x20];                                    // 0x0630(0x0020) FIX WRONG TYPE SIZE OF PREVIOUS PROPERTY
 	float DefaultFOV; // 0x668(0x04)
 	float AimFOV; // 0x66c(0x04)
 	float IntoAimBlendSpeed; // 0x670(0x04)
@@ -1086,11 +1090,7 @@ struct ACannon {
 	unsigned char UnknownData_LECI[0xc]; // 0x748(0x0c)
 	float ServerPitch; // 0x754(0x04)
 	float ServerYaw; // 0x758(0x04)
-	char UnknownData_75C[0x4]; // 0x75c(0x04)
-	struct UParticleSystemComponent* LoadedItemVFXComp; // 0x760(0x08)
-	char UnknownData_768[0x478]; // 0x768(0x478)
-	char InteractionState; // 0xbe0(0x01)
-	char UnknownData_BE1[0x7]; // 0xbe1(0x07)
+
 
 	bool IsReadyToFire() {
 		static auto fn = UObject::FindObject<UFunction>("Function Athena.Cannon.IsReadyToFire");

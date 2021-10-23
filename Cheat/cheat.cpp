@@ -738,14 +738,14 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             {
                 auto cannon = reinterpret_cast<ACannon*>(attachObject);
                 
-                //if (cannon->LoadedItemInfo)
-                //{
-                //    std::wstring loaded_name = cannon->LoadedItemInfo->Desc->Title->wide();
-                //    if (L"Chainshot" == loaded_name) // Checks if Cannon has loaded Chainshot via name of loaded item.
-                //        cfg.aim.cannon.b_chain_shots = true;
-                ///   else
-                //        cfg.aim.cannon.b_chain_shots = false;
-                //}
+                if (cannon->LoadedItemInfo)
+                {
+                    std::wstring loaded_name = cannon->LoadedItemInfo->Desc->Title->wide();
+                    if (L"Chainshot" == loaded_name) // Checks if Cannon has loaded Chainshot via name of loaded item.
+                        cfg.aim.cannon.b_chain_shots = true;
+                   else
+                        cfg.aim.cannon.b_chain_shots = false;
+                }
 
                 float gravity_scale = cannon->ProjectileGravityScale;
                 if (cfg.aim.cannon.b_chain_shots)
