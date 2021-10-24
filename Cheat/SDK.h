@@ -309,7 +309,7 @@ enum class EPlayerActivityType : uint8_t
 	Sails_END = 18,
 	UndoingRepair = 19,
 	Wheel = 20,
-	Wheel_END = 21
+	Wheel_END = 21,
 };
 
 struct FPirateDescription
@@ -1361,6 +1361,71 @@ public:
 
 	inline bool isShip() {
 		static auto obj = UObject::FindClass("Class Athena.Ship");
+		return IsA(obj);
+	}
+
+	inline bool isMermaid() {
+		static auto obj = UObject::FindClass("Class Athena.Mermaid");
+		return IsA(obj);
+	}
+
+	inline bool isGalleon() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_LargeShipTemplate.BP_LargeShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isBrig() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_MediumShipTemplate.BP_MediumShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isSloop() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SmallShipTemplate.BP_SmallShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isGhostShip() {
+		static auto obj = UObject::FindClass("Class Athena.AggressiveGhostShip");
+		return IsA(obj);
+	}
+
+	inline bool isSkeletonSloop() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AISmallShipTemplate.BP_AISmallShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isSkeletonGalleon() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AILargeShipTemplate.BP_AILargeShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isSkellyShipCloud() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SkellyShip_ShipCloud.BP_SkellyShip_ShipCloud_C");
+		return IsA(obj);
+	}
+
+	inline bool isFlameheartCloud() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_GhostShips_Signal_Flameheart_NetProxy.BP_GhostShips_Signal_Flameheart_NetProxy_C");
+		return IsA(obj);
+	}
+
+	inline bool isAshenLordCloud() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AshenLord_SkullCloud.BP_AshenLord_SkullCloud_C");
+		return IsA(obj);
+	}
+
+	inline bool isSkellyFortCloud() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SkellyFort_SkullCloud.BP_SkellyFort_SkullCloud_C");
+		return IsA(obj);
+	}
+
+	inline bool isSkellyFOTDCloud() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SkellyFort_RitualSkullCloud.BP_SkellyFort_RitualSkullCloud_C");
+		return IsA(obj);
+	}
+
+	inline bool isSkellyFOFCloud() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_LegendSkellyFort_SkullCloud.BP_LegendSkellyFort_SkullCloud_C");
 		return IsA(obj);
 	}
 
