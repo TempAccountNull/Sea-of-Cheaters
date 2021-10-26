@@ -107,6 +107,11 @@ private:
             struct {
                 bool bEnable = false;
                 bool bName = false;
+                ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+            } mermaids;
+            struct {
+                bool bEnable = false;
+                bool bName = false;
                 bool bDoor = false;
                 bool bKeyPlace = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
