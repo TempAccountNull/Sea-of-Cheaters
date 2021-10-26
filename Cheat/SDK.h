@@ -1147,8 +1147,9 @@ struct FStorageContainerNode {
 };
 
 struct AHarpoonLauncher {
-	char pad[0x0860];
-	FRotator AimRelativeAngularLimitsDegrees;	// 0x0860
+	char pad[0xB04];
+	FRotator rotation; // 0xB04
+	// ROTATION OFFSET FOUND USING RECLASS.NET: https://www.unknowncheats.me/forum/sea-of-thieves/470590-reclass-net-plugin.html
 
 	void Server_RequestAim(float InPitch, float InYaw)
 	{
