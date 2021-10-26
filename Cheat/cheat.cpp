@@ -1189,10 +1189,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
-                        else {
-
-                            if (cfg.visuals.items.bEnable && actor->isItem()) {
-
+                        else 
+                        {
+                            if (cfg.visuals.items.bEnable && actor->isItem())
+                            {
                                 if (cfg.visuals.items.bName)
                                 {
                                     auto location = actor->K2_GetActorLocation();
@@ -1203,10 +1203,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         if (!desc) continue;
                                         const int dist = localLoc.DistTo(location) * 0.01f;
                                         char name[0x64];
-                                        const int len =desc->Title->multi(name, 0x50);
+                                        const int len = desc->Title->multi(name, 0x50);
                                         snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
-                                    }; 
+                                    };
                                 }
                                 if (cfg.visuals.items.barrelitems)
                                 {
@@ -1214,7 +1214,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                                 continue;
                             }
-
                             else if (cfg.visuals.shipwrecks.bEnable && actor->isShipwreck())
                             {
                                 auto location = actor->K2_GetActorLocation();
@@ -1747,80 +1746,65 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     }
                     if (cfg.server.bEnable && !localCharacter->IsLoading())
                     {
-                        const FVector location = actor->K2_GetActorLocation();
-
-                        if (cfg.server.world.bFleetCloud && actor->isSkellyShipCloud())
+                        if (cfg.server.world.bEnable)
                         {
-                            if (cfg.server.world.bEnable)
+
+                            const FVector location = actor->K2_GetActorLocation();
+                            FVector2D screen;
+
+                            if (cfg.server.world.bFleetCloud && actor->isSkellyShipCloud())
                             {
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
                                     char name[0x30];
                                     sprintf_s(name, "Skeleton Fleet Cloud");
                                     Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
-                                };
+                                }
                             }
-                        }
-
-                        if (cfg.server.world.bWindsCloud && actor->isAshenLordCloud())
-                        {
-                            if (cfg.server.world.bEnable)
+                            if (cfg.server.world.bWindsCloud && actor->isAshenLordCloud())
                             {
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
                                     char name[0x30];
                                     sprintf_s(name, "Ashen Winds Cloud");
                                     Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
-                                };
+                                }
                             }
-                        }
-
-                        if (cfg.server.world.bFlameheartCloud && actor->isFlameheartCloud())
-                        {
-                            if (cfg.server.world.bEnable)
+                            if (cfg.server.world.bFlameheartCloud && actor->isFlameheartCloud())
                             {
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
                                     char name[0x30];
                                     sprintf_s(name, "Flameheart Cloud");
                                     Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
-                                };
+                                }
                             }
-                        }
-                        if (cfg.server.world.bSkullCloud && actor->isSkellyFortCloud())
-                        {
-                            if (cfg.server.world.bEnable)
+                            if (cfg.server.world.bSkullCloud && actor->isSkellyFortCloud())
                             {
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
                                     char name[0x26];
                                     sprintf_s(name, "Skull Fort Cloud");
                                     Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
-                                };
+                                }
                             }
-                        }
-                        if (cfg.server.world.bFOTDCloud && actor->isSkellyFOTDCloud())
-                        {
-                            if (cfg.server.world.bEnable)
+                            if (cfg.server.world.bFOTDCloud && actor->isSkellyFOTDCloud())
                             {
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
                                     char name[0x36];
                                     sprintf_s(name, "Fort Of The Damned Cloud");
                                     Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
-                                };
+                                }
                             }
-                        }
-                        if (cfg.server.world.bFOFCloud && actor->isSkellyFOFCloud())
-                        {
-                            if (cfg.server.world.bEnable)
+                            if (cfg.server.world.bFOFCloud && actor->isSkellyFOFCloud())
                             {
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
                                     char name[0x32];
                                     sprintf_s(name, "Fort Of Fortune Cloud");
                                     Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
-                                };
+                                }
                             }
                             continue;
                         }
@@ -1829,13 +1813,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             }
             if (cfg.visuals.bEnable && !localCharacter->IsLoading())
             {
-
                 if (cfg.visuals.islands.bEnable)
                 {
                     if (cfg.visuals.islands.bName)
                     {
-                        do {
-
+                        do 
+                        {
                             auto const islandService = gameState->IslandService;
                             if (!islandService) break;
 
@@ -1847,7 +1830,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                             for (auto i = 0u; i < islandDataEntries.Count; i++)
                             {
-
                                 auto const island = islandDataEntries[i];
 
                                 auto const WorldMapData = island->WorldMapData;
@@ -1864,14 +1846,9 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     auto len = island->LocalisedName->multi(name, 0x56);
                                     sprintf_s(name + len, sizeof(name) - len, " [%dm]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.islands.textCol);
-
                                 }
-
                             }
-
                         } while (false);
-
-                        
                     }
                 }
                 

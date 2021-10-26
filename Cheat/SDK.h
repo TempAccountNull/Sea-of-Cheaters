@@ -1470,6 +1470,11 @@ public:
 
 	}
 
+	inline bool isBarrel() {
+		static auto obj = UObject::FindClass("Class Athena.StorageContainer");
+		return IsA(obj);
+	}
+
 	inline bool isShark() {
 		static auto obj = UObject::FindClass("Class Athena.SharkPawn");
 		return IsA(obj);
@@ -1490,10 +1495,6 @@ public:
 		return IsA(obj);
 	}
 
-	bool isBarrel() {
-		static auto obj = UObject::FindClass("Class Athena.StorageContainer");
-		return IsA(obj);
-	}
 	bool isWorldSettings() {
 		static auto obj = UObject::FindClass("Class Engine.WorldSettings");
 		return IsA(obj);
