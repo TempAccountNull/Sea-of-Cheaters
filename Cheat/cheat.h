@@ -248,6 +248,7 @@ private:
             struct {
                 bool bEnable = false;
                 bool fpsboost = false;
+                bool frametime = false;
             } render;
         } misc;
     } cfg;

@@ -11,7 +11,35 @@
 #include <chrono>
 #include <thread>
 
+float CachedFramerates[1000];
 
+float MaxArr(float arr[], int n)
+{
+    int i;
+    float max = arr[0];
+    for (i = 1; i < n; i++)
+    {
+        if (arr[i] > max)
+        {
+            max = arr[i];
+        }
+    }
+    return max;
+}
+
+float MinArr(float arr[], int n)
+{
+    int i;
+    float min = arr[0];
+    for (i = 1; i < n; i++)
+    {
+        if (arr[i] < min)
+        {
+            min = arr[i];
+        }
+    }
+    return min;
+}
 
 #define STEAM
 //#define LOGFILE
@@ -730,7 +758,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
                 else if (return_value == 30) //sniper
                 {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.38461538461f);
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.3f);
                 }
             }
 
@@ -741,13 +769,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             //   
             //}
 
-          /*  {
+            /*  {
                 if (ImGui::IsKeyPressed(VK_F10))
                 {
                     Sleep(2000);
                 }
             }
-           */
+            */
 
             if (isCannon)
             {
@@ -1564,7 +1592,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                             char name[0x16];
                                             sprintf_s(name, "Mermaid [%dm]", dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.mermaids.textCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.mermaids.textCol);
                                         };
                                     }
                                     continue;
@@ -1583,7 +1611,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                             char name[0x16];
                                             sprintf_s(name, "Shark [%dm]", dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.sharks.textCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.sharks.textCol);
                                         };
                                     }
                                     continue;
@@ -1605,7 +1633,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                             if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                             char name[0x36];
                                             sprintf_s(name, "Nearby Galleon (%d%% Water) [%dm]", amount, dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.ships.textCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                         };
                                     }
                                     if (actor->isBrig() && dist <= 1800)
@@ -1616,7 +1644,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                             if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                             char name[0x36];
                                             sprintf_s(name, "Nearby Brigantine (%d%% Water) [%dm]", amount, dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.ships.textCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                         };
                                     }
                                     if (actor->isSloop() && dist <= 1800)
@@ -1627,7 +1655,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                             if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                             char name[0x36];
                                             sprintf_s(name, "Nearby Sloop (%d%% Water) [%dm]", amount, dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.ships.textCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                         };
                                     }
                                 }
@@ -1639,7 +1667,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         {
                                             char name[0x36];
                                             sprintf_s(name, "Nearby Flameheart Ship [%dm]", dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.ships.AItextCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                                         };
                                     }
                                     if (actor->isSkeletonSloop() && dist <= 1800)
@@ -1649,7 +1677,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                             if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                             char name[0x36];
                                             sprintf_s(name, "Nearby Skeleton Sloop (%d%% Water) [%dm]", amount, dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.ships.FartextCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.ships.FartextCol);
                                         };
                                     }
                                     if (actor->isSkeletonGalleon() && dist <= 1800)
@@ -1659,7 +1687,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                             if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                             char name[0x36];
                                             sprintf_s(name, "Nearby Skeleton Galleon (%d%% Water) [%dm]", amount, dist);
-                                            Drawing::RenderText(const_cast<char*>(name), screen, cfg.visuals.ships.textCol);
+                                            Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                         };
                                     }
                                 }
@@ -1726,54 +1754,54 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
-                                    char name[0x30];
+                                    char name[0x64];
                                     sprintf_s(name, "Skeleton Fleet Cloud");
-                                    Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
+                                    Drawing::RenderText(name, screen, cfg.server.world.textCol);
                                 };
                             }
                             if (cfg.server.world.bWindsCloud && actor->isAshenLordCloud())
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
-                                    char name[0x30];
+                                    char name[0x64];
                                     sprintf_s(name, "Ashen Winds Cloud");
-                                    Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
+                                    Drawing::RenderText(name, screen, cfg.server.world.textCol);
                                 };
                             }
                             if (cfg.server.world.bFlameheartCloud && actor->isFlameheartCloud())
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
-                                    char name[0x30];
+                                    char name[0x64];
                                     sprintf_s(name, "Flameheart Cloud");
-                                    Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
+                                    Drawing::RenderText(name, screen, cfg.server.world.textCol);
                                 };
                             }
                             if (cfg.server.world.bSkullCloud && actor->isSkellyFortCloud())
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
-                                    char name[0x26];
+                                    char name[0x64];
                                     sprintf_s(name, "Skull Fort Cloud");
-                                    Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
+                                    Drawing::RenderText(name, screen, cfg.server.world.textCol);
                                 };
                             }
                             if (cfg.server.world.bFOTDCloud && actor->isSkellyFOTDCloud())
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
-                                    char name[0x36];
+                                    char name[0x64];
                                     sprintf_s(name, "Fort Of The Damned Cloud");
-                                    Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
+                                    Drawing::RenderText(name, screen, cfg.server.world.textCol);
                                 };
                             }
                             if (cfg.server.world.bFOFCloud && actor->isSkellyFOFCloud())
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
-                                    char name[0x32];
+                                    char name[0x64];
                                     sprintf_s(name, "Fort Of Fortune Cloud");
-                                    Drawing::RenderText(const_cast<char*>(name), screen, cfg.server.world.textCol);
+                                    Drawing::RenderText(name, screen, cfg.server.world.textCol);
                                 };
                             }
                             continue;
@@ -1789,6 +1817,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     {
                         do 
                         {
+                            FVector2D screen;
                             auto const islandService = gameState->IslandService;
                             if (!islandService) break;
 
@@ -1809,7 +1838,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 const FVector islandLoc = WorldMapData->WorldSpaceCameraPosition;
                                 const int dist = localLoc.DistTo(islandLoc) * 0.01f;
                                 if (dist > cfg.visuals.islands.intMaxDist) continue;
-                                FVector2D screen;
                                 if (localController->ProjectWorldLocationToScreen(islandLoc, screen))
                                 {
                                     char name[0x72];
@@ -1851,7 +1879,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 
                     FVector2D pos = { io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.02f };
                     auto col = ImVec4(1.f, 1.f, 1.f, 1.f);
-                    Drawing::RenderText(const_cast<char*>(directions[index]), pos, col);
+                    Drawing::RenderText(directions[index], pos, col);
                     char buf[0x30];
                     int len = sprintf_s(buf, "%d", yaw);
                     pos.Y += 15.f;
@@ -2595,11 +2623,33 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Render Settings");
-                if (ImGui::BeginChild("RenderMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("RenderMods", ImVec2(0.f, 350.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.render.bEnable);
                     ImGui::Checkbox("FPS Boost", &cfg.misc.render.fpsboost);
+                    ImGui::Checkbox("Frame Time", &cfg.misc.render.frametime);
+                    if (cfg.misc.render.frametime)
+                    {
+                        ImGuiIO io = ImGui::GetIO();
+                        ImGui::Text("Sea of Thieves");
+                        ImGui::Text("Frame Time: %.f ms", 1000 / io.Framerate);
+                        ImGui::Text("%d Vertices, %d Indices, (%d Triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
+                        ImGui::Text("%d Active Windows (d% Visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
+                        ImGui::Text("%d Active Allocations", io.MetricsActiveAllocations);
+                        ImGui::Spacing();
+                        ImGui::Spacing();
+                        ImGui::Separator();
+                        ImGui::Text("Rendering at %.f FPS", io.Framerate);
 
+                        CachedFramerates[999] = io.Framerate;
+                        for (int i = 1; i < 1000; i++)
+                        {
+                            CachedFramerates[i - 1] = CachedFramerates[i];
+                        }
+                        float Min = MinArr(CachedFramerates, IM_ARRAYSIZE(CachedFramerates));
+                        float Max = MaxArr(CachedFramerates, IM_ARRAYSIZE(CachedFramerates));
+                        ImGui::PlotHistogram("", CachedFramerates, IM_ARRAYSIZE(CachedFramerates), 0, "Framerate", Min, Max, ImVec2(400, 100));
+                    }
                 }
                 ImGui::EndChild();
 
