@@ -62,19 +62,19 @@ private:
                 ImVec4 colorVis = { 0.f, 1.f, 0.5f, 1.f };
                 ImVec4 colorInv = { 1.f, 0.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+
             } skeletons;
             struct {
+                
                 bool bEnable = false;
                 bool bSkeleton = false;
                 bool bHealth = false;
                 bool bName = false;
-                bool bFarName = false;
-                bool bAIName = false;
                 bool bDamage = false;
+                EShipBox boxType = EShipBox::ENone;
                 ImVec4 damageColor = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
-                ImVec4 FartextCol = { 1.f, 1.f, 1.f, 1.f };
-                ImVec4 AItextCol = { 1.f, 1.f, 1.f, 1.f };
+                ImVec4 boxColor = { 1.f, 0.f, 1.f, 1.f };
             } ships;
             struct {
                 bool bEnable = false;
@@ -138,6 +138,16 @@ private:
                 int i_size = 100;
                 int i_scale = 10;
             } radar;
+            struct {
+                bool bEnable = false;
+                bool bFleetCloud = false;
+                bool bFlameheartCloud = false;
+                bool bWindsCloud = false;
+                bool bSkullCloud = false;
+                bool bFOTDCloud = false;
+                bool bFOFCloud = false;
+                ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+            } world;
         } visuals;
         struct {
             bool bEnable = false;
@@ -173,20 +183,6 @@ private:
                 float fSmoothness = 1.f;
             } cannon;
         } aim;
-
-        struct {
-            bool bEnable = false;
-            struct {
-                bool bEnable = false;
-                bool bFleetCloud = false;
-                bool bFlameheartCloud = false;
-                bool bWindsCloud = false;
-                bool bSkullCloud = false;
-                bool bFOTDCloud = false;
-                bool bFOFCloud = false;
-                ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
-            } world;
-        } server;
 
         struct {
             bool bEnable = false;
