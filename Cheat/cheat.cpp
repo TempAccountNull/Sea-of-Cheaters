@@ -981,7 +981,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         const FVector location = actor->K2_GetActorLocation();
                         FVector2D screen;
 
-                        if (cfg.visuals.world.bEnable && cfg.visuals.world.bFleetCloud)
+                        if (cfg.visuals.world.bFleetCloud)
                         {
                             if (actor->isSkellyShipCloud())
                             {
@@ -998,7 +998,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
-                        if (cfg.visuals.world.bEnable && cfg.visuals.world.bWindsCloud && actor->isAshenLordCloud())
+                        if (cfg.visuals.world.bWindsCloud)
                         {
                             if (actor->isAshenLordCloud())
                             {
@@ -1015,7 +1015,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
-                        if (cfg.visuals.world.bEnable && cfg.visuals.world.bFlameheartCloud)
+                        if (cfg.visuals.world.bFlameheartCloud)
                         {
                             if (actor->isFlameheartCloud())
                             {
@@ -1032,7 +1032,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
-                        if (cfg.visuals.world.bEnable && cfg.visuals.world.bSkullCloud && actor->isSkellyFortCloud())
+                        if (cfg.visuals.world.bSkullCloud)
                         {
                             if (actor->isSkellyFortCloud())
                             {
@@ -1049,7 +1049,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
-                        if (cfg.visuals.world.bEnable && cfg.visuals.world.bFOTDCloud&& actor->isSkellyFOTDCloud())
+                        if (cfg.visuals.world.bFOTDCloud)
                         {
                             if (actor->isSkellyFOTDCloud())
                             {
@@ -1061,7 +1061,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
-                        if (cfg.visuals.world.bEnable && cfg.visuals.world.bFOFCloud && actor->isSkellyFOFCloud())
+                        if (cfg.visuals.world.bFOFCloud)
                         {
                             if (actor->isSkellyFOFCloud())
                             {
