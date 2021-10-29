@@ -1451,6 +1451,61 @@ public:
 		return IsA(obj);
 	}
 
+	inline bool isSkeletonGalleonFar() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AILargeShipNetProxy.BP_AILargeShipNetProxy_C");
+		return IsA(obj);
+	}
+
+	inline bool isSkeletonSloopFar() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AISmallShipNetProxy.BP_AISmallShipNetProxy_C");
+		return IsA(obj);
+	}
+
+	inline bool isSloop() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SmallShipTemplate.BP_SmallShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isBrig() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_MediumShipTemplate.BP_MediumShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isGalleon() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_LargeShipTemplate.BP_LargeShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isGhostShip() {
+		static auto obj = UObject::FindClass("Class Athena.AggressiveGhostShip");
+		return IsA(obj);
+	}
+
+	inline bool isSkeletonSloop() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AISmallShipTemplate.BP_AISmallShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isSkeletonGalleon() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AILargeShipTemplate.BP_AILargeShipTemplate_C");
+		return IsA(obj);
+	}
+
+	inline bool isGalleonFar() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_LargeShipNetProxy.BP_LargeShipNetProxy_C");
+		return IsA(obj);
+	}
+
+	inline bool isBrigFar() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_MediumShipNetProxy.BP_MediumShipNetProxy_C");
+		return IsA(obj);
+	}
+
+	inline bool isSloopFar() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SmallShipNetProxy.BP_SmallShipNetProxy_C");
+		return IsA(obj);
+	}
+
 	bool isWeapon() {
 		static auto obj = UObject::FindClass("Class Athena.ProjectileWeapon");
 		return IsA(obj);

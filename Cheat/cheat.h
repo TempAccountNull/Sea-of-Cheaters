@@ -62,18 +62,18 @@ private:
                 ImVec4 colorVis = { 0.f, 1.f, 0.5f, 1.f };
                 ImVec4 colorInv = { 1.f, 0.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
-
             } skeletons;
             struct {
-                
                 bool bEnable = false;
                 bool bSkeleton = false;
                 bool bHealth = false;
                 bool bName = false;
+                bool bAIName = false;
                 bool bDamage = false;
                 EShipBox boxType = EShipBox::ENone;
                 ImVec4 damageColor = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+                ImVec4 AItextCol = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 boxColor = { 1.f, 0.f, 1.f, 1.f };
             } ships;
             struct {
@@ -87,6 +87,7 @@ private:
                 bool bName = false;
                 bool barrelitems = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+                ImVec4 barreltextCol = { 1.f, 1.f, 1.f, 1.f };
             } items;
             struct {
                 bool bEnable = false;

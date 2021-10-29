@@ -958,6 +958,147 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         //}
                     }
 
+                    if (cfg.visuals.ships.bEnable)
+                    {
+                        const FVector location = actor->K2_GetActorLocation();
+                        const int dist = localLoc.DistTo(location) * 0.01f;
+                        int amount = 0;
+                        FVector2D screen;
+
+                        if (cfg.visuals.ships.bName)
+                        {
+                            if (actor->isGalleon() && dist < 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto water = actor->GetInternalWater();
+                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    char name[0x36];
+                                    sprintf_s(name, "Nearby Galleon (%d%% Water) [%dm]", amount, dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
+                                };
+                            }
+                            if (actor->isBrig() && dist < 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto water = actor->GetInternalWater();
+                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    char name[0x36];
+                                    sprintf_s(name, "Nearby Brigantine (%d%% Water) [%dm]", amount, dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
+                                };
+                            }
+                            if (actor->isSloop() && dist < 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto water = actor->GetInternalWater();
+                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    char name[0x36];
+                                    sprintf_s(name, "Nearby Sloop (%d%% Water) [%dm]", amount, dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
+                                };
+                            }
+                            if (actor->isSloopFar() && dist > 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
+                                    char name[0x36];
+                                    sprintf_s(name, "Sloop [%dm]", dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
+                                };
+                            }
+                            if (actor->isBrigFar() && dist > 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
+                                    char name[0x36];
+                                    sprintf_s(name, "Brigantine [%dm]", dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
+                                };
+                            }
+                            if (actor->isGalleonFar() && dist > 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
+                                    char name[0x36];
+                                    sprintf_s(name, "Galleon [%dm]", dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
+                                };
+                            }
+                        }
+                        if (&cfg.visuals.ships.bAIName)
+                        {
+                            if (actor->isGhostShip() && dist < 500)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    char name[0x36];
+                                    sprintf_s(name, "Nearby Flameheart Ship [%dm]", dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
+                                };
+                            }
+                            if (actor->isSkeletonSloop() && dist < 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                    auto water = actor->GetInternalWater();
+                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    char name[0x36];
+                                    sprintf_s(name, "Nearby Skeleton Sloop (%d%% Water) [%dm]", amount, dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
+                                };
+                            }
+                            if (actor->isSkeletonGalleon() && dist < 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                    auto water = actor->GetInternalWater();
+                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    char name[0x36];
+                                    sprintf_s(name, "Nearby Skeleton Galleon (%d%% Water) [%dm]", amount, dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
+                                };
+                            }
+                            if (actor->isSkeletonGalleonFar() && dist > 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                    char name[0x36];
+                                    sprintf_s(name, "Skeleton Galleon [%dm]", dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
+                                };
+                            }
+                            if (actor->isSkeletonSloopFar() && dist > 1800)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                    char name[0x36];
+                                    sprintf_s(name, "Skeleton Sloop [%dm]", dist);
+                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
+                                };
+                            }
+                        }
+                        if (actor->isShip())
+                        {
+                            if (cfg.visuals.ships.bDamage && dist <= 225)
+                            {
+                                auto const damage = actor->GetHullDamage();
+                                if (!damage) continue;
+                                const auto holes = damage->ActiveHullDamageZones;
+                                for (auto h = 0u; h < holes.Count; h++)
+                                {
+                                    auto const hole = holes[h];
+
+                                    const FVector location = hole->K2_GetActorLocation();
+                                    if (localController->ProjectWorldLocationToScreen(location, screen))
+                                    {
+                                        auto color = cfg.visuals.ships.damageColor;
+                                        drawList->AddLine({ screen.X - 6.f, screen.Y + 6.f }, { screen.X + 6.f, screen.Y - 6.f }, ImGui::GetColorU32(color));
+                                        drawList->AddLine({ screen.X - 6.f, screen.Y - 6.f }, { screen.X + 6.f, screen.Y + 6.f }, ImGui::GetColorU32(color));
+                                    };
+                                }
+                            }
+                        }
+                    }
+
                     if (cfg.visuals.mermaids.bEnable)
                     {
                         if (actor->isMermaid())
@@ -998,6 +1139,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
+
                         if (cfg.visuals.world.bWindsCloud)
                         {
                             if (actor->isAshenLordCloud())
@@ -1015,6 +1157,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
+
                         if (cfg.visuals.world.bFlameheartCloud)
                         {
                             if (actor->isFlameheartCloud())
@@ -1032,6 +1175,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
+
                         if (cfg.visuals.world.bSkullCloud)
                         {
                             if (actor->isSkellyFortCloud())
@@ -1049,6 +1193,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
+
                         if (cfg.visuals.world.bFOTDCloud)
                         {
                             if (actor->isSkellyFOTDCloud())
@@ -1061,6 +1206,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
                             }
                         }
+
                         if (cfg.visuals.world.bFOFCloud)
                         {
                             if (actor->isSkellyFOFCloud())
@@ -1069,6 +1215,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 cfg.visuals.world.bWindsCloud = false;
                                 cfg.visuals.world.bFlameheartCloud = false;
                                 cfg.visuals.world.bSkullCloud = false;
+
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
                                     char buf[0x64];
@@ -1078,6 +1225,23 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             }
                         }
                     }
+
+                    if (cfg.visuals.items.bEnable && cfg.visuals.items.barrelitems)
+                    {
+                        if (actor->isBarrel())
+                        {
+                            const FVector location = actor->K2_GetActorLocation();
+                            FVector2D screen;
+
+                            if (localController->ProjectWorldLocationToScreen(location, screen))
+                            {
+                                char buf[0x64];
+                                sprintf_s(buf, "B");
+                                Drawing::RenderText(buf, screen, cfg.visuals.items.barreltextCol);
+                            }
+                        }
+                    }
+
                     if (cfg.visuals.radar.bEnable && localCharacter->GetCurrentShip())
                     {
                         do
@@ -1378,10 +1542,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
                                     }; 
                                 }
-                                if (cfg.visuals.items.barrelitems)
-                                {
-                                    //Needs to be coded
-                                }
+
                                 continue;
                             }
 
@@ -1778,87 +1939,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 }
 
                                 continue;
-                            }
-                            else if (cfg.visuals.ships.bEnable)
-                            {
-                                if (actor->isShip()) 
-                                {
-                                    const FVector location = actor->K2_GetActorLocation();
-                                    const int dist = localLoc.DistTo(location) * 0.01f;
-
-                                    if (cfg.visuals.ships.bName && dist <= 1800)
-                                    {
-                                        FVector2D screen;
-                                        if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                            int amount = 0;
-                                            auto water = actor->GetInternalWater();
-                                            if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                            char name[0x40];
-                                            sprintf_s(name, "Nearby Ship (%d%% Water) [%dm]", amount, dist);
-                                            Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                        };
-                                    }
-
-                                    if (cfg.visuals.ships.bDamage && dist <= 300)
-                                    {
-                                        auto const damage = actor->GetHullDamage();
-                                        if (!damage) continue;
-                                        const auto holes = damage->ActiveHullDamageZones;
-                                        for (auto h = 0u; h < holes.Count; h++)
-                                        {
-                                            auto const hole = holes[h];
-
-                                            const FVector location = hole->K2_GetActorLocation();
-                                            FVector2D screen;
-                                            if (localController->ProjectWorldLocationToScreen(location, screen))
-                                            {
-                                                auto color = cfg.visuals.ships.damageColor;
-                                                drawList->AddLine({ screen.X - 6.f, screen.Y + 6.f }, { screen.X + 6.f, screen.Y - 6.f }, ImGui::GetColorU32(color));
-                                                drawList->AddLine({ screen.X - 6.f, screen.Y - 6.f }, { screen.X + 6.f, screen.Y + 6.f }, ImGui::GetColorU32(color));
-                                            }
-                                        }
-                                    }
-
-                                    switch (cfg.visuals.ships.boxType)
-                                    {
-                                    case Config::EShipBox::E3DBoxes:
-                                    {
-                                        
-                                        FVector origin, extent;
-                                        actor->GetActorBounds(true, origin, extent);
-                                        FRotator rotation = actor->K2_GetActorRotation();
-                                        if (!Drawing::Render3DBox(localController, origin, extent, rotation, cfg.visuals.ships.boxColor)) continue;
-                                        break;
-                                    }
-                                    /*
-                                    case Config::EBox::EDebugBoxes:
-                                    {
-                                        FVector origin, extent;
-                                        actor->GetActorBounds(true, origin, extent);
-                                        UKismetMathLibrary::DrawDebugBox(reinterpret_cast<UObject*>(world), origin, extent, *reinterpret_cast<const FLinearColor*>(&cfg.visuals.ships.boxColor), actor->K2_GetActorRotation(), 0.f);
-                                        break;
-                                    }
-                                    */
-                                    }
-
-                                    continue;
-                                }
-                                else if (actor->isFarShip())
-                                {
-                                    const FVector location = actor->K2_GetActorLocation();
-                                    const int dist = localLoc.DistTo(location) * 0.01f;
-
-                                    if (cfg.visuals.ships.bName && dist > 1800)
-                                    {
-                                        FVector2D screen;
-                                        if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                            char name[0x30];
-                                            sprintf_s(name, "Ship [%dm]", dist);
-                                            Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                        };
-                                    }
-                                    continue;
-                                }
                             }
                             if (cfg.visuals.puzzles.bEnable && actor->isPuzzleVault())
                             {
@@ -2275,6 +2355,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     const char* shipBoxes[] = {"None", "3DBox"};
                     ImGui::Checkbox("Enable", &cfg.visuals.ships.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.ships.bName);
+                    ImGui::Checkbox("Draw Skeleton Name", &cfg.visuals.ships.bAIName);
                     ImGui::Checkbox("Show Holes", &cfg.visuals.ships.bDamage);
                     ImGui::Combo("Box Type", reinterpret_cast<int*>(&cfg.visuals.ships.boxType), shipBoxes, IM_ARRAYSIZE(shipBoxes));
                     ImGui::ColorEdit4("Box Color", &cfg.visuals.ships.boxColor.x, 0);
@@ -2286,7 +2367,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Islands");
-                if (ImGui::BeginChild("IslandsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse)) {
+                if (ImGui::BeginChild("IslandsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse)) 
+                {
                     ImGui::Checkbox("Enable", &cfg.visuals.islands.bEnable);
                     ImGui::Checkbox("Draw Names", &cfg.visuals.islands.bName);
                     ImGui::SliderInt("Max Distance", &cfg.visuals.islands.intMaxDist, 100, 2750, "%d", ImGuiSliderFlags_AlwaysClamp);
@@ -2301,8 +2383,9 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.items.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.items.bName);
-                    ImGui::Checkbox("Barrel Items", &cfg.visuals.items.barrelitems);
+                    ImGui::Checkbox("Barrels", &cfg.visuals.items.barrelitems);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.items.textCol.x, 0);
+                    ImGui::ColorEdit4("Barrel Text Color", &cfg.visuals.items.barreltextCol.x, 0);
                 }
                 ImGui::EndChild();
 
