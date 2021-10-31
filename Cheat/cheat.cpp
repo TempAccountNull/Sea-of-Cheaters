@@ -10,7 +10,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-
+#include <tchar.h>
 
 uintptr_t milliseconds_now() {
     static LARGE_INTEGER s_frequency;
@@ -958,7 +958,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         //}
                     }
 
-                    if (cfg.visuals.ships.bEnable)
+                    if (cfg.visuals.ships.bEnable && !localCharacter->IsLoading())
                     {
                         const FVector location = actor->K2_GetActorLocation();
                         const int dist = localLoc.DistTo(location) * 0.01f;
@@ -978,7 +978,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isBrig() && dist < 1726)
+                            if (actor->isBrig() && dist < 1101)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
@@ -1009,7 +1009,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isBrigFar() && dist > 1725)
+                            if (actor->isBrigFar() && dist > 1100)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) 
                                 {

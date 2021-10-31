@@ -37,9 +37,11 @@ private:
             EClosest,
             EFOV,
         };
-        struct {
+        struct 
+        {
             bool bEnable = false;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bSkeleton = false;
                 bool bDrawTeam = false;
@@ -53,7 +55,8 @@ private:
                 ImVec4 teamColorInv = { 0.f, 1.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } players;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bSkeleton = false;
                 bool bName = false;
@@ -63,7 +66,8 @@ private:
                 ImVec4 colorInv = { 1.f, 0.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } skeletons;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bSkeleton = false;
                 bool bHealth = false;
@@ -76,20 +80,23 @@ private:
                 ImVec4 AItextCol = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 boxColor = { 1.f, 0.f, 1.f, 1.f };
             } ships;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bName = false;
                 int intMaxDist = 100;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } islands;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bName = false;
                 bool barrelitems = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 barreltextCol = { 1.f, 1.f, 1.f, 1.f };
             } items;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bName = false;
                 EBox boxType = EBox::ENone;
@@ -97,7 +104,8 @@ private:
                 ImVec4 colorInv = { 0.7f, 1.f, 0.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } animals;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bSkeleton = false;
                 bool bName = false;
@@ -105,24 +113,28 @@ private:
                 ImVec4 colorInv = { 0.7f, 1.f, 0.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } sharks;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bName = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } mermaids;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bName = false;
                 bool bDoor = false;
                 bool bKeyPlace = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } puzzles;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bName = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } shipwrecks;
-            struct {
+            struct 
+            {
                 bool bCrosshair = false;
                 bool bOxygen = false;
                 bool bCompass = false;
@@ -134,12 +146,14 @@ private:
                 int cannon_tracers_length = 1;
                 ImVec4 cannon_tracers_color = { 1.f, 1.f, 1.f, 1.f };
             } client;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 int i_size = 100;
                 int i_scale = 10;
             } radar;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bFleetCloud = false;
                 bool bFlameheartCloud = false;
@@ -150,9 +164,12 @@ private:
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } world;
         } visuals;
-        struct {
+
+        struct 
+        {
             bool bEnable = false;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bVisibleOnly = false;
                 bool bTeam = false;
@@ -160,21 +177,24 @@ private:
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
             } players;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bVisibleOnly = false;
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
             } skeletons;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
-                bool bVisibleOnly = false;               
+                bool bVisibleOnly = false;
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
             } harpoon;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool b_chain_shots = false;
                 bool bVisibleOnly = false;
@@ -184,65 +204,78 @@ private:
                 float fSmoothness = 1.f;
             } cannon;
         } aim;
-
-        struct {
+        
+        struct 
+        {
             bool bEnable = false;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bShipInfo = false;
                 bool b_map_pins = false;
                 float fov = 90.f;                
             } client;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool b_bunnyhop = false;
                 bool bLootsprint = false;
                 bool takelootfrombarreltocrate = false;
                 bool bIdleKick = false;
             } macro;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bShowPlayers = false;
             } game;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool noclamp = false;
                 bool noblockreduce = false;
             } sword;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool fasterreloading = false;
                 bool higherrange = false;
                 bool fasteraimingspeed = false;
             } allweapons;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool fasteronland = false;
                 bool fasterinwater = false;
                 bool fasterwhileholdingitem = false;
             } playerspeed;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool freecam = false;
             } camera;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool fishingbot = false;
             } fishingmods;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool nospread_hip = false;
                 bool nospread_aim = false;
             } shotgun;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 int aim_fov = 5;
             } sniper;
-            struct {
+            struct 
+            {
                 bool bEnable = false;
                 bool bShowKrakenState = false;
             } kraken;
-            struct {
+            struct 
+{
                 bool bEnable = false;
                 bool fpsboost = false;
                 bool frametime = false;
