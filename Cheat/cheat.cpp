@@ -967,7 +967,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                         if (cfg.visuals.ships.bName)
                         {
-                            if (actor->isGalleon() && dist < 1700)
+                            if (actor->isGalleon() && dist < 1726)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
@@ -978,7 +978,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isBrig() && dist < 1700)
+                            if (actor->isBrig() && dist < 1726)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
@@ -989,7 +989,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isSloop() && dist < 1700)
+                            if (actor->isSloop() && dist < 1726)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
@@ -1000,7 +1000,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isSloopFar() && dist > 1700)
+                            if (actor->isSloopFar() && dist > 1725)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) 
                                 {
@@ -1009,7 +1009,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isBrigFar() && dist > 1700)
+                            if (actor->isBrigFar() && dist > 1725)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) 
                                 {
@@ -1018,7 +1018,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isGalleonFar() && dist > 1700)
+                            if (actor->isGalleonFar() && dist > 1725)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) 
                                 {
@@ -1039,7 +1039,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                                 };
                             }
-                            if (actor->isSkeletonSloop() && dist < 1700)
+                            if (actor->isSkeletonSloop() && dist < 1726)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                     auto water = actor->GetInternalWater();
@@ -1049,7 +1049,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                                 };
                             }
-                            if (actor->isSkeletonGalleon() && dist < 1700)
+                            if (actor->isSkeletonGalleon() && dist < 1726)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                     auto water = actor->GetInternalWater();
@@ -1059,7 +1059,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                                 };
                             }
-                            if (actor->isSkeletonGalleonFar() && dist > 1700)
+                            if (actor->isSkeletonGalleonFar() && dist > 1725)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                     char name[0x36];
@@ -1067,7 +1067,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                                 };
                             }
-                            if (actor->isSkeletonSloopFar() && dist > 1700)
+                            if (actor->isSkeletonSloopFar() && dist > 1725)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                     char name[0x36];
