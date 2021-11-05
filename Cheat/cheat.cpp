@@ -973,12 +973,11 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                 auto type = actor->GetName();
                                 char name[0x64];
-                                sprintf_s(name, "Ship (%d%% Water) [%d]", amount, dist);
-                                if (type.find("SmallShip") != std::string::npos)
+                                if (type.find("BP_SmallShip") != std::string::npos)
                                     sprintf_s(name, "Sloop (%d%% Water) [%d]", amount, dist);
-                                if (type.find("MediumShip") != std::string::npos)
+                                if (type.find("BP_MediumShip") != std::string::npos)
                                     sprintf_s(name, "Brig (%d%% Water) [%d]", amount, dist);
-                                if (type.find("LargeShip") != std::string::npos)
+                                if (type.find("BP_LargeShip") != std::string::npos)
                                     sprintf_s(name, "Galleon (%d%% Water) [%d]", amount, dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
@@ -990,12 +989,11 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             {
                                 auto type = actor->GetName();
                                 char name[0x64];
-                                sprintf_s(name, "Ship [%d]", dist);
-                                if (type.find("SmallShip") != std::string::npos)
+                                if (type.find("BP_SmallShip") != std::string::npos)
                                     sprintf_s(name, "Sloop [%d]", dist);
-                                if (type.find("MediumShip") != std::string::npos)
+                                if (type.find("BP_MediumShip") != std::string::npos)
                                     sprintf_s(name, "Brig [%d]", dist);
-                                if (type.find("LargeShip") != std::string::npos)
+                                if (type.find("BP_LargeShip") != std::string::npos)
                                     sprintf_s(name, "Galleon [%d]", dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
@@ -1009,10 +1007,9 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                 auto type = actor->GetName();
                                 char name[0x64];
-                                sprintf_s(name, "AIShip (%d%% Water) [%d]", amount, dist);
-                                if (type.find("AISmallShipTemplate") != std::string::npos)
+                                if (type.find("BP_AISmallShipTemplate") != std::string::npos)
                                     sprintf_s(name, "Skeleton Sloop (%d%% Water) [%d]", amount, dist);
-                                if (type.find("AILargeShipTemplate") != std::string::npos)
+                                if (type.find("BP_AILargeShipTemplate") != std::string::npos)
                                     sprintf_s(name, "Skeleton Galleon (%d%% Water) [%d]", amount, dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                             }
@@ -1024,10 +1021,9 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             {
                                 auto type = actor->GetName();
                                 char name[0x64];;
-                                sprintf_s(name, "AIShip [%d]", dist);
-                                if (type.find("AISmallShipNetProxy") != std::string::npos)
+                                if (type.find("BP_AISmallShip") != std::string::npos)
                                     sprintf_s(name, "Skeleton Sloop [%d]", dist);
-                                if (type.find("AILargeShipNetProxy") != std::string::npos)
+                                if (type.find("BP_AILargeShip") != std::string::npos)
                                     sprintf_s(name, "Skeleton Galleon [%d]", dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                             }
@@ -1090,10 +1086,9 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             else if (type.find("AshenLord") != std::string::npos)
                                 sprintf_s(name, "Ashen Lord [%d]", dist);
                             else if (type.find("Flameheart") != std::string::npos)
-                                sprintf_s(name, "Flame Heart [%d]", dist);
-                            //Forts 
+                                sprintf_s(name, "Flame Heart [%d]", dist); 
                             else if (type.find("LegendSkellyFort") != std::string::npos)
-                            sprintf_s(name, "Fort of Fortune [%d]", dist);
+                                sprintf_s(name, "Fort of Fortune [%d]", dist);
                             else if (type.find("RitualSkullcloud") != std::string::npos)
                                 sprintf_s(name, "FOTD [%d]", dist);
                             else if (type.find("Skullcloud") != std::string::npos)
@@ -1104,11 +1099,11 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                     if (cfg.visuals.items.bEnable && cfg.visuals.items.barrelitems)
                     {
-                        if (actor->isBarrel())
+                        const FVector location = actor->K2_GetActorLocation();
+                        const int dist = localLoc.DistTo(location) * 0.01f;
+                        FVector2D screen;
+                        if (actor->isBarrel() && dist <= 200)
                         {
-                            const FVector location = actor->K2_GetActorLocation();
-                            FVector2D screen;
-
                             if (localController->ProjectWorldLocationToScreen(location, screen))
                             {
                                 char buf[0x64];
