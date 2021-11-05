@@ -978,7 +978,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isBrig() && dist < 1101)
+                            if (actor->isBrig() && dist < 1726)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
@@ -1009,7 +1009,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                                 };
                             }
-                            if (actor->isBrigFar() && dist > 1100)
+                            if (actor->isBrigFar() && dist > 1725)
                             {
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) 
                                 {
@@ -1117,112 +1117,31 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         }
                     }
 
-                    if (cfg.visuals.world.bEnable && !localCharacter->IsLoading())
+                    if (cfg.visuals.world.bEnable && actor->isEvent() && !localCharacter->IsLoading())
                     {
                         const FVector location = actor->K2_GetActorLocation();
                         FVector2D screen;
 
-                        if (cfg.visuals.world.bFleetCloud)
+                        if (localController->ProjectWorldLocationToScreen(location, screen))
                         {
-                            if (actor->isSkellyShipCloud())
-                            {
-                                cfg.visuals.world.bWindsCloud = false;
-                                cfg.visuals.world.bFlameheartCloud = false;
-                                cfg.visuals.world.bSkullCloud = false;
-                                cfg.visuals.world.bFOFCloud = false;
-
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    char buf[0x64];
-                                    sprintf_s(buf, "Skeleton Fleet Cloud");
-                                    Drawing::RenderText(buf, screen, cfg.visuals.world.textCol);
-                                }
-                            }
-                        }
-
-                        if (cfg.visuals.world.bWindsCloud)
-                        {
-                            if (actor->isAshenLordCloud())
-                            {
-                                cfg.visuals.world.bFleetCloud = false;
-                                cfg.visuals.world.bFlameheartCloud = false;
-                                cfg.visuals.world.bSkullCloud = false;
-                                cfg.visuals.world.bFOFCloud = false;
-
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    char buf[0x64];;
-                                    sprintf_s(buf, "Ashen Winds Cloud");
-                                    Drawing::RenderText(buf, screen, cfg.visuals.world.textCol);
-                                }
-                            }
-                        }
-
-                        if (cfg.visuals.world.bFlameheartCloud)
-                        {
-                            if (actor->isFlameheartCloud())
-                            {
-                                cfg.visuals.world.bFleetCloud = false;
-                                cfg.visuals.world.bWindsCloud = false;
-                                cfg.visuals.world.bSkullCloud = false;
-                                cfg.visuals.world.bFOFCloud = false;
-
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    char buf[0x64];
-                                    sprintf_s(buf, "Flameheart Cloud");
-                                    Drawing::RenderText(buf, screen, cfg.visuals.world.textCol);
-                                }
-                            }
-                        }
-
-                        if (cfg.visuals.world.bSkullCloud)
-                        {
-                            if (actor->isSkellyFortCloud())
-                            {
-                                cfg.visuals.world.bFleetCloud = false;
-                                cfg.visuals.world.bWindsCloud = false;
-                                cfg.visuals.world.bFlameheartCloud = false;
-                                cfg.visuals.world.bFOFCloud = false;
-
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    char buf[0x64];
-                                    sprintf_s(buf, "Skull Fort Cloud");
-                                    Drawing::RenderText(buf, screen, cfg.visuals.world.textCol);
-                                }
-                            }
-                        }
-
-                        if (cfg.visuals.world.bFOTDCloud)
-                        {
-                            if (actor->isSkellyFOTDCloud())
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    char buf[0x64];
-                                    sprintf_s(buf, "Fort Of The Damned Cloud");
-                                    Drawing::RenderText(buf, screen, cfg.visuals.world.textCol);
-                                }
-                            }
-                        }
-
-                        if (cfg.visuals.world.bFOFCloud)
-                        {
-                            if (actor->isSkellyFOFCloud())
-                            {
-                                cfg.visuals.world.bFleetCloud = false;
-                                cfg.visuals.world.bWindsCloud = false;
-                                cfg.visuals.world.bFlameheartCloud = false;
-                                cfg.visuals.world.bSkullCloud = false;
-
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    char buf[0x64];
-                                    sprintf_s(buf, "Fort Of Fortune Cloud");
-                                    Drawing::RenderText(buf, screen, cfg.visuals.world.textCol);
-                                }
-                            }
+                            auto type = actor->GetName();
+                            const int dist = localLoc.DistTo(location) * 0.01f;
+                            char name[0x64];
+                            sprintf_s(name, "Event [%d]", dist);
+                            if (type.find("ShipCloud") != std::string::npos)
+                                sprintf_s(name, "Fleet [%d]", dist);
+                            else if (type.find("AshenLord") != std::string::npos)
+                                sprintf_s(name, "Ashen Lord [%d]", dist);
+                            else if (type.find("Flameheart") != std::string::npos)
+                                sprintf_s(name, "Flame Heart [%d]", dist);
+                            //Forts 
+                            else if (type.find("LegendSkellyFort") != std::string::npos)
+                            sprintf_s(name, "Fort of Fortune [%d]", dist);
+                            else if (type.find("RitualSkullcloud") != std::string::npos)
+                                sprintf_s(name, "FOTD [%d]", dist);
+                            else if (type.find("Skullcloud") != std::string::npos)
+                                sprintf_s(name, "Fort [%d]", dist);
+                            Drawing::RenderText(name, screen, cfg.visuals.world.textCol);
                         }
                     }
 
@@ -2502,12 +2421,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 if (ImGui::BeginChild("WorldSettings", ImVec2(0.f, 310), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.world.bEnable);
-                    ImGui::Checkbox("Draw Skeleton Fleet Cloud", &cfg.visuals.world.bFleetCloud);
-                    ImGui::Checkbox("Draw Flameheart Cloud", &cfg.visuals.world.bFlameheartCloud);
-                    ImGui::Checkbox("Draw Ashen Winds Cloud", &cfg.visuals.world.bWindsCloud);
-                    ImGui::Checkbox("Draw Skull Fort Cloud", &cfg.visuals.world.bSkullCloud);
-                    ImGui::Checkbox("Draw Fort Of The Damned Cloud", &cfg.visuals.world.bFOTDCloud);
-                    ImGui::Checkbox("Draw Fort Of Fortune Cloud", &cfg.visuals.world.bFOFCloud);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.world.textCol.x, 0);
                 }
                 ImGui::EndChild();

@@ -1421,33 +1421,8 @@ public:
 		return IsA(obj);
 	}
 
-	inline bool isSkellyShipCloud() {
-		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SkellyShip_ShipCloud.BP_SkellyShip_ShipCloud_C");
-		return IsA(obj);
-	}
-
-	inline bool isFlameheartCloud() {
-		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_GhostShips_Signal_Flameheart_NetProxy.BP_GhostShips_Signal_Flameheart_NetProxy_C");
-		return IsA(obj);
-	}
-
-	inline bool isAshenLordCloud() {
-		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AshenLord_SkullCloud.BP_AshenLord_SkullCloud_C");
-		return IsA(obj);
-	}
-
-	inline bool isSkellyFortCloud() {
-		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SkellyFort_SkullCloud.BP_SkellyFort_SkullCloud_C");
-		return IsA(obj);
-	}
-
-	inline bool isSkellyFOTDCloud() {
-		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_SkellyFort_RitualSkullCloud.BP_SkellyFort_RitualSkullCloud_C");
-		return IsA(obj);
-	}
-
-	inline bool isSkellyFOFCloud() {
-		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_LegendSkellyFort_SkullCloud.BP_LegendSkellyFort_SkullCloud_C");
+	inline bool isEvent() {
+		static auto obj = UObject::FindClass("Class Athena.GameplayEventSignal");
 		return IsA(obj);
 	}
 

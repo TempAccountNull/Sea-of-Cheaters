@@ -155,12 +155,6 @@ private:
             struct 
             {
                 bool bEnable = false;
-                bool bFleetCloud = false;
-                bool bFlameheartCloud = false;
-                bool bWindsCloud = false;
-                bool bSkullCloud = false;
-                bool bFOTDCloud = false;
-                bool bFOFCloud = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } world;
         } visuals;
