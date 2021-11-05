@@ -965,117 +965,74 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         int amount = 0;
                         FVector2D screen;
 
-                        if (cfg.visuals.ships.bName)
+                        if (cfg.visuals.ships.bName && actor->isShip() && dist < 1726)
                         {
-                            if (actor->isGalleon() && dist < 1726)
+                            if (localController->ProjectWorldLocationToScreen(location, screen))
                             {
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    auto water = actor->GetInternalWater();
-                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                    char name[0x36];
-                                    sprintf_s(name, "Nearby Galleon (%d%% Water) [%dm]", amount, dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                };
-                            }
-                            if (actor->isBrig() && dist < 1726)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    auto water = actor->GetInternalWater();
-                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                    char name[0x36];
-                                    sprintf_s(name, "Nearby Brigantine (%d%% Water) [%dm]", amount, dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                };
-                            }
-                            if (actor->isSloop() && dist < 1726)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    auto water = actor->GetInternalWater();
-                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                    char name[0x36];
-                                    sprintf_s(name, "Nearby Sloop (%d%% Water) [%dm]", amount, dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                };
-                            }
-                            if (actor->isSloopFar() && dist > 1725)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
-                                {
-                                    char name[0x36];
-                                    sprintf_s(name, "Sloop [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                };
-                            }
-                            if (actor->isBrigFar() && dist > 1725)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
-                                {
-                                    char name[0x36];
-                                    sprintf_s(name, "Brigantine [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                };
-                            }
-                            if (actor->isGalleonFar() && dist > 1725)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
-                                {
-                                    char name[0x36];
-                                    sprintf_s(name, "Galleon [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                                };
+                                auto water = actor->GetInternalWater();
+                                if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                auto type = actor->GetName();
+                                char name[0x64];
+                                sprintf_s(name, "Ship (%d%% Water) [%d]", amount, dist);
+                                if (type.find("SmallShip") != std::string::npos)
+                                    sprintf_s(name, "Sloop (%d%% Water) [%d]", amount, dist);
+                                if (type.find("MediumShip") != std::string::npos)
+                                    sprintf_s(name, "Brig (%d%% Water) [%d]", amount, dist);
+                                if (type.find("LargeShip") != std::string::npos)
+                                    sprintf_s(name, "Galleon (%d%% Water) [%d]", amount, dist);
+                                Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
                         }
-                        if (&cfg.visuals.ships.bAIName)
+
+                        if (cfg.visuals.ships.bName && actor->isFarShip() && dist > 1725)
                         {
-                            if (actor->isGhostShip() && dist < 500)
+                            if (localController->ProjectWorldLocationToScreen(location, screen))
                             {
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    char name[0x36];
-                                    sprintf_s(name, "Nearby Flameheart Ship [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
-                                };
-                            }
-                            if (actor->isSkeletonSloop() && dist < 1726)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                    auto water = actor->GetInternalWater();
-                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                    char name[0x36];
-                                    sprintf_s(name, "Nearby Skeleton Sloop (%d%% Water) [%dm]", amount, dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
-                                };
-                            }
-                            if (actor->isSkeletonGalleon() && dist < 1726)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                    auto water = actor->GetInternalWater();
-                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                    char name[0x36];
-                                    sprintf_s(name, "Nearby Skeleton Galleon (%d%% Water) [%dm]", amount, dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
-                                };
-                            }
-                            if (actor->isSkeletonGalleonFar() && dist > 1725)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                    char name[0x36];
-                                    sprintf_s(name, "Skeleton Galleon [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
-                                };
-                            }
-                            if (actor->isSkeletonSloopFar() && dist > 1725)
-                            {
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                    char name[0x36];
-                                    sprintf_s(name, "Skeleton Sloop [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
-                                };
+                                auto type = actor->GetName();
+                                char name[0x64];
+                                sprintf_s(name, "Ship [%d]", dist);
+                                if (type.find("SmallShip") != std::string::npos)
+                                    sprintf_s(name, "Sloop [%d]", dist);
+                                if (type.find("MediumShip") != std::string::npos)
+                                    sprintf_s(name, "Brig [%d]", dist);
+                                if (type.find("LargeShip") != std::string::npos)
+                                    sprintf_s(name, "Galleon [%d]", dist);
+                                Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
                         }
+
+                        if (cfg.visuals.ships.bAIName && actor->isShip() && dist < 1726)
+                        {
+                            if (localController->ProjectWorldLocationToScreen(location, screen))
+                            {
+                                auto water = actor->GetInternalWater();
+                                if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                auto type = actor->GetName();
+                                char name[0x64];
+                                sprintf_s(name, "AIShip (%d%% Water) [%d]", amount, dist);
+                                if (type.find("AISmallShipTemplate") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Sloop (%d%% Water) [%d]", amount, dist);
+                                if (type.find("AILargeShipTemplate") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Galleon (%d%% Water) [%d]", amount, dist);
+                                Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
+                            }
+                        }
+
+                        if (cfg.visuals.ships.bAIName && actor->isFarShip() && dist > 1725)
+                        {
+                            if (localController->ProjectWorldLocationToScreen(location, screen))
+                            {
+                                auto type = actor->GetName();
+                                char name[0x64];;
+                                sprintf_s(name, "AIShip [%d]", dist);
+                                if (type.find("AISmallShipNetProxy") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Sloop [%d]", dist);
+                                if (type.find("AILargeShipNetProxy") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Galleon [%d]", dist);
+                                Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
+                            }
+                        }
+
                         if (actor->isShip())
                         {
                             if (cfg.visuals.ships.bDamage && dist <= 225)
@@ -2280,6 +2237,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::ColorEdit4("Box Color", &cfg.visuals.ships.boxColor.x, 0);
                     ImGui::ColorEdit4("Damage Color", &cfg.visuals.ships.damageColor.x, 0);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.ships.textCol.x, 0);
+                    ImGui::ColorEdit4("AI Text Color", &cfg.visuals.ships.AItextCol.x, 0);
                 }
                 ImGui::EndChild();
 
