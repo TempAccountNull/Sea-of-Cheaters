@@ -1226,8 +1226,8 @@ public:
 	UInventoryManipulatorComponent* InventoryManipulatorComponent; // 0x0830
 	char pad5[0x10];
 	UHealthComponent* HealthComponent; // 0x0848
-	char pad6[0x04E8];
-	UDrowningComponent* DrowningComponent; // 0x0D38
+	char pad6[0x508];
+	UDrowningComponent* DrowningComponent; // 0x0D58
 
 	void ReceiveTick(float DeltaSeconds)
 	{
@@ -1886,8 +1886,8 @@ struct UMeleeWeaponDataAsset
 
 struct AMeleeWeapon
 {
-	char pad[0x07B0];
-	struct UMeleeWeaponDataAsset* DataAsset; //0x07B0
+	char pad[0x07C0];
+	struct UMeleeWeaponDataAsset* DataAsset; //0x07C0
 };
 
 struct AMapTable
