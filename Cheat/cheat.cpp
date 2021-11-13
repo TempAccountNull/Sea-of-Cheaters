@@ -979,6 +979,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     sprintf_s(name, "Brig (%d%% Water) [%d]", amount, dist);
                                 if (type.find("BP_LargeShip") != std::string::npos)
                                     sprintf_s(name, "Galleon (%d%% Water) [%d]", amount, dist);
+                                if (type.find("BP_AISmallShipTemplate") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Sloop (%d%% Water) [%d]", amount, dist);
+                                if (type.find("BP_AILargeShipTemplate") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Galleon (%d%% Water) [%d]", amount, dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
                         }
@@ -995,10 +999,15 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     sprintf_s(name, "Brig [%d]", dist);
                                 if (type.find("BP_LargeShip") != std::string::npos)
                                     sprintf_s(name, "Galleon [%d]", dist);
+                                if (type.find("BP_AISmallShip") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Sloop [%d]", dist);
+                                if (type.find("BP_AILargeShip") != std::string::npos)
+                                    sprintf_s(name, "Skeleton Galleon [%d]", dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
                         }
 
+                        /*
                         if (cfg.visuals.ships.bAIName && actor->isShip() && dist < 1726)
                         {
                             if (localController->ProjectWorldLocationToScreen(location, screen))
@@ -1028,6 +1037,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
                             }
                         }
+                        */
 
                         if (actor->isShip())
                         {
@@ -1091,8 +1101,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 sprintf_s(name, "Fort of Fortune [%d]", dist);
                             else if (type.find("RitualSkullcloud") != std::string::npos)
                                 sprintf_s(name, "FOTD [%d]", dist);
-                            else if (type.find("Skullcloud") != std::string::npos)
-                                sprintf_s(name, "Fort [%d]", dist);
+                            else if (type.find("BP_SkellyFort") != std::string::npos)
+                                sprintf_s(name, "Skull Fort [%dm]", dist);
                             Drawing::RenderText(name, screen, cfg.visuals.world.textCol);
                         }
                     }
@@ -2226,13 +2236,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     const char* shipBoxes[] = {"None", "3DBox"};
                     ImGui::Checkbox("Enable", &cfg.visuals.ships.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.ships.bName);
-                    ImGui::Checkbox("Draw Skeleton Name", &cfg.visuals.ships.bAIName);
+                    //ImGui::Checkbox("Draw Skeleton Name", &cfg.visuals.ships.bAIName);
                     ImGui::Checkbox("Show Holes", &cfg.visuals.ships.bDamage);
                     ImGui::Combo("Box Type", reinterpret_cast<int*>(&cfg.visuals.ships.boxType), shipBoxes, IM_ARRAYSIZE(shipBoxes));
                     ImGui::ColorEdit4("Box Color", &cfg.visuals.ships.boxColor.x, 0);
                     ImGui::ColorEdit4("Damage Color", &cfg.visuals.ships.damageColor.x, 0);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.ships.textCol.x, 0);
-                    ImGui::ColorEdit4("AI Text Color", &cfg.visuals.ships.AItextCol.x, 0);
+                    //ImGui::ColorEdit4("AI Text Color", &cfg.visuals.ships.AItextCol.x, 0);
                 }
                 ImGui::EndChild();
 
