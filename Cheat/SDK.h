@@ -431,7 +431,7 @@ struct AController {
 	char pad_0480[0x70];
 	APlayerCameraManager* PlayerCameraManager; //0x0460
 	char pad_04f8[0x1031];
-	bool IdleDisconnectEnabled; // 0x14b9
+	bool IdleDisconnectEnabled; // 0x14D1
 
 	void SendToConsole(FString& cmd) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.SendToConsole");
