@@ -500,11 +500,6 @@ struct AController {
 		ProcessEvent(this, fn, &Val);
 	}
 
-	//void FOV(float NewFOV) {
-	//	static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.FOV");
-	//	ProcessEvent(this, fn, &NewFOV);
-	//}
-
 	bool LineOfSightTo(ACharacter* Other, const FVector& ViewPoint, const bool bAlternateChecks) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.Controller.LineOfSightTo");
 		struct {
@@ -772,7 +767,6 @@ enum class EDrawDebugTrace : uint8_t
 	EDrawDebugTrace__EDrawDebugTrace_MAX = 4
 };
 
-// Enum Engine.ETraceTypeQuery
 enum class ETraceTypeQuery : uint8_t
 {
 	TraceTypeQuery1 = 0,
@@ -880,34 +874,6 @@ struct AShipService
 	}
 };
 
-struct AKrakenService
-{
-	char pad[0x0570];
-	class AKraken* Kraken; // 0x05B8(0x0008)
-	bool IsKrakenActive() {
-		static auto fn = UObject::FindObject<UFunction>("Function Kraken.KrakenService.IsKrakenActive");
-		bool isActive;
-		ProcessEvent(this, fn, &isActive);
-		return isActive;
-	}
-
-	void RequestKrakenWithLocation(const FVector& SpawnLocation, ACharacter* SpawnedForActor) {
-		static auto fn = UObject::FindObject<UFunction>("Function Kraken.KrakenService.RequestKrakenWithLocation");
-		struct {
-			FVector SpawnLocation;
-			ACharacter* SpawnedForActor = nullptr;
-		} params;
-		params = { SpawnLocation, SpawnedForActor };
-		ProcessEvent(this, fn, &params);
-	}
-
-	void DismissKraken()
-	{
-		static auto fn = UObject::FindObject<UFunction>("Function Kraken.KrakenService.DismissKraken");
-		ProcessEvent(this, fn, nullptr);
-	}
-};
-
 struct AAthenaGameState {
 	char pad[0x05B8];
 	struct AWindService* WindService; // 0x5b8(0x08)
@@ -1001,30 +967,6 @@ struct UCharacterMovementComponent {
 		ProcessEvent(this, fn, &acceleration);
 		return acceleration;
 	}
-};
-
-// ScriptStruct Athena.AthenaCharacterDodgeParams
-// Size: 0x10 (Inherited: 0x00)
-struct FAthenaCharacterDodgeParams {
-	float DodgeCooldown; // 0x00(0x04)
-	float DodgeForce; // 0x04(0x04)
-	float GroundLaunchAngle; // 0x08(0x04)
-	bool DodgePerpendicularToGround; // 0x0c(0x01)
-	bool Disabled; // 0x0d(0x01)
-	char UnknownData_E[0x2]; // 0x0e(0x02)
-};
-
-// ScriptStruct Athena.WalkConditionsParams
-// Size: 0x08 (Inherited: 0x00)
-struct FWalkConditionsParams {
-	float WalkSpeedMultiplier; // 0x00(0x04)
-	float WalkStopThreshold; // 0x04(0x04)
-};
-
-struct FAthenaCharacterSwimSpeed {
-	float SprintSpdAmp; // 0x00(0x04)
-	float SprintAccelAmp; // 0x04(0x04)
-	float TurnSpeedScalar; // 0x08(0x04)
 };
 
 struct FFloatRange {
@@ -1197,19 +1139,6 @@ struct UInventoryManipulatorComponent {
 	}
 };
 
-struct FAthenaCharacterSwimParams {
-	char pad1[0x7C];
-	FAthenaCharacterSwimSpeed* SurfaceSwimSpeeds; // 0x7C
-	FAthenaCharacterSwimSpeed* UnderwaterSwimSpeeds; // 0x88
-};
-
-struct UAthenaCharacterMovementComponent {
-	char pad[0x560];
-	FAthenaCharacterSwimParams* SwimParams; // 0x560
-	float SprintSpdAmp;
-	float SprintAccelAmp;
-};
-
 class ACharacter : public UObject {
 public:
 
@@ -1378,11 +1307,6 @@ public:
 		return IsA(obj);
 	}
 
-	inline bool isWheel() {
-		static auto obj = UObject::FindClass("Class Athena.Wheel");
-		return IsA(obj);
-	}
-
 	inline bool isCannonProjectile() {
 		static auto obj = UObject::FindClass("Class Athena.CannonProjectile");
 		return IsA(obj);
@@ -1413,6 +1337,11 @@ public:
 		return IsA(obj);
 	}
 
+	inline bool isKeg() {
+		static auto obj = UObject::FindClass("");
+		return IsA(obj);
+	}
+
 	inline bool isShipwreck() {
 		static auto obj = UObject::FindClass("Class Athena.Shipwreck");
 		return IsA(obj);
@@ -1429,6 +1358,11 @@ public:
 		return IsA(obj);
 	}
 
+	inline bool isRowboat() {
+		static auto obj = UObject::FindClass("Class Watercrafts.Rowboat");
+		return IsA(obj);
+	}
+
 	inline bool isAnimal() {
 		static auto obj = UObject::FindClass("Class AthenaAI.Fauna");
 		return IsA(obj);
@@ -1438,12 +1372,6 @@ public:
 		static auto obj = UObject::FindClass("Class Athena.GameplayEventSignal");
 		return IsA(obj);
 	}
-
-	inline bool isGhostShip() {
-		static auto obj = UObject::FindClass("Class Athena.AggressiveGhostShip");
-		return IsA(obj);
-	}
-
 
 	bool isWeapon() {
 		static auto obj = UObject::FindClass("Class Athena.ProjectileWeapon");
@@ -1459,21 +1387,12 @@ public:
 		static auto obj = UObject::FindClass("Class Athena.StorageContainer");
 		return IsA(obj);
 	}
-	bool isWorldSettings() {
-		static auto obj = UObject::FindClass("Class Engine.WorldSettings");
-		return IsA(obj);
-	}
+
 	bool isBuriedTreasure() {
 		static auto obj = UObject::FindClass("Class Athena.BuriedTreasureLocation");
 		return IsA(obj);
 	}
 
-	FAIEncounterSpecification GetAIEncounterSpec() {
-		static auto fn = UObject::FindObject<UFunction>("Function Athena.AthenaAICharacter.GetAIEncounterSpec");
-		FAIEncounterSpecification spec;
-		ProcessEvent(this, fn, &spec);
-		return spec;
-	}
 	AHullDamage* GetHullDamage() {
 		static auto fn = UObject::FindObject<UFunction>("Function Athena.Ship.GetHullDamage");
 		AHullDamage* params = nullptr;
@@ -1533,25 +1452,6 @@ public:
 		params.TargetFOV = TargetFOV;
 		ProcessEvent(this, fn, &params);
 	}
-
-	void LaunchCharacter(FVector& LaunchVelocity, bool bXYOverride, bool bZOverride) {
-		static auto fn = UObject::FindObject<UFunction>("Function Engine.Character.LaunchCharacter");
-		
-		struct
-		{
-			FVector LaunchVelocity;
-			bool bXYOverride;
-			bool bZOverride;
-		} params;
-
-		params.LaunchVelocity = LaunchVelocity;
-		params.bXYOverride = bXYOverride;
-		params.bZOverride = bZOverride;
-
-		ProcessEvent(this, fn, &params);
-	}
-	
-
 };
 
 
@@ -1739,125 +1639,6 @@ struct UWorld {
 	UGameInstance* GameInstance; //0x01C0
 };
 
-// Class Engine.PrimitiveComponent
-// Size: 0x590 (Inherited: 0x2b0)
-struct UPrimitiveComponent : USceneComponent {
-	char UnknownData_2B0[0x8]; // 0x2b0(0x08)
-	float MinDrawDistance; // 0x2b8(0x04)
-	char UnknownData_2BC[0x4]; // 0x2bc(0x04)
-	float LDMaxDrawDistance; // 0x2c0(0x04)
-	float CachedMaxDrawDistance; // 0x2c4(0x04)
-	char DepthPriorityGroup; // 0x2c8(0x01)
-	char ViewOwnerDepthPriorityGroup; // 0x2c9(0x01)
-	char UnknownData_2CA[0x2]; // 0x2ca(0x02)
-	char bAlwaysCreatePhysicsState : 1; // 0x2cc(0x01)
-	char bGenerateOverlapEvents : 1; // 0x2cc(0x01)
-	char bMultiBodyOverlap : 1; // 0x2cc(0x01)
-	char bCheckAsyncSceneOnMove : 1; // 0x2cc(0x01)
-	char bTraceComplexOnMove : 1; // 0x2cc(0x01)
-	char bReturnMaterialOnMove : 1; // 0x2cc(0x01)
-	char bUseViewOwnerDepthPriorityGroup : 1; // 0x2cc(0x01)
-	char bAllowCullDistanceVolume : 1; // 0x2cc(0x01)
-	char bHasMotionBlurVelocityMeshes : 1; // 0x2cd(0x01)
-	char bRenderInMainPass : 1; // 0x2cd(0x01)
-	char bRenderInCustomPrePass : 1; // 0x2cd(0x01)
-	char bReflected : 1; // 0x2cd(0x01)
-	char UnknownData_2CD_4 : 1; // 0x2cd(0x01)
-	char bReflectedOnLowQuality : 1; // 0x2cd(0x01)
-	char bFFTWaterMask : 1; // 0x2cd(0x01)
-	char bVolumeFogMask : 1; // 0x2cd(0x01)
-	char UnknownData_2CE_0 : 1; // 0x2ce(0x01)
-	char bAffectsFlatWater : 1; // 0x2ce(0x01)
-	char bGPUParticlesKillPlane : 1; // 0x2ce(0x01)
-	char bDontCull : 1; // 0x2ce(0x01)
-	char bDontSizeOnScreenCull : 1; // 0x2ce(0x01)
-	char UnknownData_2CE_5 : 3; // 0x2ce(0x01)
-	char UnknownData_2CF[0x1]; // 0x2cf(0x01)
-	float OverriddenShadowMinTexelSize; // 0x2d0(0x04)
-	bool bOverrideShadowMinSizeCulling; // 0x2d4(0x01)
-	bool bOverrideShadowCascadesExclusion; // 0x2d5(0x01)
-	char ExcludedShadowCascades; // 0x2d6(0x01)
-	char UnknownData_2D7[0x1]; // 0x2d7(0x01)
-	char bReceivesDecals : 1; // 0x2d8(0x01)
-	char bOwnerNoSee : 1; // 0x2d8(0x01)
-	char bOnlyOwnerSee : 1; // 0x2d8(0x01)
-	char bTreatAsBackgroundForOcclusion : 1; // 0x2d8(0x01)
-	char bIsACloud : 1; // 0x2d8(0x01)
-	char bUseAsOccluder : 1; // 0x2d8(0x01)
-	char bSelectable : 1; // 0x2d8(0x01)
-	char bForceMipStreaming : 1; // 0x2d8(0x01)
-	char bHasPerInstanceHitProxies : 1; // 0x2d9(0x01)
-	char CastShadow : 1; // 0x2d9(0x01)
-	char bAffectDynamicIndirectLighting : 1; // 0x2d9(0x01)
-	char bUseFarCascadeLPVBiasMultiplier : 1; // 0x2d9(0x01)
-	char bAffectDistanceFieldLighting : 1; // 0x2d9(0x01)
-	char bCastDynamicShadow : 1; // 0x2d9(0x01)
-	char bCastStaticShadow : 1; // 0x2d9(0x01)
-	char bCastVolumetricTranslucentShadow : 1; // 0x2d9(0x01)
-	char bSelfShadowOnly : 1; // 0x2da(0x01)
-	char bCastFarShadow : 1; // 0x2da(0x01)
-	char bCastInsetShadow : 1; // 0x2da(0x01)
-	char bCastCinematicShadow : 1; // 0x2da(0x01)
-	char bCastHiddenShadow : 1; // 0x2da(0x01)
-	char bCastShadowAsTwoSided : 1; // 0x2da(0x01)
-	char bCastShadowOnLowQuality : 1; // 0x2da(0x01)
-	char bLightAsIfStatic : 1; // 0x2da(0x01)
-	char bLightAttachmentsAsGroup : 1; // 0x2db(0x01)
-	char UnknownData_2DB_1 : 7; // 0x2db(0x01)
-	char IndirectLightingCacheQuality; // 0x2dc(0x01)
-	bool bHasCachedStaticLighting; // 0x2dd(0x01)
-	bool bStaticLightingBuildEnqueued; // 0x2de(0x01)
-	char UnknownData_2DF[0x1]; // 0x2df(0x01)
-	char bIgnoreRadialImpulse : 1; // 0x2e0(0x01)
-	char bIgnoreRadialForce : 1; // 0x2e0(0x01)
-	char AlwaysLoadOnClient : 1; // 0x2e0(0x01)
-	char AlwaysLoadOnServer : 1; // 0x2e0(0x01)
-	char bUseEditorCompositing : 1; // 0x2e0(0x01)
-	char bRenderCustomDepth : 1; // 0x2e0(0x01)
-	char bAllowVelocityInMaterial : 1; // 0x2e0(0x01)
-	char UnknownData_2E1[0x3]; // 0x2e1(0x03)
-	int32_t CustomDepthStencilValue; // 0x2e4(0x04)
-	int32_t TranslucencySortPriority; // 0x2e8(0x04)
-	int32_t VisibilityId; // 0x2ec(0x04)
-	char UnknownData_2F0[0x4]; // 0x2f0(0x04)
-	float LpvBiasMultiplier; // 0x2f4(0x04)
-	float FarCascadeLPVBiasMultiplier; // 0x2f8(0x04)
-	float LpvIntensityMultiplier; // 0x2fc(0x04)
-	char bAffectRain : 1; // 0x490(0x01)
-	char bCanEverAffectNavigation : 1; // 0x490(0x01)
-	char UnknownData_490_2 : 1; // 0x490(0x01)
-	char bSkipRenderingInOuterLPVCascades : 1; // 0x490(0x01)
-	char bEnableMergeCollisionComponents : 1; // 0x490(0x01)
-	char bVisibleWhenAboveWaterAndPlayerUnderwater : 1; // 0x490(0x01)
-	char bVisibleWhenAboveWaterAndPlayerAbove : 1; // 0x490(0x01)
-	char bVisibleWhenUnderwaterAndPlayerAbove : 1; // 0x490(0x01)
-	char bVisibleWhenUnderwaterAndPlayerUnderwater : 1; // 0x491(0x01)
-	char bCanRenderAboveAndBelowWaterAtSameTime : 1; // 0x491(0x01)
-	char UnknownData_491_2 : 6; // 0x491(0x01)
-	char UnknownData_492[0x6]; // 0x492(0x06)
-	float BoundsScale; // 0x498(0x04)
-	float OcclusionBoundsScale; // 0x49c(0x04)
-	float LastRenderTime; // 0x4a0(0x04)
-	bool bGPUVisibility; // 0x4a4(0x01)
-	char bHasCustomNavigableGeometry; // 0x4a5(0x01)
-	char CanCharacterStepUpOn; // 0x4a6(0x01)
-	char UnknownData_4A7[0x49]; // 0x4a7(0x49)
-	char UnknownData_4F5[0x33]; // 0x4f5(0x33)
-	struct UPrimitiveComponent* LODParentPrimitive; // 0x528(0x08)
-	struct UPrimitiveComponent* MergedCollisionComponentParent; // 0x580(0x08)
-	char UnknownData_588[0x8]; // 0x588(0x08)
-};
-
-
-//struct ASkellyFort
-//{
-//	char pad[0x0544];
-//	FVector SkullCloudLoc;  // 0x0544(0x000C) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, Protected)
-//
-//};
-
-
-// Enum Athena.EMeleeWeaponMovementSpeed
 enum class EMeleeWeaponMovementSpeed : uint8_t
 {
 	EMeleeWeaponMovementSpeed__Default = 0,

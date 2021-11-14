@@ -73,15 +73,15 @@ void Cheat::Hacks::OnWeaponFiredHook(UINT64 arg1, UINT64 arg2)
 
 
 void Cheat::Hacks::ProcessEventHook(void* obj, UFunction* function, void* parms)
-{    
+{
     Logger::Log("ProcessEvent: %s with id %d\n", function->GetFullName().c_str(), function->Name.ComparisonIndex);
-        
+
     ProcessEventOriginal(obj, function, parms);
 }
 
 
 void Cheat::Hacks::Init()
-{   
+{
     //{
     //    UFunction* fn = UObject::FindObject<UFunction>("Function Athena.AthenaCharacterMovementComponent.SetMovementMode");
     //    if (fn) {
@@ -118,7 +118,7 @@ void Cheat::Hacks::Init()
 }
 
 inline void Cheat::Hacks::Remove()
-{   
+{
     //RemoveHook(CanFireOriginal);
     //RemoveHook(ProcessEventOriginal);
 }
@@ -135,9 +135,9 @@ void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos
     }
     auto window = ImGui::GetCurrentWindow();
 
-    if (outlined) 
-    { 
-        window->DrawList->AddText(nullptr, 0.f, ImVec2(ImScreen.x - 1.f, ImScreen.y + 1.f), ImGui::GetColorU32(IM_COL32_BLACK), text); 
+    if (outlined)
+    {
+        window->DrawList->AddText(nullptr, 0.f, ImVec2(ImScreen.x - 1.f, ImScreen.y + 1.f), ImGui::GetColorU32(IM_COL32_BLACK), text);
     }
 
     window->DrawList->AddText(nullptr, 0.f, ImScreen, ImGui::GetColorU32(color), text);
@@ -146,7 +146,7 @@ void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos
 
 void Cheat::Renderer::Drawing::Render2DBox(const FVector2D& top, const FVector2D& bottom, const float height, const float width, const ImVec4& color)
 {
-    ImGui::GetCurrentWindow()->DrawList->AddRect({ top.X - width * 0.5f, top.Y}, { top.X + width * 0.5f, bottom.Y }, ImGui::GetColorU32(color), 0.f, 15, 1.5f);
+    ImGui::GetCurrentWindow()->DrawList->AddRect({ top.X - width * 0.5f, top.Y }, { top.X + width * 0.5f, bottom.Y }, ImGui::GetColorU32(color), 0.f, 15, 1.5f);
 }
 
 bool Cheat::Renderer::Drawing::Render3DBox(AController* const controller, const FVector& origin, const FVector& extent, const FRotator& rotation, const ImVec4& color)
@@ -155,7 +155,7 @@ bool Cheat::Renderer::Drawing::Render3DBox(AController* const controller, const 
     vertex[0][0] = { -extent.X, -extent.Y,  -extent.Z };
     vertex[0][1] = { extent.X, -extent.Y,  -extent.Z };
     vertex[0][2] = { extent.X, extent.Y,  -extent.Z };
-    vertex[0][3] = { - extent.X, extent.Y, -extent.Z };
+    vertex[0][3] = { -extent.X, extent.Y, -extent.Z };
 
     vertex[1][0] = { -extent.X, -extent.Y, extent.Z };
     vertex[1][1] = { extent.X, -extent.Y, extent.Z };
@@ -176,7 +176,7 @@ bool Cheat::Renderer::Drawing::Render3DBox(AController* const controller, const 
     }
 
     auto ImScreen = reinterpret_cast<ImVec2(&)[2][4]>(screen);
-    
+
     auto window = ImGui::GetCurrentWindow();
     for (auto i = 0; i < 4; i++)
     {
@@ -190,7 +190,7 @@ bool Cheat::Renderer::Drawing::Render3DBox(AController* const controller, const 
 
 bool Cheat::Renderer::Drawing::RenderSkeleton(AController* const controller, USkeletalMeshComponent* const mesh, const FMatrix& comp2world, const std::pair<const BYTE*, const BYTE>* skeleton, int size, const ImVec4& color)
 {
-    
+
     for (auto s = 0; s < size; s++)
     {
         auto& bone = skeleton[s];
@@ -204,7 +204,7 @@ bool Cheat::Renderer::Drawing::RenderSkeleton(AController* const controller, USk
 
             FVector2D screen;
             if (!controller->ProjectWorldLocationToScreen(loc, screen)) return false;
-            
+
             if (previousBone.Size() != 0) {
                 auto ImScreen1 = *reinterpret_cast<ImVec2*>(&previousBone);
                 auto ImScreen2 = *reinterpret_cast<ImVec2*>(&screen);
@@ -217,13 +217,13 @@ bool Cheat::Renderer::Drawing::RenderSkeleton(AController* const controller, USk
             previousBone = screen;
         }
     }
-    
+
     return true;
 }
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT WINAPI Cheat::Renderer::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{ 
+{
     if (ImGui_ImplWin32_WndProcHandler(hwnd, uMsg, wParam, lParam) && bIsOpen) return true;
     if (bIsOpen)
     {
@@ -242,7 +242,7 @@ LRESULT WINAPI Cheat::Renderer::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
         case ImGuiMouseCursor_NotAllowed:   win32_cursor = IDC_NO; break;
         }
         SetCursorOriginal(LoadCursorA(nullptr, win32_cursor));
-        
+
     }
     if (!bIsOpen || uMsg == WM_KEYUP) return CallWindowProcA(WndProcOriginal, hwnd, uMsg, wParam, lParam);
     return DefWindowProcA(hwnd, uMsg, wParam, lParam);
@@ -250,8 +250,8 @@ LRESULT WINAPI Cheat::Renderer::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 
 HCURSOR WINAPI Cheat::Renderer::SetCursorHook(HCURSOR hCursor)
 {
-   if (bIsOpen) return 0;
-   return SetCursorOriginal(hCursor);
+    if (bIsOpen) return 0;
+    return SetCursorOriginal(hCursor);
 }
 
 BOOL WINAPI Cheat::Renderer::SetCursorPosHook(int X, int Y)
@@ -269,7 +269,7 @@ void Cheat::Renderer::HookInput()
 
 void Cheat::Renderer::RemoveInput()
 {
-    if (WndProcOriginal) 
+    if (WndProcOriginal)
     {
         SetWindowLongPtrA(gameWindow, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WndProcOriginal));
         WndProcOriginal = nullptr;
@@ -281,7 +281,7 @@ bool raytrace(UWorld* world, const struct FVector& start, const struct FVector& 
 {
     if (world == nullptr || world->PersistentLevel == nullptr) //some checks
         return false;
-    
+
     return UKismetMathLibrary::LineTraceSingle_NEW((UObject*)world, start, end, ETraceTypeQuery::TraceTypeQuery4, true, TArray<AActor*>() /*actors to ignore*/, EDrawDebugTrace::EDrawDebugTrace__None, true, hit); //TraceTypeQuery4 equals the visibility channel
 }
 
@@ -377,7 +377,7 @@ int AimAtStaticTarget(const FVector& oTargetPos, float fProjectileSpeed, float f
     const FVector oGroundDir(oDiffXY.unit());
 
     oOutLow = ToFRotator(oGroundDir * std::cosf(fLowAngle) * fProjectileSpeed + FVector(0.f, 0.f, 1.f) * std::sinf(fLowAngle) * fProjectileSpeed);
-   
+
     if (nSolutions == 2)
         oOutHigh = ToFRotator(oGroundDir * std::cosf(fHighAngle) * fProjectileSpeed + FVector(0.f, 0.f, 1.f) * std::sinf(fHighAngle) * fProjectileSpeed);
 
@@ -432,7 +432,7 @@ FVector2D rotate_radar(FVector target_location, FVector source_location, FRotato
 
 
 HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterval, UINT flags)
-{ 
+{
     if (!device)
     {
         ID3D11Texture2D* surface = nullptr;
@@ -443,8 +443,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
         return fnPresent(swapChain, syncInterval, flags);
     init:
 
-        if (FAILED(swapChain->GetBuffer(0, __uuidof(surface), reinterpret_cast<PVOID*>(&surface))))  { goto cleanup; };
-       Logger::Log("ID3D11Texture2D* surface = %p\n", surface); 
+        if (FAILED(swapChain->GetBuffer(0, __uuidof(surface), reinterpret_cast<PVOID*>(&surface)))) { goto cleanup; };
+        Logger::Log("ID3D11Texture2D* surface = %p\n", surface);
 
         if (FAILED(swapChain->GetDevice(__uuidof(device), reinterpret_cast<PVOID*>(&device)))) goto cleanup;
 
@@ -452,7 +452,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
         if (FAILED(device->CreateRenderTargetView(surface, nullptr, &renderTargetView))) goto cleanup;
 
-       Logger::Log("ID3D11RenderTargetView* renderTargetView = %p\n", renderTargetView);
+        Logger::Log("ID3D11RenderTargetView* renderTargetView = %p\n", renderTargetView);
 
         surface->Release();
         surface = nullptr;
@@ -479,7 +479,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
         gameWindow = window;
 #else
         auto window = FindWindowA(NULL, "Sea of Thieves");
-        gameWindow = window;    
+        gameWindow = window;
 #endif
         Logger::Log("gameWindow = %p\n", window);
 
@@ -494,36 +494,36 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
-    
+
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
-    
+
     ImGui::Begin("#1", nullptr, ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoTitleBar);
     auto& io = ImGui::GetIO();
     ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
     ImGui::SetWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y), ImGuiCond_Always);
-   
-    auto drawList = ImGui::GetCurrentWindow()->DrawList; 
-    
+
+    auto drawList = ImGui::GetCurrentWindow()->DrawList;
+
     try
     {
         do
         {
             memset(&cache, 0, sizeof(Cache));
             auto const world = *UWorld::GWorld;
-           
+
             if (!world) break;
             auto const game = world->GameInstance;
             if (!game) break;
             auto const gameState = world->GameState;
             if (!gameState) break;
             cache.gameState = gameState;
-            if (!game->LocalPlayers.Data) break;            
-           
+            if (!game->LocalPlayers.Data) break;
+
             auto const localPlayer = game->LocalPlayers[0];
-            if (!localPlayer) break;           
+            if (!localPlayer) break;
             auto const localController = localPlayer->PlayerController;
 
             if (!localController) break;
@@ -534,7 +534,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             cache.localCamera = camera;
             const auto cameraLoc = camera->GetCameraLocation();
             const auto cameraRot = camera->GetCameraRotation();
-                        
+
             auto const localCharacter = localController->Character;
             if (!localCharacter) break;
 
@@ -548,7 +548,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             if (!levels.Data) break;
 
             const auto localLoc = localCharacter->K2_GetActorLocation();
-           
+
             bool isWieldedWeapon = false;
             auto item = localCharacter->GetWieldedItem();
 
@@ -579,13 +579,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
             if (item)
                 isWieldedWeapon = item->isWeapon();
-            
-            // check isWieldedWeapon before accessing!
+
             auto const localWeapon = *reinterpret_cast<AProjectileWeapon**>(&item);
 
             if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.shotgun.bEnable)
             {
-                if (localWeapon->WeaponParameters.NumberOfProjectiles > 1) //check if shotgun
+                if (localWeapon->WeaponParameters.NumberOfProjectiles > 1) // SHOTGUN CHECK
                 {
                     if (cfg.misc.shotgun.nospread_aim)
                     {
@@ -613,17 +612,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     if (cfg.misc.allweapons.fasterreloading)
                     {
-                        localWeapon->WeaponParameters.IntoAimingDuration = 0.1f;
-                        localWeapon->WeaponParameters.EquipDuration = 0.1f;
-                        localWeapon->WeaponParameters.RecoilDuration = 0.1f;
-                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.f;
+                        localWeapon->WeaponParameters.EquipDuration = 0.f;
+                        localWeapon->WeaponParameters.RecoilDuration = 0.f;
+                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.2f; // EYE OF REACH SCOPE FIX
                         localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
                         localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
-                    }
-                    if (cfg.misc.allweapons.higherrange)
-                    {
-                        localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileMaximumRange = 5000.f;
-                        localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileMaximumRange = 5000.f;
+                        localWeapon->WeaponParameters.IntoAimingDuration = 0.1f;
                     }
                     if (cfg.misc.allweapons.fasteraimingspeed)
                     {
@@ -631,47 +625,16 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     }
                 }
             }
-
-            if (cfg.misc.bEnable && cfg.misc.playerspeed.bEnable) 
-            {
-                if (cfg.misc.playerspeed.fasteronland)
-                {
-                    //localCharacter->AthenaCharacterMovementComponent->SprintSpdAmp = 10.f;
-                }
-                else
-                {
-                    //localCharacter->AthenaCharacterMovementComponent->SprintSpdAmp = 1.f;
-                }
-                if (cfg.misc.playerspeed.fasterinwater)
-                {
-                    //localCharacter->AthenaCharacterMovementComponent->SwimParams->SurfaceSwimSpeeds->SprintSpdAmp = 10.f;
-                    //localCharacter->AthenaCharacterMovementComponent->SwimParams->UnderwaterSwimSpeeds->SprintSpdAmp = 10.f;
-                }
-                else
-                {
-                    //localCharacter->AthenaCharacterMovementComponent->SwimParams->SurfaceSwimSpeeds->SprintSpdAmp = 1.f;
-                    //localCharacter->AthenaCharacterMovementComponent->SwimParams->UnderwaterSwimSpeeds->SprintSpdAmp = 1.f;
-                }
-                if (cfg.misc.playerspeed.fasterwhileholdingitem)
-                {
-                    //Needs to be coded
-                }
-                else
-                {
-                    //Needs to be coded
-                }
-            }
-
             if (cfg.misc.bEnable && cfg.misc.render.bEnable)
             {
                 if (&cfg.misc.render.fpsboost)
                 {
-                //Needs to be coded
+                    // NEEDS TO BE CODED
                 }
             }
 
             ACharacter* attachObject = localCharacter->GetAttachParentActor();
-           
+
             bool isHarpoon = false;
 
             if (attachObject)
@@ -681,7 +644,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     isHarpoon = true;
                 }
             }
-           
+
             bool isCannon = false;
             if (attachObject)
             {
@@ -690,7 +653,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     isCannon = true;
                 }
             }
-     
+
             cache.good = true;
 
             static struct {
@@ -720,7 +683,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         }
                     }
                 }
-            }//////
+            }
 
             if (cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.b_bunnyhop)
             {
@@ -754,6 +717,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     desiredTime = milliseconds_now() + 100;
                 }
             }
+
 
             if (cfg.misc.bEnable && cfg.misc.client.bEnable && !localCharacter->IsLoading())
             {
@@ -873,9 +837,9 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 for (int i = 0; i < cannonball_tracers.size(); i++)
                 {
                     FVector location = cannonball_tracers[i].location;
-
+                    const int dist = localLoc.DistTo(location) * 0.01f;
                     FVector2D screen;
-                    if (localController->ProjectWorldLocationToScreen(location, screen))
+                    if (localController->ProjectWorldLocationToScreen(location, screen) && dist <= 515)
                         drawList->AddCircle({ screen.X - 1, screen.Y - 1 }, 2, ImGui::GetColorU32(cfg.visuals.client.cannon_tracers_color), 6, 1);
 
                     cannonball_tracers[i].drawn++;
@@ -975,13 +939,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 char name[0x64];
                                 if (type.find("BP_SmallShip") != std::string::npos)
                                     sprintf_s(name, "Sloop (%d%% Water) [%d]", amount, dist);
-                                if (type.find("BP_MediumShip") != std::string::npos)
+                                else if (type.find("BP_MediumShip") != std::string::npos)
                                     sprintf_s(name, "Brig (%d%% Water) [%d]", amount, dist);
-                                if (type.find("BP_LargeShip") != std::string::npos)
+                                else if (type.find("BP_LargeShip") != std::string::npos)
                                     sprintf_s(name, "Galleon (%d%% Water) [%d]", amount, dist);
-                                if (type.find("BP_AISmallShipTemplate") != std::string::npos)
+                                else if (type.find("BP_AISmallShip") != std::string::npos)
                                     sprintf_s(name, "Skeleton Sloop (%d%% Water) [%d]", amount, dist);
-                                if (type.find("BP_AILargeShipTemplate") != std::string::npos)
+                                else if (type.find("BP_AILargeShip") != std::string::npos)
                                     sprintf_s(name, "Skeleton Galleon (%d%% Water) [%d]", amount, dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
@@ -995,51 +959,19 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 char name[0x64];
                                 if (type.find("BP_SmallShip") != std::string::npos)
                                     sprintf_s(name, "Sloop [%d]", dist);
-                                if (type.find("BP_MediumShip") != std::string::npos)
+                                else if (type.find("BP_MediumShip") != std::string::npos)
                                     sprintf_s(name, "Brig [%d]", dist);
-                                if (type.find("BP_LargeShip") != std::string::npos)
+                                else if (type.find("BP_LargeShip") != std::string::npos)
                                     sprintf_s(name, "Galleon [%d]", dist);
-                                if (type.find("BP_AISmallShip") != std::string::npos)
+                                else if (type.find("BP_AISmallShip") != std::string::npos)
                                     sprintf_s(name, "Skeleton Sloop [%d]", dist);
-                                if (type.find("BP_AILargeShip") != std::string::npos)
+                                else if (type.find("BP_AILargeShip") != std::string::npos)
                                     sprintf_s(name, "Skeleton Galleon [%d]", dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
                         }
 
-                        /*
-                        if (cfg.visuals.ships.bAIName && actor->isShip() && dist < 1726)
-                        {
-                            if (localController->ProjectWorldLocationToScreen(location, screen))
-                            {
-                                auto water = actor->GetInternalWater();
-                                if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                auto type = actor->GetName();
-                                char name[0x64];
-                                if (type.find("BP_AISmallShipTemplate") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Sloop (%d%% Water) [%d]", amount, dist);
-                                if (type.find("BP_AILargeShipTemplate") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Galleon (%d%% Water) [%d]", amount, dist);
-                                Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
-                            }
-                        }
-
-                        if (cfg.visuals.ships.bAIName && actor->isFarShip() && dist > 1725)
-                        {
-                            if (localController->ProjectWorldLocationToScreen(location, screen))
-                            {
-                                auto type = actor->GetName();
-                                char name[0x64];;
-                                if (type.find("BP_AISmallShip") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Sloop [%d]", dist);
-                                if (type.find("BP_AILargeShip") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Galleon [%d]", dist);
-                                Drawing::RenderText(name, screen, cfg.visuals.ships.AItextCol);
-                            }
-                        }
-                        */
-
-                        if (actor->isShip())
+                        if (actor->isShip() && !localCharacter->IsLoading())
                         {
                             if (cfg.visuals.ships.bDamage && dist <= 225)
                             {
@@ -1062,7 +994,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         }
                     }
 
-                    if (cfg.visuals.mermaids.bEnable)
+                    if (cfg.visuals.mermaids.bEnable && !localCharacter->IsLoading())
                     {
                         if (actor->isMermaid())
                         {
@@ -1073,10 +1005,29 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 FVector2D screen;
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                     char name[0x16];
-                                    sprintf_s(name, "Mermaid [%dm]", dist);
+                                    sprintf_s(name, "Mermaid [%d]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.mermaids.textCol);
                                 }
                             }
+                        }
+                    }
+
+                    if (cfg.visuals.rowboats.bEnable && cfg.visuals.rowboats.bName && actor->isRowboat() && !localCharacter->IsLoading())
+                    {
+                        const FVector location = actor->K2_GetActorLocation();
+                        FVector2D screen;
+
+                        if (localController->ProjectWorldLocationToScreen(location, screen))
+                        {
+                            auto type = actor->GetName();
+                            const int dist = localLoc.DistTo(location) * 0.01f;
+                            char name[0x64];
+                            sprintf_s(name, "Harpoon Rowboat [%d]", dist);
+                            if (type.find("BP_SwampRowboat") != std::string::npos)
+                                sprintf_s(name, "Rowboat [%d]", dist);
+                            else if (type.find("BP_Rowboat") != std::string::npos)
+                                sprintf_s(name, "Rowboat [%d]", dist);
+                            Drawing::RenderText(name, screen, cfg.visuals.rowboats.textCol);
                         }
                     }
 
@@ -1090,7 +1041,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             auto type = actor->GetName();
                             const int dist = localLoc.DistTo(location) * 0.01f;
                             char name[0x64];
-                            sprintf_s(name, "Event [%d]", dist);
                             if (type.find("ShipCloud") != std::string::npos)
                                 sprintf_s(name, "Fleet [%d]", dist);
                             else if (type.find("AshenLord") != std::string::npos)
@@ -1102,7 +1052,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             else if (type.find("RitualSkullcloud") != std::string::npos)
                                 sprintf_s(name, "FOTD [%d]", dist);
                             else if (type.find("BP_SkellyFort") != std::string::npos)
-                                sprintf_s(name, "Skull Fort [%dm]", dist);
+                                sprintf_s(name, "Skull Fort [%d]", dist);
                             Drawing::RenderText(name, screen, cfg.visuals.world.textCol);
                         }
                     }
@@ -1188,7 +1138,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     {
                                         const int dist = localLoc.DistTo(current_map_pin_world) * 0.01f;
                                         char name[0x64];
-                                        snprintf(name, sizeof(name), "Map Pin [%dm]", dist);
+                                        snprintf(name, sizeof(name), "Map Pin [%d]", dist);
                                         Drawing::RenderText(name, { screen.X, screen.Y - 8 }, { 1.f,1.f,1.f,1.f }, true, true);
                                     }
                                 }
@@ -1348,6 +1298,34 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                 } while (false);
                             }
+                            else if (cfg.aim.kegs.bEnable && actor->isKeg())
+                            {
+                                do
+                                {
+                                    const FVector playerLoc = actor->K2_GetActorLocation();
+                                    const float dist = localLoc.DistTo(playerLoc);
+
+                                    if (dist > localWeapon->WeaponParameters.ProjectileMaximumRange) break;
+                                    if (cfg.aim.kegs.bVisibleOnly) if (!localController->LineOfSightTo(actor, cameraLoc, false)) break;
+
+                                    const FRotator rotationDelta = UKismetMathLibrary::NormalizedDeltaRotator(UKismetMathLibrary::FindLookAtRotation(cameraLoc, playerLoc), cameraRot);
+
+                                    const float absYaw = abs(rotationDelta.Yaw);
+                                    const float absPitch = abs(rotationDelta.Pitch);
+                                    if (absYaw > cfg.aim.kegs.fYaw || absPitch > cfg.aim.kegs.fPitch) break;
+                                    const float sum = absYaw + absPitch;
+
+                                    if (sum < aimBest.best)
+                                    {
+                                        aimBest.target = actor;
+                                        aimBest.location = playerLoc;
+                                        aimBest.delta = rotationDelta;
+                                        aimBest.best = sum;
+                                        aimBest.smoothness = cfg.aim.kegs.fSmoothness;
+                                    }
+
+                                } while (false);
+                            }
                             else if (cfg.aim.skeletons.bEnable && actor->isSkeleton() && !actor->IsDead())
                             {
                                 do 
@@ -1419,7 +1397,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         const int dist = localLoc.DistTo(location) * 0.01f;
                                         char name[0x64];
                                         const int len = desc->Title->multi(name, 0x50);
-                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
+                                        snprintf(name + len, sizeof(name) - len, " [%d]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
                                     }; 
                                 }
@@ -1435,7 +1413,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     const int dist = localLoc.DistTo(location) * 0.01f;
                                     char name[0x64];
-                                    sprintf_s(name, "Shipwreck [%dm]", dist);
+                                    sprintf_s(name, "Shipwreck [%d]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.shipwrecks.textCol);
                                 };
                                 continue;
@@ -1522,7 +1500,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     char name[0x30];
                                     const int len = playerName.multi(name, 0x20);
                                     const int dist = localLoc.DistTo(origin) * 0.01f;
-                                    snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
+                                    snprintf(name + len, sizeof(name) - len, " [%d]", dist);
                                     const float adjust = height * 0.05f;
                                     FVector2D pos = { headPos.X, headPos.Y - adjust };
                                     Drawing::RenderText(name, pos, cfg.visuals.players.textCol);                                   
@@ -1593,39 +1571,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                 const bool bVisible = localController->LineOfSightTo(actor, cameraLoc, false);
                                 const ImVec4 col = bVisible ? cfg.visuals.skeletons.colorVis : cfg.visuals.skeletons.colorInv;
-                               
-                                if (cfg.visuals.skeletons.bSkeleton)
-                                {
-                                    auto const mesh = actor->Mesh;
-                                    if (!actor->Mesh) continue;
-
-                                    const BYTE bodyHead[] = { 4, 5, 6, 7, 8, 9 };
-                                    const BYTE neckHandR[] = { 7, 41, 42, 43 };
-                                    const BYTE neckHandL[] = { 7, 12, 13, 14 };
-                                    const BYTE bodyFootR[] = { 4, 71, 72, 73, 74 };
-                                    const BYTE bodyFootL[] = { 4, 66, 67, 68, 69 };
-
-                                    const std::pair<const BYTE*, const BYTE> skeleton[] = { {bodyHead, 6}, {neckHandR, 4}, {neckHandL, 4}, {bodyFootR, 5}, {bodyFootL, 5} };
-
-                                    const FMatrix comp2world = mesh->K2_GetComponentToWorld().ToMatrixWithScale();
-
-                                    /*for (auto i = 0; i < 122; i++)
-                                    {
-                                        FVector pos;
-                                        if (mesh->GetBone(i, comp2world, pos))
-                                        {
-                                            FVector2D screen;
-                                            if (!localController->ProjectWorldLocationToScreen(pos, screen)) continue;
-                                            char text[0x30];
-                                            auto len = sprintf_s(text, "%d", i);
-                                            Drawing::RenderText(text, screen, ImVec4(1.f, 1.f, 1.f, 1.f));
-                                        };
-                                    }*/
-
-                                    if (!Drawing::RenderSkeleton(localController, mesh, comp2world, skeleton, 5, col)) continue;
-
-                                    
-                                }
 
                                 switch (cfg.visuals.skeletons.boxType)
                                 {
@@ -1652,8 +1597,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 if (cfg.visuals.skeletons.bName)
                                 {
                                     const int dist = localLoc.DistTo(location) * 0.01f;
-                                    char name[0x64];
-                                    sprintf_s(name, "Skeleton [%dm]", dist);
+                                    char name[0x20];
+                                    sprintf_s(name, "Skeleton [%d]", dist);
                                     Drawing::RenderText(name, headPos, cfg.visuals.skeletons.textCol);
                                 }
 
@@ -1716,42 +1661,15 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 float height = abs(footPos.Y - headPos.Y);
                                 float width = height * 0.6f;
 
-                                bool bVisible = localController->LineOfSightTo(actor, cameraLoc, false);
-                                ImVec4 col = bVisible ? cfg.visuals.animals.colorVis : cfg.visuals.animals.colorInv;
-
-                                switch (cfg.visuals.animals.boxType)
-                                {
-                                case Config::EBox::E2DBoxes:
-                                {
-                                    Drawing::Render2DBox(headPos, footPos, height, width, col);
-                                    break;
-                                }
-                                case Config::EBox::E3DBoxes:
-                                {
-                                    FRotator rotation = actor->K2_GetActorRotation();
-                                    FVector ext = { 40.f, 40.f, extent.Z };
-                                    if (!Drawing::Render3DBox(localController, origin, ext, rotation, col)) continue;
-                                    break;
-                                }
-                                /*
-                                case Config::EBox::EDebugBoxes:
-                                {
-                                    FVector ext = { 40.f, 40.f, extent.Z };
-                                    UKismetMathLibrary::DrawDebugBox(actor, origin, ext, *reinterpret_cast<const FLinearColor*>(&col), actor->K2_GetActorRotation(), 0.0f);
-                                    break;
-                                }
-                                 */
-                                }
-
                                 if (cfg.visuals.animals.bName)
                                 {
 
                                     auto displayName = reinterpret_cast<AFauna*>(actor)->DisplayName;
                                     if (displayName) {
                                         const int dist = localLoc.DistTo(origin) * 0.01f;
-                                        char name[0x64];
+                                        char name[0x32];
                                         const int len = displayName->multi(name, 0x50);
-                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
+                                        snprintf(name + len, sizeof(name) - len, " [%d]", dist);
                                         const float adjust = height * 0.05f;
                                         FVector2D pos = { headPos.X, headPos.Y - adjust };
                                         Drawing::RenderText(name, pos, cfg.visuals.animals.textCol);
@@ -1773,47 +1691,11 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 const float height = abs(footPos.Y - headPos.Y);
                                 const float width = height * 0.6f;
 
-                                const bool bVisible = localController->LineOfSightTo(actor, cameraLoc, false);
-                                const ImVec4 col = bVisible ? cfg.visuals.animals.colorVis : cfg.visuals.animals.colorInv;
-
-
-                                if (cfg.visuals.sharks.bSkeleton)
-                                {
-                                    auto const shark = reinterpret_cast<ASharkPawn*>(actor);
-                                    auto const mesh = shark->Mesh;
-                                    if (!actor->Mesh) continue;
-                                    const FMatrix comp2world = mesh->K2_GetComponentToWorld().ToMatrixWithScale();
-                                    switch (shark->SwimmingCreatureType)
-                                    {
-                                    case ESwimmingCreatureType::Shark: 
-                                    {
-                                        const BYTE bone1[] = { 17, 16, 5, 6, 7, 8, 9, 10, 11, 12 };
-                                        const BYTE bone2[] = { 10, 13, 14 };
-                                        const BYTE bone3[] = { 5, 18, 19 };
-                                        const BYTE bone4[] = { 6, 15, 7 };
-                                        const std::pair<const BYTE*, const BYTE> skeleton[] = { {bone1, 10}, {bone2, 3}, {bone3, 3}, {bone4, 3} };
-                                        if (!Drawing::RenderSkeleton(localController, mesh, comp2world, skeleton, 4, col)) continue;
-                                        break;
-                                    }
-                                    case ESwimmingCreatureType::TinyShark:
-                                    {
-                                        const BYTE bone1[] = { 26, 25, 24, 23, 22, 21, 20, 19 };
-                                        const BYTE bone2[] = { 28, 27, 24 };
-                                        const BYTE bone3[] = { 33, 32, 31, 21, 34, 35, 36 };
-                                        const std::pair<const BYTE*, const BYTE> skeleton[] = { {bone1, 8}, {bone2, 3}, {bone3, 7}};
-                                        if (!Drawing::RenderSkeleton(localController, mesh, comp2world, skeleton, 3, col)) continue;
-                                        break;
-                                    }
-                                    }
-                                   
-                                    
-                                }
-
                                 if (cfg.visuals.sharks.bName)
                                 {
                                     char name[0x20];
                                     const int dist = localLoc.DistTo(origin) * 0.01f;
-                                    sprintf_s(name, "Shark [%dm]", dist);
+                                    sprintf_s(name, "Shark [%d]", dist);
                                     const float adjust = height * 0.05f;
                                     FVector2D pos = { headPos.X, headPos.Y - adjust };
                                     Drawing::RenderText(name, pos, cfg.visuals.sharks.textCol);
@@ -1831,7 +1713,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                         char name[0x64];
                                         const int dist = localLoc.DistTo(location) * 0.01f;
-                                        sprintf_s(name, "Vault Door [%dm]", dist);
+                                        sprintf_s(name, "Vault Door [%d]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.puzzles.textCol);
                                     };
                                 }
@@ -1876,7 +1758,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     char name[0x64];
                                     auto len = island->LocalisedName->multi(name, 0x50);
-                                    sprintf_s(name + len, sizeof(name) - len, " [%dm]", dist);
+                                    sprintf_s(name + len, sizeof(name) - len, " [%d]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.islands.textCol);
 
                                 }
@@ -1941,6 +1823,16 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         auto cannon = reinterpret_cast<ACannon*>(attachObject);
                         if (cannon)
                         {
+                            /* AUTO RELOAD DON'T DELETE
+                            if (cfg.aim.cannon.auto_reload && !cannon->IsReadyToFire())
+                            {
+                                keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                                if (cannon->IsReadyToFire())
+                                {
+                                    keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                                }
+                            }
+                            */
                             if (((aimBest.delta.Pitch > cannon->PitchRange.max) || (aimBest.delta.Pitch < cannon->PitchRange.min)) || ((aimBest.delta.Yaw > cannon->YawRange.max) || (aimBest.delta.Yaw < cannon->YawRange.min)))
                             {
                                 std::string str_text_message = "TARGET IS OUT OF RANGE!";
@@ -1951,7 +1843,9 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 cannon->ForceAimCannon(aimBest.delta.Pitch, aimBest.delta.Yaw);
 
                                 if (cfg.aim.cannon.b_instant_shoot && cannon->IsReadyToFire())
+                                {
                                     cannon->Fire();
+                                }
                             }
                         }
                     }
@@ -2191,7 +2085,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
                 ImGui::EndChild();
 
-                ImGui::Columns(2, "CLM1", false);
+                ImGui::Columns(3, "CLM1", false);
                 const char* boxes[] = { "None", "2DBox", "3DBox" };
                 
                 ImGui::Text("Players");
@@ -2219,7 +2113,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.skeletons.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.skeletons.bName);
-                    ImGui::Checkbox("Draw Skeleton", &cfg.visuals.skeletons.bSkeleton);
                     ImGui::Combo("Box Type", reinterpret_cast<int*>(&cfg.visuals.skeletons.boxType), boxes, IM_ARRAYSIZE(boxes));
                     ImGui::ColorEdit4("Visible Color", &cfg.visuals.skeletons.colorVis.x, 0);
                     ImGui::ColorEdit4("Invisible Color", &cfg.visuals.skeletons.colorInv.x, 0);
@@ -2233,16 +2126,11 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::Text("Ships");
                 if (ImGui::BeginChild("ShipsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse)) {
 
-                    const char* shipBoxes[] = {"None", "3DBox"};
                     ImGui::Checkbox("Enable", &cfg.visuals.ships.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.ships.bName);
-                    //ImGui::Checkbox("Draw Skeleton Name", &cfg.visuals.ships.bAIName);
                     ImGui::Checkbox("Show Holes", &cfg.visuals.ships.bDamage);
-                    ImGui::Combo("Box Type", reinterpret_cast<int*>(&cfg.visuals.ships.boxType), shipBoxes, IM_ARRAYSIZE(shipBoxes));
-                    ImGui::ColorEdit4("Box Color", &cfg.visuals.ships.boxColor.x, 0);
                     ImGui::ColorEdit4("Damage Color", &cfg.visuals.ships.damageColor.x, 0);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.ships.textCol.x, 0);
-                    //ImGui::ColorEdit4("AI Text Color", &cfg.visuals.ships.AItextCol.x, 0);
                 }
                 ImGui::EndChild();
 
@@ -2278,9 +2166,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.animals.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.animals.bName);
-                    ImGui::Combo("Box Type", reinterpret_cast<int*>(&cfg.visuals.animals.boxType), boxes, IM_ARRAYSIZE(boxes));
-                    ImGui::ColorEdit4("Visible Color", &cfg.visuals.animals.colorVis.x, 0);
-                    ImGui::ColorEdit4("Invisible Color", &cfg.visuals.animals.colorInv.x, 0);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.animals.textCol.x, 0);
                 }
 
@@ -2292,11 +2177,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 if (ImGui::BeginChild("SharksSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.sharks.bEnable);
-                    ImGui::Checkbox("Draw Skeleton", &cfg.visuals.sharks.bSkeleton);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.sharks.bName);
-                    //ImGui::Combo("Box type", reinterpret_cast<int*>(&cfg.visuals.sharks.boxType), boxes, IM_ARRAYSIZE(boxes));
-                    ImGui::ColorEdit4("Visible Color", &cfg.visuals.sharks.colorVis.x, 0);
-                    ImGui::ColorEdit4("Invisible Color", &cfg.visuals.sharks.colorInv.x, 0);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.sharks.textCol.x, 0);
                 }
                 ImGui::EndChild();
@@ -2309,6 +2190,17 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.mermaids.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.mermaids.bName);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.mermaids.textCol.x, 0);
+                }
+                ImGui::EndChild();
+
+                ImGui::NextColumn();
+
+                ImGui::Text("Rowboats");
+                if (ImGui::BeginChild("RowboatsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.visuals.rowboats.bEnable);
+                    ImGui::Checkbox("Draw Name", &cfg.visuals.rowboats.bName);
+                    ImGui::ColorEdit4("Text Color", &cfg.visuals.rowboats.textCol.x, 0);
                 }
                 ImGui::EndChild();
 
@@ -2381,7 +2273,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::NextColumn();
                 ImGui::Text("World Events");
-                if (ImGui::BeginChild("WorldSettings", ImVec2(0.f, 310), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("WorldSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.world.bEnable);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.world.textCol.x, 0);
@@ -2403,7 +2295,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::EndChild();
 
                 
-                ImGui::Columns(2, "CLM1", false);
+                ImGui::Columns(3, "CLM1", false);
                 ImGui::Text("Players");
                 if (ImGui::BeginChild("PlayersSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
@@ -2413,6 +2305,19 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::SliderFloat("Yaw", &cfg.aim.players.fYaw, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     ImGui::SliderFloat("Pitch", &cfg.aim.players.fPitch, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     ImGui::SliderFloat("Smoothness", &cfg.aim.players.fSmoothness, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                }
+                ImGui::EndChild();
+
+                ImGui::NextColumn();
+
+                ImGui::Text("Kegs");
+                if (ImGui::BeginChild("KegsSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.aim.kegs.bEnable);
+                    ImGui::Checkbox("Visible Only", &cfg.aim.kegs.bVisibleOnly);
+                    ImGui::SliderFloat("Yaw", &cfg.aim.kegs.fYaw, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::SliderFloat("Pitch", &cfg.aim.kegs.fPitch, 1.f, 200.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
+                    ImGui::SliderFloat("Smoothness", &cfg.aim.kegs.fSmoothness, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                 }
                 ImGui::EndChild();
 
@@ -2452,6 +2357,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Chain Aimbot", &cfg.aim.cannon.b_chain_shots);
                     ImGui::Checkbox("Visible Only", &cfg.aim.cannon.bVisibleOnly);
                     ImGui::Checkbox("Instant Shoot", &cfg.aim.cannon.b_instant_shoot);
+                    ImGui::Checkbox("Instant Reload", &cfg.aim.cannon.auto_reload);
                     ImGui::SliderFloat("Yaw", &cfg.aim.cannon.fYaw, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     ImGui::SliderFloat("Pitch", &cfg.aim.cannon.fPitch, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                 }
@@ -2470,13 +2376,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
                 ImGui::EndChild();
 
-                ImGui::Columns(2, "CLM1", false);
+                ImGui::Columns(3, "CLM1", false);
                 ImGui::Text("Client");
                 if (ImGui::BeginChild("ClientSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.client.bEnable);
                     ImGui::Checkbox("Ship Info", &cfg.misc.client.bShipInfo);
-                    ImGui::Checkbox("Crew Map Pins", &cfg.misc.client.b_map_pins);
+                    ImGui::Checkbox("Map Pins", &cfg.misc.client.b_map_pins);
                     ImGui::SliderFloat("FOV", &cfg.misc.client.fov, 90.f, 180.f, "%.0f");
 
                     ImGui::Separator();
@@ -2531,7 +2437,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Macros");
-                if (ImGui::BeginChild("MacrisSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("MacrosSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.macro.bEnable);
                     ImGui::Checkbox("Bunny Hop", &cfg.misc.macro.b_bunnyhop);
@@ -2544,7 +2450,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::NextColumn();
 
                 ImGui::Text("Game");
-                if (ImGui::BeginChild("GameSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("GameSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.game.bEnable);
                     ImGui::Checkbox("Show Players List", &cfg.misc.game.bShowPlayers);
@@ -2569,40 +2475,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.allweapons.bEnable);
                     ImGui::Checkbox("Faster Reloading", &cfg.misc.allweapons.fasterreloading);
-                    ImGui::Checkbox("Higher Range", &cfg.misc.allweapons.higherrange);
-                    ImGui::Checkbox("Faster Walking Speed while Aiming after switching to another Gun", &cfg.misc.allweapons.fasteraimingspeed);
-                }
-                ImGui::EndChild();
-
-                ImGui::NextColumn();
-
-                ImGui::Text("Player Speed");
-                if (ImGui::BeginChild("All PlayerSpeedMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
-                {
-                    ImGui::Checkbox("Enable", &cfg.misc.playerspeed.bEnable);
-                    ImGui::Checkbox("Faster on Land", &cfg.misc.playerspeed.fasteronland);
-                    ImGui::Checkbox("Faster in Water", &cfg.misc.playerspeed.fasterinwater);
-                    ImGui::Checkbox("Faster while Holding Item", &cfg.misc.playerspeed.fasterwhileholdingitem);
-                }
-                ImGui::EndChild();
-
-                ImGui::NextColumn();
-
-                ImGui::Text("Camera");
-                if (ImGui::BeginChild("CamMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
-                {
-                    ImGui::Checkbox("Enable", &cfg.misc.camera.bEnable);
-                    ImGui::Checkbox("Freecam", &cfg.misc.camera.freecam);
-                }
-                ImGui::EndChild();
-
-                ImGui::NextColumn();
-
-                ImGui::Text("Fishing");
-                if (ImGui::BeginChild("Fishing Mods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
-                {
-                    ImGui::Checkbox("Enable", &cfg.misc.fishingmods.bEnable);
-                    ImGui::Checkbox("Fishing Bot", &cfg.misc.fishingmods.fishingbot);
+                    ImGui::Checkbox("ADS Switch NoSlowness", &cfg.misc.allweapons.fasteraimingspeed);
                 }
                 ImGui::EndChild();
 
@@ -2619,28 +2492,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                 ImGui::NextColumn();
 
-                ImGui::Text("Kraken");
-                if (ImGui::BeginChild("KrakenSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
-                {
-                    AKrakenService* krakenService;
-                    bool isActive = false;
-                    if (cache.good)  
-                    { 
-                        krakenService = cache.gameState->KrakenService;
-                        if (krakenService) { krakenService->IsKrakenActive(); }
-                    }
-                    ImGui::Text("Kraken Active: %d", isActive);
-                    ImGui::Separator();
-                    ImGui::Text("0 = False | 1 = True");
-                    {
-                    }
-                }
-                ImGui::EndChild();
-
-                ImGui::NextColumn();
-
                 ImGui::Text("Render Settings");
-                if (ImGui::BeginChild("RenderMods", ImVec2(0.f, 350.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                if (ImGui::BeginChild("RenderMods", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
                     ImGui::Checkbox("Enable", &cfg.misc.render.bEnable);
                     ImGui::Checkbox("FPS Boost", &cfg.misc.render.fpsboost);

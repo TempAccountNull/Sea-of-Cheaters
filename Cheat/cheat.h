@@ -20,10 +20,6 @@ private:
             E3DBoxes,
             EDebugBoxes
         };
-        enum class EShipBox {
-            ENone,
-            E3DBoxes
-        };
         enum class EBar : int {
             ENone,
             ELeft,
@@ -32,15 +28,10 @@ private:
             ETop,
             ETriangle
         };
-        enum class EAim {
-            ENone,
-            EClosest,
-            EFOV,
-        };
-        struct 
+        struct
         {
             bool bEnable = false;
-            struct 
+            struct
             {
                 bool bEnable = false;
                 bool bSkeleton = false;
@@ -55,10 +46,9 @@ private:
                 ImVec4 teamColorInv = { 0.f, 1.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } players;
-            struct 
+            struct
             {
                 bool bEnable = false;
-                bool bSkeleton = false;
                 bool bName = false;
                 EBox boxType = EBox::ENone;
                 EBar barType = EBar::ENone;
@@ -66,28 +56,22 @@ private:
                 ImVec4 colorInv = { 1.f, 0.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } skeletons;
-            struct 
+            struct
             {
                 bool bEnable = false;
-                bool bSkeleton = false;
-                bool bHealth = false;
                 bool bName = false;
-                //bool bAIName = false;
                 bool bDamage = false;
-                EShipBox boxType = EShipBox::ENone;
                 ImVec4 damageColor = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
-                //ImVec4 AItextCol = { 1.f, 1.f, 1.f, 1.f };
-                ImVec4 boxColor = { 1.f, 0.f, 1.f, 1.f };
             } ships;
-            struct 
+            struct
             {
                 bool bEnable = false;
                 bool bName = false;
                 int intMaxDist = 100;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } islands;
-            struct 
+            struct
             {
                 bool bEnable = false;
                 bool bName = false;
@@ -95,30 +79,30 @@ private:
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 barreltextCol = { 1.f, 1.f, 1.f, 1.f };
             } items;
-            struct 
+            struct
             {
                 bool bEnable = false;
                 bool bName = false;
-                EBox boxType = EBox::ENone;
-                ImVec4 colorVis = { 0.f, 1.f, 0.5f, 1.f };
-                ImVec4 colorInv = { 0.7f, 1.f, 0.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } animals;
-            struct 
+            struct
             {
                 bool bEnable = false;
-                bool bSkeleton = false;
                 bool bName = false;
-                ImVec4 colorVis = { 0.f, 1.f, 0.5f, 1.f };
-                ImVec4 colorInv = { 0.7f, 1.f, 0.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } sharks;
-            struct 
+            struct
             {
                 bool bEnable = false;
                 bool bName = false;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } mermaids;
+            struct
+            {
+                bool bEnable = false;
+                bool bName = false;
+                ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+            } rowboats;
             struct 
             {
                 bool bEnable = false;
@@ -178,6 +162,14 @@ private:
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
+            } kegs;
+            struct
+            {
+                bool bEnable = false;
+                bool bVisibleOnly = false;
+                float fYaw = 1.f;
+                float fPitch = 1.f;
+                float fSmoothness = 1.f;
             } skeletons;
             struct 
             {
@@ -193,6 +185,7 @@ private:
                 bool b_chain_shots = false;
                 bool bVisibleOnly = false;
                 bool b_instant_shoot = false;
+                bool auto_reload = false;
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
@@ -232,26 +225,8 @@ private:
             {
                 bool bEnable = false;
                 bool fasterreloading = false;
-                bool higherrange = false;
                 bool fasteraimingspeed = false;
             } allweapons;
-            struct 
-            {
-                bool bEnable = false;
-                bool fasteronland = false;
-                bool fasterinwater = false;
-                bool fasterwhileholdingitem = false;
-            } playerspeed;
-            struct 
-            {
-                bool bEnable = false;
-                bool freecam = false;
-            } camera;
-            struct 
-            {
-                bool bEnable = false;
-                bool fishingbot = false;
-            } fishingmods;
             struct 
             {
                 bool bEnable = false;
@@ -263,11 +238,6 @@ private:
                 bool bEnable = false;
                 int aim_fov = 5;
             } sniper;
-            struct 
-            {
-                bool bEnable = false;
-                bool bShowKrakenState = false;
-            } kraken;
             struct 
 {
                 bool bEnable = false;
