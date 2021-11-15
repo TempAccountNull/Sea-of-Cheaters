@@ -646,6 +646,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             }
 
             bool isCannon = false;
+
             if (attachObject)
             {
                 if (cfg.aim.cannon.bEnable && attachObject->isCannon())
@@ -766,7 +767,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             if (isCannon)
             {
                 auto cannon = reinterpret_cast<ACannon*>(attachObject);
-                
+
                 if (cannon->LoadedItemInfo)
                 {
                     std::wstring loaded_name = cannon->LoadedItemInfo->Desc->Title->wide();
@@ -1162,72 +1163,70 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     {
                         if (isCannon)
                         {
-                            do 
+                            if (actor->isItem())
                             {
-                                if (!actor->isShip())                                   //target is no ship
-                                    break;
-
-                                if (actor == localCharacter->GetCurrentShip())          //target is own ship
-                                    break;
-                            
-                                FVector location = actor->K2_GetActorLocation();
-                                
-                                if (cfg.aim.cannon.bVisibleOnly && !localController->LineOfSightTo(actor, cameraLoc, false))
-                                    break;
-
-                                if (location.DistTo(cameraLoc) > 55000)                 //cannons have max range of around 500m
-                                    break;
-
-                                auto cannon = reinterpret_cast<ACannon*>(attachObject);
-
-                                int amount = 0;
-                                auto water = actor->GetInternalWater();
-                                amount = water->GetNormalizedWaterAmount() * 100.f;
-                                if (amount == 100)
-                                    break;
-                                
-                                float gravity_scale = cannon->ProjectileGravityScale;
-                                if (cfg.aim.cannon.b_chain_shots)
+                                do
                                 {
-                                    const FVector forward = actor->GetActorForwardVector();
-                                    const FVector up = actor->GetActorUpVector();
-                                    const FVector loc = actor->K2_GetActorLocation();
+                                    if (actor == localCharacter->GetCurrentShip())          //target is own ship
+                                        break;
 
-                                    FVector loc_mast = loc;
+                                    FVector location = actor->K2_GetActorLocation();
 
-                                    //FIND SLOOP MAST LOCATION
-                                    loc_mast += forward * 80.f;
-                                    loc_mast += up * 1300.f;
+                                    if (cfg.aim.cannon.bVisibleOnly && !localController->LineOfSightTo(actor, cameraLoc, false))
+                                        break;
 
-                                    location = loc_mast;
+                                    if (location.DistTo(cameraLoc) > 55000)                 //cannons have max range of around 500m
+                                        break;
 
-                                    gravity_scale = 1.f;
+                                    auto cannon = reinterpret_cast<ACannon*>(attachObject);
+
+                                    //int amount = 0;
+                                    //auto water = actor->GetInternalWater();
+                                    //amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    //if (amount == 100)
+                                    //    break;
+
+                                    float gravity_scale = cannon->ProjectileGravityScale;
+                                    if (cfg.aim.cannon.b_chain_shots)
+                                    {
+                                        const FVector forward = actor->GetActorForwardVector();
+                                        const FVector up = actor->GetActorUpVector();
+                                        const FVector loc = actor->K2_GetActorLocation();
+
+                                        FVector loc_mast = loc;
+
+                                        //FIND SLOOP MAST LOCATION
+                                        loc_mast += forward * 80.f;
+                                        loc_mast += up * 1300.f;
+
+                                        location = loc_mast;
+
+                                        gravity_scale = 1.f;
+                                    }
+
+                                    FRotator low, high;
+                                    int i_solutions = AimAtMovingTarget(location, actor->GetVelocity(), cannon->ProjectileSpeed, gravity_scale, cameraLoc, attachObject->GetVelocity(), low, high);
+                                    if (i_solutions < 1)                                    //no valid angle found
+                                        break;
+
+                                    low.Clamp();
+                                    low -= attachObject->K2_GetActorRotation();
+                                    low.Clamp();
+
+                                    float absPitch = abs(low.Pitch);
+                                    float absYaw = abs(low.Yaw);
+                                    if (absPitch > cfg.aim.cannon.fPitch || absYaw > cfg.aim.cannon.fYaw) { break; }
+                                    float sum = absYaw + absPitch;  //ok   
+                                    if (sum < aimBest.best)
+                                    {
+                                        aimBest.target = actor;
+                                        aimBest.location = location;
+                                        aimBest.delta = low;
+                                        aimBest.best = sum;
+                                    }
                                 }
-
-                                FRotator low, high;
-                                int i_solutions = AimAtMovingTarget(location, actor->GetVelocity(), cannon->ProjectileSpeed, gravity_scale, cameraLoc, attachObject->GetVelocity(), low, high);
-                                if (i_solutions < 1)                                    //no valid angle found
-                                    break;
-
-                                low.Clamp();
-                                low -= attachObject->K2_GetActorRotation();
-                                low.Clamp();
-
-                                float absPitch = abs(low.Pitch);
-                                float absYaw = abs(low.Yaw);
-                                if (absPitch > cfg.aim.cannon.fPitch || absYaw > cfg.aim.cannon.fYaw) { break; }
-                                float sum = absYaw + absPitch;  //ok   
-                                if (sum < aimBest.best)
-                                {
-                                    aimBest.target = actor;
-                                    aimBest.location = location;
-                                    aimBest.delta = low;
-                                    aimBest.best = sum;
-                                }
-
-
-                            } while (false);
-                            
+                                while (false);
+                            }
                         }
                         else if (isHarpoon)
                         {
@@ -1823,16 +1822,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         auto cannon = reinterpret_cast<ACannon*>(attachObject);
                         if (cannon)
                         {
-                            /* AUTO RELOAD DON'T DELETE
-                            if (cfg.aim.cannon.auto_reload && !cannon->IsReadyToFire())
-                            {
-                                keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
-                                if (cannon->IsReadyToFire())
-                                {
-                                    keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-                                }
-                            }
-                            */
                             if (((aimBest.delta.Pitch > cannon->PitchRange.max) || (aimBest.delta.Pitch < cannon->PitchRange.min)) || ((aimBest.delta.Yaw > cannon->YawRange.max) || (aimBest.delta.Yaw < cannon->YawRange.min)))
                             {
                                 std::string str_text_message = "TARGET IS OUT OF RANGE!";
@@ -1845,6 +1834,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 if (cfg.aim.cannon.b_instant_shoot && cannon->IsReadyToFire())
                                 {
                                     cannon->Fire();
+                                    keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                                    keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
                                 }
                             }
                         }
@@ -2356,8 +2347,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.aim.cannon.bEnable);
                     ImGui::Checkbox("Chain Aimbot", &cfg.aim.cannon.b_chain_shots);
                     ImGui::Checkbox("Visible Only", &cfg.aim.cannon.bVisibleOnly);
-                    ImGui::Checkbox("Instant Shoot", &cfg.aim.cannon.b_instant_shoot);
-                    ImGui::Checkbox("Instant Reload", &cfg.aim.cannon.auto_reload);
+                    ImGui::Checkbox("Instant Shoot & Reload", &cfg.aim.cannon.b_instant_shoot);
                     ImGui::SliderFloat("Yaw", &cfg.aim.cannon.fYaw, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     ImGui::SliderFloat("Pitch", &cfg.aim.cannon.fPitch, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                 }
