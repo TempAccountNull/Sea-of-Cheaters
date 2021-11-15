@@ -1059,6 +1059,18 @@ struct ACannon {
 		ProcessEvent(this, fn, nullptr);
 	}
 
+	bool IsReadyToReload() {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.Cannon.IsReadyToReload");
+		bool is_ready = true;
+		ProcessEvent(this, fn, &is_ready);
+		return is_ready;
+	}
+
+	void Reload() {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.Cannon.Reload");
+		ProcessEvent(this, fn, nullptr);
+	}
+
 	void ForceAimCannon(float Pitch, float Yaw)
 	{
 		static auto fn = UObject::FindObject<UFunction>("Function Athena.Cannon.ForceAimCannon");
@@ -1651,8 +1663,59 @@ enum class EMeleeWeaponMovementSpeed : uint8_t
 struct UMeleeAttackDataAsset
 {
 	char pad[0x0238];
-	float ClampYawRange; //0x0238
-	float ClampYawRate; //0x023C
+	float                                              ClampYawRange;                                             // 0x0238(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ClampYawRate;                                              // 0x023C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              WarmUpDuration;                                            // 0x0030(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              StrikeDuration;                                            // 0x0034(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              RecoverMissDuration;                                       // 0x0038(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              RecoverHitDuration;                                        // 0x003C(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              LungeMoveStartTime;                                        // 0x0040(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              LungeMoveDuration;                                         // 0x0044(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              LungeMoveMaxSpeed;                                         // 0x0048(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	char MeleeWeaponMovementSpeed;                                                         // 0x004C(0x0001) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_8UR2[0x3];                                     // 0x004D(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	float                                              AttackMoveSpeedDeactivationAllowedWindow;                  // 0x0050(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ComboTime;                                                 // 0x0054(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                               DefenderKnockbackEnabled;                                  // 0x0058(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_JSHW[0x3];                                     // 0x0059(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	bool                                               DefenderKnockbackWhenBlockingEnabled;                      // 0x00AC(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_KZB5[0x3];                                     // 0x00AD(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	bool                                               AttackerKnockbackEnabled;                                  // 0x0100(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_1UY3[0x3];                                     // 0x0101(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	bool                                               AttackerKnockbackWhenBlockingEnabled;                      // 0x0154(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_21MV[0x3];                                     // 0x0155(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	bool                                               LockOnEnabled;                                             // 0x01A8(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_7A5F[0x3];                                     // 0x01A9(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	float                                              HitStartRange;                                             // 0x01B4(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              HitEndRange;                                               // 0x01B8(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              HitStartAngle;                                             // 0x01BC(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              HitAngleDelta;                                             // 0x01C0(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              HitSphereRadius;                                           // 0x01C4(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              HitTimeOffset;                                             // 0x01C8(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              HitDuration;                                               // 0x01CC(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              AttackDamage;                                              // 0x01D0(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_EK3Y[0x4];                                     // 0x01D4(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	class UClass*                                      DamagerType;                                               // 0x01D8(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	char HealthChangedReason;                                                                 // 0x01E0(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                               IsUnblockable;                                             // 0x01E1(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	bool                                               StunOnMiss;                                                // 0x01E2(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_YXC4[0x5];                                     // 0x01E3(0x0005) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	TArray<struct FStunAttackerOnHitSurfacePair>       StunAttackerOnHitSurfaces;                                 // 0x01E8(0x0010) (Edit, ZeroConstructor)
+	bool                                               StunOnHit;                                                 // 0x01F8(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_NMQ1[0x3];                                     // 0x01F9(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	float                                              StunOnHitDurationPlayer;                                   // 0x01FC(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              StunOnHitDurationCharacter;                                // 0x0200(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	char WieldableItemComplexOneShotLookUpType;		                                          // 0x0204(0x0001)
+	unsigned char                                      UnknownData_LTZQ[0x3];                                     // 0x0205(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	uint32_t                                           AnimationLookupIndex;                                      // 0x0208(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	char WieldableItemComplexOneShotAnimType;                                                    // 0x020C(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_E47J[0x3];                                     // 0x020D(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	class UClass*                                      ImpactId;                                                  // 0x0210(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UClass*                                      AttackerHitLandedCameraShake;                              // 0x0218(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UForceFeedbackEffect*                        AttackerHitLandedForceFeedbackEffect;                      // 0x0220(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                      DefenderHitReceivedCameraShake;                            // 0x0228(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UForceFeedbackEffect*                        DefenderHitReceivedForceFeedbackEffect;                    // 0x0230(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
 };
 
 

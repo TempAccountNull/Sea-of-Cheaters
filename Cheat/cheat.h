@@ -220,6 +220,7 @@ private:
                 bool bEnable = false;
                 bool noclamp = false;
                 bool noblockreduce = false;
+                bool fasterattack = false;
             } sword;
             struct 
             {

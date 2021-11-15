@@ -552,29 +552,34 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             bool isWieldedWeapon = false;
             auto item = localCharacter->GetWieldedItem();
 
+            auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
+
+
             if (cfg.misc.bEnable && cfg.misc.sword.bEnable && item && item->isSword())
             {
                 if (cfg.misc.sword.noblockreduce)
                 {
-                    auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
                     localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__EMeleeWeaponMovementSpeed_MAX;
                 }
                 else
                 {
-                    auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
                     localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__Slowed;
                 }
 
                 if (cfg.misc.sword.noclamp)
                 {
-                    auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
-                    localSword->DataAsset->HeavyAttack->ClampYawRange = -1;
+                    localSword->DataAsset->HeavyAttack->ClampYawRange = -1.f;
                 }
                 else
                 {
-                    auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
-                    localSword->DataAsset->HeavyAttack->ClampYawRange = 90;
+                    localSword->DataAsset->HeavyAttack->ClampYawRange = 90.f;
                 }
+
+                if (cfg.misc.sword.fasterattack)
+                {
+
+                }
+
             }
 
             if (item)
@@ -608,21 +613,20 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
             if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.allweapons.bEnable)
             {
-                if (localWeapon->WeaponParameters.NumberOfProjectiles > 0)
+                if (cfg.misc.allweapons.fasterreloading)
                 {
-                    if (cfg.misc.allweapons.fasterreloading)
-                    {
-                        localWeapon->WeaponParameters.EquipDuration = 0.f;
-                        localWeapon->WeaponParameters.RecoilDuration = 0.f;
-                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.2f; // EYE OF REACH SCOPE FIX
-                        localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
-                        localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
-                        localWeapon->WeaponParameters.IntoAimingDuration = 0.1f;
-                    }
-                    if (cfg.misc.allweapons.fasteraimingspeed)
-                    {
-                        localWeapon->WeaponParameters.AimingMoveSpeedScalar = 200.f;
-                    }
+                    localWeapon->WeaponParameters.EquipDuration = 0.f;
+                    localWeapon->WeaponParameters.RecoilDuration = 0.f;
+                    localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.f; // EYE OF REACH SCOPE FIX
+                    localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
+                    localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
+                    localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
+                    localWeapon->WeaponParameters.TimeoutTolerance = 0.f;
+                    localWeapon->WeaponParameters.StunDuration = 1000.f;
+                }
+                if (cfg.misc.allweapons.fasteraimingspeed)
+                {
+                    localWeapon->WeaponParameters.AimingMoveSpeedScalar = 200.f;
                 }
             }
             if (cfg.misc.bEnable && cfg.misc.render.bEnable)
@@ -1023,11 +1027,12 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             auto type = actor->GetName();
                             const int dist = localLoc.DistTo(location) * 0.01f;
                             char name[0x64];
-                            sprintf_s(name, "Harpoon Rowboat [%d]", dist);
                             if (type.find("BP_SwampRowboat") != std::string::npos)
                                 sprintf_s(name, "Rowboat [%d]", dist);
                             else if (type.find("BP_Rowboat") != std::string::npos)
                                 sprintf_s(name, "Rowboat [%d]", dist);
+                            else if (type.find("BP_Rowboat_WithFrontHarpoon_C") != std::string::npos)
+                                sprintf_s(name, "Harpoon Rowboat [%d]", dist);
                             Drawing::RenderText(name, screen, cfg.visuals.rowboats.textCol);
                         }
                     }
@@ -1163,7 +1168,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     {
                         if (isCannon)
                         {
-                            if (actor->isItem())
+                            if (actor->isShip())
                             {
                                 do
                                 {
@@ -1180,11 +1185,11 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                     auto cannon = reinterpret_cast<ACannon*>(attachObject);
 
-                                    //int amount = 0;
-                                    //auto water = actor->GetInternalWater();
-                                    //amount = water->GetNormalizedWaterAmount() * 100.f;
-                                    //if (amount == 100)
-                                    //    break;
+                                    int amount = 0;
+                                    auto water = actor->GetInternalWater();
+                                    amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    if (amount == 100)
+                                        break;
 
                                     float gravity_scale = cannon->ProjectileGravityScale;
                                     if (cfg.aim.cannon.b_chain_shots)
@@ -1305,13 +1310,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     const float dist = localLoc.DistTo(playerLoc);
 
                                     if (dist > localWeapon->WeaponParameters.ProjectileMaximumRange) break;
-                                    if (cfg.aim.kegs.bVisibleOnly) if (!localController->LineOfSightTo(actor, cameraLoc, false)) break;
+                                    if (cfg.aim.skeletons.bVisibleOnly) if (!localController->LineOfSightTo(actor, cameraLoc, false)) break;
 
                                     const FRotator rotationDelta = UKismetMathLibrary::NormalizedDeltaRotator(UKismetMathLibrary::FindLookAtRotation(cameraLoc, playerLoc), cameraRot);
 
                                     const float absYaw = abs(rotationDelta.Yaw);
                                     const float absPitch = abs(rotationDelta.Pitch);
-                                    if (absYaw > cfg.aim.kegs.fYaw || absPitch > cfg.aim.kegs.fPitch) break;
+                                    if (absYaw > cfg.aim.skeletons.fYaw || absPitch > cfg.aim.skeletons.fPitch) break;
                                     const float sum = absYaw + absPitch;
 
                                     if (sum < aimBest.best)
@@ -1320,7 +1325,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         aimBest.location = playerLoc;
                                         aimBest.delta = rotationDelta;
                                         aimBest.best = sum;
-                                        aimBest.smoothness = cfg.aim.kegs.fSmoothness;
+                                        aimBest.smoothness = cfg.aim.skeletons.fSmoothness;
                                     }
 
                                 } while (false);
@@ -1844,6 +1849,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     {
                         reinterpret_cast<AHarpoonLauncher*>(attachObject)->rotation = aimBest.delta;
                     } 
+                    if (cfg.aim.kegs.bEnable)
+                    {
+
+                    }
                     else
                     {
                         /*
@@ -2455,6 +2464,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.misc.sword.bEnable);
                     ImGui::Checkbox("Heavy NoCameraClamp", &cfg.misc.sword.noclamp);
                     ImGui::Checkbox("Blocking NoSlowness", &cfg.misc.sword.noblockreduce);
+                    ImGui::Checkbox("Faster Attacks", &cfg.misc.sword.fasterattack);
                 }
                 ImGui::EndChild();
 
