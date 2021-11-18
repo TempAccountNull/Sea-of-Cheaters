@@ -38,6 +38,7 @@ private:
                 bool bDrawTeam = false;
                 bool bHealth = false;
                 bool bName = false;
+                bool bWeaponanmes = false;
                 EBox boxType = EBox::ENone;
                 EBar barType = EBar::ENone;
                 ImVec4 enemyColorVis = { 1.f, 0.f, 0.f, 1.f };

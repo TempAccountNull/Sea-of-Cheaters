@@ -11,6 +11,11 @@
 #include <chrono>
 #include <thread>
 #include <tchar.h>
+#include <fmt-8.0.1/include/fmt/core.h>
+#include <fmt-8.0.1/include/fmt/printf.h>
+#include <fmt-8.0.1/include/fmt/format.h>
+#include <fmt-8.0.1/include/fmt/format-inl.h>
+#include <fmt-8.0.1/src/format.cc>
 
 uintptr_t milliseconds_now() {
     static LARGE_INTEGER s_frequency;
@@ -21,7 +26,7 @@ uintptr_t milliseconds_now() {
         return (1000LL * now.QuadPart) / s_frequency.QuadPart;
     }
     else {
-        return GetTickCount();
+        return GetTickCount64();
     }
 }
 
@@ -123,7 +128,7 @@ inline void Cheat::Hacks::Remove()
     //RemoveHook(ProcessEventOriginal);
 }
 
-void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos, const ImVec4& color, const bool outlined = true, const bool centered = true)
+void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos, const ImVec4& color, const bool outlined = false, const bool centered = true)
 {
     if (!text) return;
     auto ImScreen = *reinterpret_cast<const ImVec2*>(&pos);
@@ -135,11 +140,13 @@ void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos
     }
     auto window = ImGui::GetCurrentWindow();
 
+    // That "outline" doubles text drawn count so heaviest part of code becomes twice as slow while it's absolutely unnecessary
+
     if (outlined)
     {
         window->DrawList->AddText(nullptr, 0.f, ImVec2(ImScreen.x - 1.f, ImScreen.y + 1.f), ImGui::GetColorU32(IM_COL32_BLACK), text);
     }
-
+    //*/
     window->DrawList->AddText(nullptr, 0.f, ImScreen, ImGui::GetColorU32(color), text);
 
 }
@@ -749,7 +756,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
                 else if (return_value == 30) //sniper
                 {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.4);
+                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.4f);
                 }
             }
 
@@ -927,7 +934,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         //}
                     }
 
-                    if (cfg.visuals.ships.bEnable && !localCharacter->IsLoading())
+                    if (cfg.visuals.bEnable && cfg.visuals.ships.bEnable && !localCharacter->IsLoading())
                     {
                         const FVector location = actor->K2_GetActorLocation();
                         const int dist = localLoc.DistTo(location) * 0.01f;
@@ -939,19 +946,19 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             if (localController->ProjectWorldLocationToScreen(location, screen))
                             {
                                 auto water = actor->GetInternalWater();
-                                if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                if (water) amount = water->GetNormalizedWaterAmount() * 100;
                                 auto type = actor->GetName();
                                 char name[0x64];
                                 if (type.find("BP_SmallShip") != std::string::npos)
-                                    sprintf_s(name, "Sloop (%d%% Water) [%d]", amount, dist);
+                                    sprintf(name, "Sloop (%d%% Water) [%dm]", amount, dist);
                                 else if (type.find("BP_MediumShip") != std::string::npos)
-                                    sprintf_s(name, "Brig (%d%% Water) [%d]", amount, dist);
+                                    sprintf(name, "Brig (%d%% Water) [%dm]", amount, dist);
                                 else if (type.find("BP_LargeShip") != std::string::npos)
-                                    sprintf_s(name, "Galleon (%d%% Water) [%d]", amount, dist);
+                                    sprintf(name, "Galleon (%d%% Water) [%dm]", amount, dist);
                                 else if (type.find("BP_AISmallShip") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Sloop (%d%% Water) [%d]", amount, dist);
+                                    sprintf(name, "Skeleton Sloop (%d%% Water) [%dm]", amount, dist);
                                 else if (type.find("BP_AILargeShip") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Galleon (%d%% Water) [%d]", amount, dist);
+                                    sprintf(name, "Skeleton Galleon (%d%% Water) [%dm]", amount, dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
                         }
@@ -963,15 +970,15 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 auto type = actor->GetName();
                                 char name[0x64];
                                 if (type.find("BP_SmallShip") != std::string::npos)
-                                    sprintf_s(name, "Sloop [%d]", dist);
+                                    sprintf(name, "Sloop [%dm]", dist);
                                 else if (type.find("BP_MediumShip") != std::string::npos)
-                                    sprintf_s(name, "Brig [%d]", dist);
+                                    sprintf(name, "Brig [%dm]", dist);
                                 else if (type.find("BP_LargeShip") != std::string::npos)
-                                    sprintf_s(name, "Galleon [%d]", dist);
+                                    sprintf(name, "Galleon [%dm]", dist);
                                 else if (type.find("BP_AISmallShip") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Sloop [%d]", dist);
+                                    sprintf(name, "Skeleton Sloop [%dm]", dist);
                                 else if (type.find("BP_AILargeShip") != std::string::npos)
-                                    sprintf_s(name, "Skeleton Galleon [%d]", dist);
+                                    sprintf(name, "Skeleton Galleon [%dm]", dist);
                                 Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
                             }
                         }
@@ -999,7 +1006,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         }
                     }
 
-                    if (cfg.visuals.mermaids.bEnable && !localCharacter->IsLoading())
+                    if (cfg.visuals.bEnable && cfg.visuals.mermaids.bEnable && !localCharacter->IsLoading())
                     {
                         if (actor->isMermaid())
                         {
@@ -1010,14 +1017,14 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 FVector2D screen;
                                 if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                     char name[0x16];
-                                    sprintf_s(name, "Mermaid [%d]", dist);
+                                    sprintf(name, "Mermaid [%dm]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.mermaids.textCol);
                                 }
                             }
                         }
                     }
 
-                    if (cfg.visuals.rowboats.bEnable && cfg.visuals.rowboats.bName && actor->isRowboat() && !localCharacter->IsLoading())
+                    if (cfg.visuals.bEnable && cfg.visuals.rowboats.bEnable && cfg.visuals.rowboats.bName && actor->isRowboat() && !localCharacter->IsLoading())
                     {
                         const FVector location = actor->K2_GetActorLocation();
                         FVector2D screen;
@@ -1028,16 +1035,16 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             const int dist = localLoc.DistTo(location) * 0.01f;
                             char name[0x64];
                             if (type.find("BP_SwampRowboat") != std::string::npos)
-                                sprintf_s(name, "Rowboat [%d]", dist);
+                                sprintf(name, "Rowboat [%dm]", dist);
                             else if (type.find("BP_Rowboat") != std::string::npos)
-                                sprintf_s(name, "Rowboat [%d]", dist);
-                            else if (type.find("BP_Rowboat_WithFrontHarpoon_C") != std::string::npos)
-                                sprintf_s(name, "Harpoon Rowboat [%d]", dist);
+                                sprintf(name, "Rowboat [%dm]", dist);
+                            else if (type.find("Harpoon") != std::string::npos)
+                                sprintf(name, "Harpoon Rowboat [%dm]", dist);
                             Drawing::RenderText(name, screen, cfg.visuals.rowboats.textCol);
                         }
                     }
 
-                    if (cfg.visuals.world.bEnable && actor->isEvent() && !localCharacter->IsLoading())
+                    if (cfg.visuals.bEnable && cfg.visuals.world.bEnable && actor->isEvent() && !localCharacter->IsLoading())
                     {
                         const FVector location = actor->K2_GetActorLocation();
                         FVector2D screen;
@@ -1048,17 +1055,17 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             const int dist = localLoc.DistTo(location) * 0.01f;
                             char name[0x64];
                             if (type.find("ShipCloud") != std::string::npos)
-                                sprintf_s(name, "Fleet [%d]", dist);
+                                sprintf(name, "Fleet [%dm]", dist);
                             else if (type.find("AshenLord") != std::string::npos)
-                                sprintf_s(name, "Ashen Lord [%d]", dist);
+                                sprintf(name, "Ashen Lord [%dm]", dist);
                             else if (type.find("Flameheart") != std::string::npos)
-                                sprintf_s(name, "Flame Heart [%d]", dist); 
+                                sprintf(name, "Flame Heart [%dm]", dist); 
                             else if (type.find("LegendSkellyFort") != std::string::npos)
-                                sprintf_s(name, "Fort of Fortune [%d]", dist);
+                                sprintf(name, "Fort of Fortune [%dm]", dist);
                             else if (type.find("RitualSkullcloud") != std::string::npos)
-                                sprintf_s(name, "FOTD [%d]", dist);
+                                sprintf(name, "FOTD [%dm]", dist);
                             else if (type.find("BP_SkellyFort") != std::string::npos)
-                                sprintf_s(name, "Skull Fort [%d]", dist);
+                                sprintf(name, "Skull Fort [%dm]", dist);
                             Drawing::RenderText(name, screen, cfg.visuals.world.textCol);
                         }
                     }
@@ -1073,7 +1080,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             if (localController->ProjectWorldLocationToScreen(location, screen))
                             {
                                 char buf[0x64];
-                                sprintf_s(buf, "B");
+                                sprintf(buf, "B");
                                 Drawing::RenderText(buf, screen, cfg.visuals.items.barreltextCol);
                             }
                         }
@@ -1144,7 +1151,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     {
                                         const int dist = localLoc.DistTo(current_map_pin_world) * 0.01f;
                                         char name[0x64];
-                                        snprintf(name, sizeof(name), "Map Pin [%d]", dist);
+                                        snprintf(name, sizeof(name), "Map Pin [%dm]", dist);
                                         Drawing::RenderText(name, { screen.X, screen.Y - 8 }, { 1.f,1.f,1.f,1.f }, true, true);
                                     }
                                 }
@@ -1380,7 +1387,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     if (superName && className)
                                     {
                                         char buf[0x128];
-                                        sprintf_s(buf, "%s %s [%d] (%p)", className, superName, (int)dist, actor);
+                                        sprintf(buf, "%s %s [%dm] (%p)", className, superName, (int)dist, actor);
                                         Drawing::RenderText(buf, screen, ImVec4(1.f, 1.f, 1.f, 1.f));
                                     }
                                 }
@@ -1401,7 +1408,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         const int dist = localLoc.DistTo(location) * 0.01f;
                                         char name[0x64];
                                         const int len = desc->Title->multi(name, 0x50);
-                                        snprintf(name + len, sizeof(name) - len, " [%d]", dist);
+                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
                                     }; 
                                 }
@@ -1417,7 +1424,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     const int dist = localLoc.DistTo(location) * 0.01f;
                                     char name[0x64];
-                                    sprintf_s(name, "Shipwreck [%d]", dist);
+                                    sprintf(name, "Shipwreck [%dm]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.shipwrecks.textCol);
                                 };
                                 continue;
@@ -1504,10 +1511,14 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     char name[0x30];
                                     const int len = playerName.multi(name, 0x20);
                                     const int dist = localLoc.DistTo(origin) * 0.01f;
-                                    snprintf(name + len, sizeof(name) - len, " [%d]", dist);
+                                    snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
                                     const float adjust = height * 0.05f;
                                     FVector2D pos = { headPos.X, headPos.Y - adjust };
                                     Drawing::RenderText(name, pos, cfg.visuals.players.textCol);                                   
+                                }
+
+                                if (cfg.visuals.players.bWeaponanmes)
+                                {
                                 }
 
                                 if (cfg.visuals.players.barType != Config::EBar::ENone)
@@ -1602,7 +1613,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     const int dist = localLoc.DistTo(location) * 0.01f;
                                     char name[0x20];
-                                    sprintf_s(name, "Skeleton [%d]", dist);
+                                    sprintf(name, "Skeleton [%dm]", dist);
                                     Drawing::RenderText(name, headPos, cfg.visuals.skeletons.textCol);
                                 }
 
@@ -1673,7 +1684,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         const int dist = localLoc.DistTo(origin) * 0.01f;
                                         char name[0x32];
                                         const int len = displayName->multi(name, 0x50);
-                                        snprintf(name + len, sizeof(name) - len, " [%d]", dist);
+                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
                                         const float adjust = height * 0.05f;
                                         FVector2D pos = { headPos.X, headPos.Y - adjust };
                                         Drawing::RenderText(name, pos, cfg.visuals.animals.textCol);
@@ -1699,7 +1710,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     char name[0x20];
                                     const int dist = localLoc.DistTo(origin) * 0.01f;
-                                    sprintf_s(name, "Shark [%d]", dist);
+                                    sprintf(name, "Shark [%dm]", dist);
                                     const float adjust = height * 0.05f;
                                     FVector2D pos = { headPos.X, headPos.Y - adjust };
                                     Drawing::RenderText(name, pos, cfg.visuals.sharks.textCol);
@@ -1717,7 +1728,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     if (localController->ProjectWorldLocationToScreen(location, screen)) {
                                         char name[0x64];
                                         const int dist = localLoc.DistTo(location) * 0.01f;
-                                        sprintf_s(name, "Vault Door [%d]", dist);
+                                        sprintf(name, "Vault Door [%dm]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.puzzles.textCol);
                                     };
                                 }
@@ -1762,7 +1773,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     char name[0x64];
                                     auto len = island->LocalisedName->multi(name, 0x50);
-                                    sprintf_s(name + len, sizeof(name) - len, " [%d]", dist);
+                                    sprintf_s(name + len, sizeof(name) - len, " [%dm]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.islands.textCol);
 
                                 }
@@ -1802,7 +1813,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     auto col = ImVec4(1.f, 1.f, 1.f, 1.f);
                     Drawing::RenderText(const_cast<char*>(directions[index]), pos, col);
                     char buf[0x30];
-                    int len = sprintf_s(buf, "%d", yaw);
+                    int len = sprintf(buf, "%d", yaw);
                     pos.Y += 15.f;
                     Drawing::RenderText(buf, pos, col);
                 
@@ -1839,8 +1850,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 if (cfg.aim.cannon.b_instant_shoot && cannon->IsReadyToFire())
                                 {
                                     cannon->Fire();
-                                    keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
-                                    keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                                    static std::uintptr_t desiredTime = 0;
+                                    if (milliseconds_now() >= desiredTime)
+                                    {
+                                        keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                                        keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                                        desiredTime = milliseconds_now() + 100;
+                                    }
                                 }
                             }
                         }
@@ -2095,6 +2111,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.players.bEnable);
                     ImGui::Checkbox("Draw Teammates", &cfg.visuals.players.bDrawTeam);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.players.bName);
+                    ImGui::Checkbox("Draw Weapon Name", &cfg.visuals.players.bWeaponanmes);
                     ImGui::Checkbox("Draw Skeleton", &cfg.visuals.players.bSkeleton);
                     ImGui::Combo("Box Type", reinterpret_cast<int*>(&cfg.visuals.players.boxType), boxes, IM_ARRAYSIZE(boxes));
                     ImGui::Combo("Health Bar Type", reinterpret_cast<int*>(&cfg.visuals.players.barType), bars, IM_ARRAYSIZE(bars));
