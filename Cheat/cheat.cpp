@@ -734,30 +734,17 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
             if (cfg.misc.bEnable && cfg.misc.client.bEnable && !localCharacter->IsLoading())
             {
-                int return_value = (int)localCharacter->GetTargetFOV(AACharacter);
-                if (return_value == 78.0f) //normal fov
+                static std::uintptr_t desiredTime = 0;
+                if (milliseconds_now() >= desiredTime)
                 {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
-                }
-                else if (return_value == 73.f) //steering wheel, harpoon, cannon
-                {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
-                }
-                else if (return_value == 90.f) //sprinting
-                {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
-                }
-                else if (return_value == 60.f) //pistol zoom
-                {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
-                }
-                else if (return_value == 70.f) //blunderbuss
-                {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
-                }
-                else if (return_value == 30.f) //sniper
-                {
-                    localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.4f);
+                    int return_value = (int)localCharacter->GetTargetFOV(AACharacter);;
+                    // Logger::Log("return_value = %d\n", return_value); // Print return_value
+                    localController->FOV(cfg.misc.client.fov);
+                    if (return_value == 17.f) //spyglass
+                    {
+                        localController->FOV(cfg.misc.client.fov * 0.2f);
+                    }
+                    desiredTime = milliseconds_now() + 100;
                 }
             }
 
