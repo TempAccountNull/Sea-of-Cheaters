@@ -128,7 +128,7 @@ inline void Cheat::Hacks::Remove()
     //RemoveHook(ProcessEventOriginal);
 }
 
-void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos, const ImVec4& color, const bool outlined = false, const bool centered = true)
+void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos, const ImVec4& color, const bool outlined = true, const bool centered = true)
 {
     if (!text) return;
     auto ImScreen = *reinterpret_cast<const ImVec2*>(&pos);
@@ -517,7 +517,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
     try
     {
         do
-        {
+        {         
+
             memset(&cache, 0, sizeof(Cache));
             auto const world = *UWorld::GWorld;
 
@@ -734,27 +735,27 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             if (cfg.misc.bEnable && cfg.misc.client.bEnable && !localCharacter->IsLoading())
             {
                 int return_value = (int)localCharacter->GetTargetFOV(AACharacter);
-                if (return_value == 78) //normal fov
+                if (return_value == 78.0f) //normal fov
                 {
                     localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
                 }
-                else if (return_value == 73) //steering wheel, harpoon, cannon
+                else if (return_value == 73.f) //steering wheel, harpoon, cannon
                 {
                     localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
                 }
-                else if (return_value == 90) //sprinting
+                else if (return_value == 90.f) //sprinting
                 {
                     localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
                 }
-                else if (return_value == 60) //pistol zoom
+                else if (return_value == 60.f) //pistol zoom
                 {
                     localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
                 }
-                else if (return_value == 70) //blunderbuss
+                else if (return_value == 70.f) //blunderbuss
                 {
                     localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
                 }
-                else if (return_value == 30) //sniper
+                else if (return_value == 30.f) //sniper
                 {
                     localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.4f);
                 }
@@ -946,7 +947,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             if (localController->ProjectWorldLocationToScreen(location, screen))
                             {
                                 auto water = actor->GetInternalWater();
-                                if (water) amount = water->GetNormalizedWaterAmount() * 100;
+                                if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                 auto type = actor->GetName();
                                 char name[0x64];
                                 if (type.find("BP_SmallShip") != std::string::npos)
@@ -1849,14 +1850,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                 if (cfg.aim.cannon.b_instant_shoot && cannon->IsReadyToFire())
                                 {
-                                    cannon->Fire();
-                                    static std::uintptr_t desiredTime = 0;
-                                    if (milliseconds_now() >= desiredTime)
-                                    {
-                                        keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
-                                        keybd_event(0x52, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-                                        desiredTime = milliseconds_now() + 100;
-                                    }
+                                    cannon->Fire();;
                                 }
                             }
                         }

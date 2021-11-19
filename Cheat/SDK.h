@@ -500,6 +500,11 @@ struct AController {
 		ProcessEvent(this, fn, &Val);
 	}
 
+	void FOV(float NewFOV) {
+		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.FOV");
+		ProcessEvent(this, fn, &NewFOV);
+	}
+
 	bool LineOfSightTo(ACharacter* Other, const FVector& ViewPoint, const bool bAlternateChecks) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.Controller.LineOfSightTo");
 		struct {
