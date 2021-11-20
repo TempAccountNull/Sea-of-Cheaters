@@ -1,91 +1,89 @@
-﻿  unity_XUFAXATJUBCR6VVF.cpp
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(355,30): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(361,30): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(364,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(385,20): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(323): message : see declaration of 'APlayerState'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(459,16): warning C4101: 'ReturnValue': unreferenced local variable
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(674,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(675,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(837,65): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(248): message : see declaration of 'FString'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(848,70): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(248): message : see declaration of 'FString'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(859,27): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(323): message : see declaration of 'APlayerState'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(964,28): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(248): message : see declaration of 'FString'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1000,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1009,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1039,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1040,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1041,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1042,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1045,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1046,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1116,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1457,49): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1465,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1731,29): warning C4099: 'UMeleeAttackDataAsset': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\SDK.h(1668): message : see declaration of 'UMeleeAttackDataAsset'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(298,32): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(432,24): warning C4305: '*=': truncation from 'double' to 'float'
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(831,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(840,64): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(840,36): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(928,68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(928,40): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(937,87): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1002,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1002,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1023,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1023,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1043,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1043,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1064,68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1064,40): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1127,51): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1140,97): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1140,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1185,80): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1396,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1396,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1413,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1413,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1501,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1501,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1602,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1602,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1672,82): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1672,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1700,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1700,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1718,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1718,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1757,77): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1757,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1797,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1924,83): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\Sea of Cheaters\Cheat\cheat.cpp(1963,88): warning C4305: 'argument': truncation from 'ImGuiColumnsFlags_' to 'bool'
+﻿  unity_WRUKX5UX1XMHPA2V.cpp
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(355,30): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(361,30): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(364,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(385,20): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(323): message : see declaration of 'APlayerState'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(459,16): warning C4101: 'ReturnValue': unreferenced local variable
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(674,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(233): message : see declaration of 'UClass'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(675,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(233): message : see declaration of 'UClass'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(837,65): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(848,70): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(859,27): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(323): message : see declaration of 'APlayerState'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(964,28): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(248): message : see declaration of 'FString'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1000,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(233): message : see declaration of 'UClass'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1009,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(233): message : see declaration of 'UClass'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1039,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(111): message : see declaration of 'UObject'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1040,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(111): message : see declaration of 'UObject'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1041,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(111): message : see declaration of 'UObject'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1042,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(111): message : see declaration of 'UObject'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1045,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(233): message : see declaration of 'UClass'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1046,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(233): message : see declaration of 'UClass'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1116,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(233): message : see declaration of 'UClass'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1457,49): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1465,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1731,29): warning C4099: 'UMeleeAttackDataAsset': type name first seen using 'struct' now seen using 'class'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\SDK.h(1668): message : see declaration of 'UMeleeAttackDataAsset'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(297,32): warning C4018: '<': signed/unsigned mismatch
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(431,24): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(709,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(724,68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(724,40): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(762,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(814,77): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(814,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(891,83): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1217,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1217,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1226,91): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1291,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1291,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1316,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1316,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1341,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1341,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1365,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1365,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1472,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1472,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1489,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1489,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1577,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1577,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1678,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1678,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1748,82): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1748,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1776,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1776,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1794,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1794,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1812,51): warning C4018: '<': signed/unsigned mismatch
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1825,97): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1825,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\Cheat\cheat.cpp(1858,80): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Generating code
-  0 of 2277 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  Previous IPDB not found, fall back to full compilation.
+  All 2424 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  Cheat.vcxproj -> C:\Users\Bigga\Desktop\sot\Sea of Cheaters\bin\Release\Cheat.dll
+  Cheat.vcxproj -> C:\Users\sophi\Desktop\Sea-of-Cheaters-optimised\bin\Release\Cheat.dll

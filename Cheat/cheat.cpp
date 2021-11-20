@@ -249,7 +249,6 @@ LRESULT WINAPI Cheat::Renderer::WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
         case ImGuiMouseCursor_NotAllowed:   win32_cursor = IDC_NO; break;
         }
         SetCursorOriginal(LoadCursorA(nullptr, win32_cursor));
-
     }
     if (!bIsOpen || uMsg == WM_KEYUP) return CallWindowProcA(WndProcOriginal, hwnd, uMsg, wParam, lParam);
     return DefWindowProcA(hwnd, uMsg, wParam, lParam);
@@ -839,6 +838,39 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             {
                 if (cfg.misc.client.bEnable)
                 {
+                    int return_value = (int)localCharacter->GetTargetFOV(AACharacter);;
+                    // Logger::Log("return_value = %d\n", return_value); // LOG RETURN VALUE IN LOGGER
+                    if (return_value == 78) // Normal FOV
+                    {
+                        localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.8924441025f);
+                    }
+                    else if (return_value == 73) // Steering Wheel, Harpoon, Cannons
+                    {
+                        localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.79862781343f);
+                    }
+                    else if (return_value == 90) // Sprinting
+                    {
+                        localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
+                    }
+                    else if (return_value == 60) // Pistol ADS
+                    {
+                        localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.76923076923f);
+                    }
+                    else if (return_value == 70) // Blunderbuss ADS
+                    {
+                        localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.80923076923f);
+                    }
+                    else if (return_value == 30) // Sniper ADS
+                    {
+                        localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.38461538461f);
+                    }
+                    else if (return_value == 17) // Spyglass
+                    {
+                        localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.24794397023f);
+                    }
+                    // FIND RETURN_VALUE FOR ROWBOAT SEAT, LADDER (IF LADDER HAS ONE)
+                }
+                {
                     if (cfg.misc.client.bShipInfo)
                     {
                         auto ship = localCharacter->GetCurrentShip();
@@ -873,41 +905,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             drawList->AddLine({ pos.X, pos.Y }, { pos.X + 100, pos.Y }, 0xFF00FF00, 4);
                             drawList->AddLine({ pos.X, pos.Y }, { pos.X + (100.f * internal_water_percent), pos.Y }, 0xFF0000FF, 4);
                         }
-                    }
-
-                    if (cfg.misc.client.bEnable)
-                    {
-                        int return_value = (int)localCharacter->GetTargetFOV(AACharacter);;
-                        // Logger::Log("return_value = %d\n", return_value); // LOG RETURN VALUE IN LOGGER
-                        if (return_value == 78) // NORMAL FOV
-                        {
-                            localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.8924441025f);
-                        }
-                        else if (return_value == 73) // Steering Wheel, Harpoon, Cannons
-                        {
-                            localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.79862781343f);
-                        }
-                        else if (return_value == 90) // Sprinting
-                        {
-                            localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 1.0f);
-                        }
-                        else if (return_value == 60) // Pistol ADS
-                        {
-                            localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.76923076923f);
-                        }
-                        else if (return_value == 70) // Blunderbuss ADS
-                        {
-                            localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.80923076923f);
-                        }
-                        else if (return_value == 30) // Sniper ADS
-                        {
-                            localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.38461538461f);
-                        }
-                        else if (return_value == 17) // Spyglass
-                        {
-                            localCharacter->SetTargetFOV(AACharacter, cfg.misc.client.fov * 0.24794397023f);
-                        }
-                        // FIND RETURN_VALUE FOR ROWBOAT SEAT, LADDER (IF LADDER HAS ONE)
                     }
                 }
 
@@ -987,7 +984,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         ImGui::PopStyleVar(2);
                         ImGui::SetNextWindowSize(ImVec2(335.f, 700.f), ImGuiCond_Once);
                         ImGui::SetNextWindowPos(ImVec2(10.f, 180.f), ImGuiCond_Once);
-                        ImGui::Begin("PlayersList", 0, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_AlwaysAutoResize | ImGuiColumnsFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
+                        ImGui::Begin("PlayersList", 0, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
                         auto shipsService = gameState->ShipService;
                         if (shipsService && !localCharacter->IsLoading())
                         {
@@ -1000,7 +997,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         auto crews = crewService->Crews;
                         if (crews.Data && !localCharacter->IsLoading())
                         {
-                            ImGui::Columns(2, "CrewPlayers", ImGuiColumnsFlags_NoResize);
+                            ImGui::Columns(2, "CrewPlayers"), ImGuiWindowFlags_NoResize;
                             ImGui::Separator();
                             ImGui::Text("Name"); ImGui::NextColumn();
                             ImGui::SetColumnOffset(1, 185.0f);
@@ -1015,8 +1012,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     for (uint32_t k = 0; k < players.Count; k++)
                                     {
                                         auto& player = players[k];
-                                        char buf[0x64];
-                                        player->PlayerName.multi(buf, 0x50);
+                                        char buf[0x36];
+                                        player->PlayerName.multi(buf, 0x20);
                                         ImGui::Text(buf);
                                         ImGui::NextColumn();
                                         const char* actions[] = { "None", "Bailing", "Cannon", "Cannon_END", "Anchor", "Anchor_END", "Carrying Item", "Carrying Item_END", "Dead", "Dead_END", "Digging", "Extinguishing Fire", "Emptying Bucket", "Harpoon", "Harpoon_END", "Losing Health", "Repairing", "Sails", "Sails_END", "Undoing Repair", "Wheel", "Wheel_END" };
@@ -1068,7 +1065,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     {
                         localWeapon->WeaponParameters.EquipDuration = 0.f;
                         localWeapon->WeaponParameters.RecoilDuration = 0.f;
-                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.f; // EYE OF REACH SCOPE FIX
+                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.15f; // EYE OF REACH SCOPE FIX
                         localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
                         localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
                         localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
@@ -1228,7 +1225,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     auto water = actor->GetInternalWater();
                                     if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
                                     auto type = actor->GetName();
-                                    char name[0x64];
+                                    char name[0x42];
                                     if (type.find("BP_SmallShip") != std::string::npos)
                                         sprintf(name, "Sloop (%d%% Water) [%dm]", amount, dist);
                                     else if (type.find("BP_MediumShip") != std::string::npos)
@@ -1248,7 +1245,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 if (localController->ProjectWorldLocationToScreen(location, screen))
                                 {
                                     auto type = actor->GetName();
-                                    char name[0x64];
+                                    char name[0x40];
                                     if (type.find("BP_SmallShip") != std::string::npos)
                                         sprintf(name, "Sloop [%dm]", dist);
                                     else if (type.find("BP_MediumShip") != std::string::npos)
@@ -1317,13 +1314,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     {
                                         auto type = actor->GetName();
                                         const int dist = localLoc.DistTo(location) * 0.01f;
-                                        char name[0x64];
+                                        char name[0x24];
                                         if (type.find("BP_SwampRowboat") != std::string::npos)
-                                            sprintf(name, "Rowboat [%dm]", dist);
-                                        else if (type.find("BP_Rowboat") != std::string::npos)
                                             sprintf(name, "Rowboat [%dm]", dist);
                                         else if (type.find("Harpoon") != std::string::npos)
                                             sprintf(name, "Harpoon Rowboat [%dm]", dist);
+                                        else if (type.find("BP_Rowboat") != std::string::npos)
+                                            sprintf(name, "Rowboat [%dm]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.rowboats.textCol);
                                     }
                                 }
@@ -1342,19 +1339,19 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     auto type = actor->GetName();
                                     const int dist = localLoc.DistTo(location) * 0.01f;
-                                    char name[0x64];
-                                    if (type.find("ShipCloud") != std::string::npos)
+                                    char name[0x36];
+                                    if (type.find("SkellyShip") != std::string::npos)
                                         sprintf(name, "Fleet [%dm]", dist);
                                     else if (type.find("AshenLord") != std::string::npos)
-                                        sprintf(name, "Ashen Lord [%dm]", dist);
-                                    else if (type.find("Flameheart") != std::string::npos)
-                                        sprintf(name, "Flame Heart [%dm]", dist);
+                                        sprintf(name, "Ashen Winds Cloud [%dm]", dist);
+                                    else if (type.find("GhostShips") != std::string::npos)
+                                        sprintf(name, "Flameheart Cloud [%dm]", dist);
                                     else if (type.find("LegendSkellyFort") != std::string::npos)
-                                        sprintf(name, "Fort of Fortune [%dm]", dist);
-                                    else if (type.find("RitualSkullcloud") != std::string::npos)
-                                        sprintf(name, "FOTD [%dm]", dist);
-                                    else if (type.find("BP_SkellyFort") != std::string::npos)
-                                        sprintf(name, "Skull Fort [%dm]", dist);
+                                        sprintf(name, "Fort Of Fortune Cloud [%dm]", dist);
+                                    else if (type.find("RitualSkullCloud") != std::string::npos)
+                                        sprintf(name, "Fort Of The Damned Cloud [%dm]", dist);
+                                    else if (type.find("SkullCloud") != std::string::npos)
+                                        sprintf(name, "Skull Fort Cloud [%dm]", dist);
                                     Drawing::RenderText(name, screen, cfg.visuals.world.textCol);
                                 }
                             }
@@ -1371,7 +1368,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 {
                                     if (localController->ProjectWorldLocationToScreen(location, screen))
                                     {
-                                        char buf[0x64];
+                                        char buf[0x1];
                                         sprintf(buf, "B");
                                         Drawing::RenderText(buf, screen, cfg.visuals.items.barreltextCol);
                                     }
@@ -1575,13 +1572,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     {
                                         continue;
                                     }
-                                    char name[0x30];
-                                    const int len = playerName.multi(name, 0x20);
+                                    char buf[0x30];
+                                    const int len = playerName.multi(buf, 0x20);
                                     const int dist = localLoc.DistTo(origin) * 0.01f;
-                                    snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
+                                    snprintf(buf + len, sizeof(buf) - len, " [%dm]", dist);
                                     const float adjust = height * 0.05f;
                                     FVector2D pos = { headPos.X, headPos.Y - adjust };
-                                    Drawing::RenderText(name, pos, cfg.visuals.players.textCol);
+                                    Drawing::RenderText(buf, pos, cfg.visuals.players.textCol);
                                 }
 
                                 if (cfg.visuals.players.bWeaponanmes)
@@ -2062,38 +2059,67 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
         ImGuiStyle* style = &ImGui::GetStyle();
 
-        style->WindowPadding = ImVec2(8, 8);
-        style->WindowRounding = 7.0f;
-        style->FramePadding = ImVec2(4, 3);
-        style->FrameRounding = 0.0f;
-        style->ItemSpacing = ImVec2(6, 4);
-        style->ItemInnerSpacing = ImVec2(4, 4);
-        style->IndentSpacing = 20.0f;
-        style->ScrollbarSize = 14.0f;
+        //style->WindowPadding = ImVec2(8, 8);
+        //style->WindowRounding = 7.0f;
+        //style->FramePadding = ImVec2(4, 3);
+        //style->FrameRounding = 0.0f;
+        //style->ItemSpacing = ImVec2(6, 4);
+        //style->ItemInnerSpacing = ImVec2(4, 4);
+        //style->IndentSpacing = 20.0f;
+        //style->ScrollbarSize = 14.0f;
+        //style->ScrollbarRounding = 9.0f;
+        //style->GrabMinSize = 5.0f;
+        //style->GrabRounding = 0.0f;
+        //style->WindowBorderSize = 0;
+        //style->WindowTitleAlign = ImVec2(0.0f, 0.5f);
+        //style->FramePadding = ImVec2(4, 3);
+
+        style->WindowPadding = ImVec2(13, 13);
+        style->WindowRounding = 5.0f;
+        style->FramePadding = ImVec2(5, 5);
+        style->FrameRounding = 4.0f;
+        style->ItemSpacing = ImVec2(6, 8);
+        style->ItemInnerSpacing = ImVec2(7, 5);
+        style->IndentSpacing = 25.0f;
+        style->ScrollbarSize = 15.0f;
         style->ScrollbarRounding = 9.0f;
         style->GrabMinSize = 5.0f;
-        style->GrabRounding = 0.0f;
+        style->GrabRounding = 3.0f;
         style->WindowBorderSize = 0;
-        style->WindowTitleAlign = ImVec2(0.0f, 0.5f);
-        style->FramePadding = ImVec2(4, 3);
+        style->WindowTitleAlign = ImVec2(0.5, 0.5);
+        style->FramePadding = ImVec2(6, 4);
 
-        style->Colors[ImGuiCol_TitleBg] = ImColor(1, 32, 255, 225);
-        style->Colors[ImGuiCol_TitleBgActive] = ImColor(1, 32, 255, 225);
+        //style->Colors[ImGuiCol_TitleBg] = ImColor(1, 32, 255, 225);
+        //style->Colors[ImGuiCol_TitleBgActive] = ImColor(1, 32, 255, 225);
 
-        style->Colors[ImGuiCol_Button] = ImColor(1, 32, 255, 225);
-        style->Colors[ImGuiCol_ButtonActive] = ImColor(1, 32, 255, 225);
+        style->Colors[ImGuiCol_TitleBg] = ImColor(1, 133, 116, 225);
+        style->Colors[ImGuiCol_TitleBgActive] = ImColor(1, 133, 116, 225);
+
+        //style->Colors[ImGuiCol_Button] = ImColor(1, 32, 255, 225);
+        //style->Colors[ImGuiCol_ButtonActive] = ImColor(1, 32, 255, 225);
+        //style->Colors[ImGuiCol_ButtonHovered] = ImColor(41, 40, 41, 255);
+
+        style->Colors[ImGuiCol_Button] = ImColor(31, 30, 31, 255);
+        style->Colors[ImGuiCol_ButtonActive] = ImColor(31, 30, 31, 255);
         style->Colors[ImGuiCol_ButtonHovered] = ImColor(41, 40, 41, 255);
 
         style->Colors[ImGuiCol_Separator] = ImColor(70, 70, 70, 255);
         style->Colors[ImGuiCol_SeparatorActive] = ImColor(76, 76, 76, 255);
         style->Colors[ImGuiCol_SeparatorHovered] = ImColor(76, 76, 76, 255);
 
-        style->Colors[ImGuiCol_Tab] = ImColor(1, 32, 230, 225);
-        style->Colors[ImGuiCol_TabHovered] = ImColor(1, 32, 238, 225);
-        style->Colors[ImGuiCol_TabActive] = ImColor(1, 32, 238, 225);
+        //style->Colors[ImGuiCol_Tab] = ImColor(1, 32, 230, 225);
+        //style->Colors[ImGuiCol_TabHovered] = ImColor(1, 32, 238, 225);
+        //style->Colors[ImGuiCol_TabActive] = ImColor(1, 32, 238, 225);
 
-        style->Colors[ImGuiCol_SliderGrab] = ImColor(1, 32, 255, 225);
-        style->Colors[ImGuiCol_SliderGrabActive] = ImColor(1, 32, 255, 225);
+        style->Colors[ImGuiCol_Tab] = ImColor(29, 138, 153, 255);
+        style->Colors[ImGuiCol_TabHovered] = ImColor(122, 158, 159, 255);
+        style->Colors[ImGuiCol_TabActive] = ImColor(122, 158, 159, 255);
+
+        //style->Colors[ImGuiCol_SliderGrab] = ImColor(1, 32, 255, 225);
+        //style->Colors[ImGuiCol_SliderGrabActive] = ImColor(1, 32, 255, 225);
+
+        style->Colors[ImGuiCol_SliderGrab] = ImColor(11, 201, 205, 255);
+        style->Colors[ImGuiCol_SliderGrabActive] = ImColor(11, 201, 205, 255);
 
         style->Colors[ImGuiCol_MenuBarBg] = ImColor(76, 76, 76, 255);
 
@@ -2242,7 +2268,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
 
                     ImGui::Checkbox("Enable", &cfg.visuals.puzzles.bEnable);
-                    ImGui::Checkbox("Draw Doors", &cfg.visuals.puzzles.bDoor);
+                    ImGui::Checkbox("Draw Name", &cfg.visuals.puzzles.bDoor);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.puzzles.textCol.x, 0);
 
                 }
@@ -2413,7 +2439,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.misc.client.bEnable);
                     ImGui::Checkbox("Ship Info", &cfg.misc.client.bShipInfo);
                     ImGui::Checkbox("Map Pins", &cfg.misc.client.b_map_pins);
-                    ImGui::SliderFloat("FOV", &cfg.misc.client.fov, 90.f, 180.f, "%.0f");
+                    ImGui::SliderFloat("FOV", &cfg.misc.client.fov, 90.f, 120.f, "%.0f");
 
                     ImGui::Separator();
                     if (ImGui::Button("Save Settings"))
