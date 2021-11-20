@@ -500,13 +500,14 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
+    ImGuiConfigFlags_NoMouseCursorChange;
 
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
 
-    ImGui::Begin("#1", nullptr, ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoTitleBar);
+    ImGui::Begin("#1", nullptr, ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoTitleBar | ImGuiConfigFlags_NoMouseCursorChange);
     auto& io = ImGui::GetIO();
     ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
     ImGui::SetWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y), ImGuiCond_Always);
@@ -608,24 +609,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             aimBest.target = nullptr;
             aimBest.best = FLT_MAX;
 
-            if (cfg.aim.cannon.bEnable)
-            {
-                if (ImGui::IsKeyPressed(VK_F5))
-                {
-                    if (cfg.aim.cannon.b_chain_shots == true)
-                    {
-                        cfg.aim.cannon.b_chain_shots = false;
-                    }
-                    else
-                    {
-                        if (cfg.aim.cannon.b_chain_shots == false)
-                        {
-                            cfg.aim.cannon.b_chain_shots = true;
-                        }
-                    }
-                }
-            }
-
             //if (ImGui::IsKeyPressed(VK_F10))
             //{
             //   
@@ -668,8 +651,8 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 
                 FVector vForward = UKismetMathLibrary::Conv_RotatorToVector(angle);
                 FVector pos = attachObject->K2_GetActorLocation();
-                pos.Z += 100;   //1m
-                pos = pos + (vForward * 150);   //1,50m
+                pos.Z += 100;   // 1m
+                pos = pos + (vForward * 150);   //1.5m
 
                 FVector vel = vForward * launchspeed;
                 if (localCharacter->GetCurrentShip())
@@ -710,9 +693,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     if (cannonball_tracers.at(i).drawn >= cannonball_tracers.at(i).draw_times)
                         cannonball_tracers.erase(cannonball_tracers.begin() + i);
 
-
             FVector2D radar_pos = { 1750.f, 175.f };
-            //radar frame
 
             if (cfg.visuals.bEnable && !localCharacter->IsLoading())
             {
@@ -1065,7 +1046,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     {
                         localWeapon->WeaponParameters.EquipDuration = 0.f;
                         localWeapon->WeaponParameters.RecoilDuration = 0.f;
-                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.15f; // EYE OF REACH SCOPE FIX
+                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.1388; // EYE OF REACH SCOPE FIX
                         localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
                         localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
                         localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
@@ -1229,7 +1210,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     if (type.find("BP_SmallShip") != std::string::npos)
                                         sprintf(name, "Sloop (%d%% Water) [%dm]", amount, dist);
                                     else if (type.find("BP_MediumShip") != std::string::npos)
-                                        sprintf(name, "Brig (%d%% Water) [%dm]", amount, dist);
+                                        sprintf(name, "Brigantine (%d%% Water) [%dm]", amount, dist);
                                     else if (type.find("BP_LargeShip") != std::string::npos)
                                         sprintf(name, "Galleon (%d%% Water) [%dm]", amount, dist);
                                     else if (type.find("BP_AISmallShip") != std::string::npos)
@@ -1249,7 +1230,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     if (type.find("BP_SmallShip") != std::string::npos)
                                         sprintf(name, "Sloop [%dm]", dist);
                                     else if (type.find("BP_MediumShip") != std::string::npos)
-                                        sprintf(name, "Brig [%dm]", dist);
+                                        sprintf(name, "Brigantine [%dm]", dist);
                                     else if (type.find("BP_LargeShip") != std::string::npos)
                                         sprintf(name, "Galleon [%dm]", dist);
                                     else if (type.find("BP_AISmallShip") != std::string::npos)
@@ -1790,7 +1771,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     const FVector location = reinterpret_cast<ACharacter*>(vault->OuterDoor)->K2_GetActorLocation();
                                     FVector2D screen;
                                     if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                        char name[0x64];
+                                        char name[0x20];
                                         const int dist = localLoc.DistTo(location) * 0.01f;
                                         sprintf(name, "Vault Door [%dm]", dist);
                                         Drawing::RenderText(name, screen, cfg.visuals.puzzles.textCol);
@@ -1823,7 +1804,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                     if (localController->ProjectWorldLocationToScreen(current_map_pin_world, screen))
                                     {
                                         const int dist = localLoc.DistTo(current_map_pin_world) * 0.01f;
-                                        char name[0x64];
+                                        char name[0x16];
                                         snprintf(name, sizeof(name), "Map Pin [%dm]", dist);
                                         Drawing::RenderText(name, { screen.X, screen.Y - 8 }, { 1.f,1.f,1.f,1.f }, true, true);
                                     }
