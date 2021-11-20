@@ -120,6 +120,7 @@ private:
             } shipwrecks;
             struct 
             {
+                bool bEnable = false;
                 bool bCrosshair = false;
                 bool bOxygen = false;
                 bool bCompass = false;
