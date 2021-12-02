@@ -320,9 +320,13 @@ struct FPirateDescription
 struct AAthenaPlayerCharacter {
 };
 
-struct APlayerState {
-	char pad[0x03D8];
-	FString PlayerName; // 0x03D8
+struct APlayerState 
+{
+	char pad[0x03D0];
+	float                                              Score;                                                     // 0x03D0(0x0004) (BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float											   Ping;                                                      // 0x03D4(0x0001) (BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	FString							                   PlayerName;                                                // 0x03D8 (BlueprintVisible, BlueprintReadOnly, Net, ZeroConstructor, RepNotify, HasGetValueTypeHash)
+
 
 	EPlayerActivityType GetPlayerActivity()
 	{
@@ -1269,11 +1273,28 @@ public:
 		return isLoading;
 	}
 
-	bool IsSinking() {
+	bool IsShipSinking()
+	{
 		static auto fn = UObject::FindObject<UFunction>("Function Athena.HullDamage.IsShipSinking");
-		bool isSinking = true;
-		ProcessEvent(this, fn, &isSinking);
-		return isSinking;
+		bool IsShipSinking = true;
+		ProcessEvent(this, fn, &IsShipSinking);
+		return IsShipSinking;
+	}
+
+	bool IsSinking()
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.SinkingComponent.IsSinking");
+		bool IsSinking = true;
+		ProcessEvent(this, fn, &IsSinking);
+		return IsSinking;
+	}
+
+	bool PlayerIsTeleporting()
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.StreamingTelemetryBaseEvent.PlayerIsTeleporting");
+		bool PlayerIsTeleporting = true;
+		ProcessEvent(this, fn, &PlayerIsTeleporting);
+		return PlayerIsTeleporting;
 	}
 
 	FRotator K2_GetActorRotation() {
@@ -1334,6 +1355,8 @@ public:
 		return IsA(obj);
 	}
 
+
+
 	inline bool isHarpoon() {
 		static auto obj = UObject::FindClass("Class Athena.HarpoonLauncher");
 		return IsA(obj);
@@ -1354,6 +1377,17 @@ public:
 		return IsA(obj);
 	}
 
+	inline bool isAmmoChest() {
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AmmoChest.BP_AmmoChest_C");
+		return IsA(obj);
+	}
+
+	inline bool isNewHole()
+	{
+		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_BaseInternalDamageZone.BP_BaseInternalDamageZone_C");
+		return IsA(obj);
+	}
+
 	inline bool isKeg() {
 		static auto obj = UObject::FindClass("");
 		return IsA(obj);
@@ -1367,6 +1401,11 @@ public:
 
 	inline bool isShark() {
 		static auto obj = UObject::FindClass("Class Athena.SharkPawn");
+		return IsA(obj);
+	}
+
+	inline bool isMegalodon() {
+		static auto obj = UObject::FindClass("");
 		return IsA(obj);
 	}
 
@@ -1416,6 +1455,7 @@ public:
 		ProcessEvent(this, fn, &params);
 		return params;
 	}	
+
 	AShipInternalWater* GetInternalWater() {
 		static auto fn = UObject::FindObject<UFunction>("Function Athena.Ship.GetInternalWater");
 		AShipInternalWater* params = nullptr;
@@ -1720,7 +1760,6 @@ struct UMeleeAttackDataAsset
 	class UForceFeedbackEffect*                        AttackerHitLandedForceFeedbackEffect;                      // 0x0220(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UClass*                                      DefenderHitReceivedCameraShake;                            // 0x0228(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
 	class UForceFeedbackEffect*                        DefenderHitReceivedForceFeedbackEffect;                    // 0x0230(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
 };
 
 

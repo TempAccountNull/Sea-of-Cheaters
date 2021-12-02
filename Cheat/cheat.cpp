@@ -128,7 +128,7 @@ inline void Cheat::Hacks::Remove()
     //RemoveHook(ProcessEventOriginal);
 }
 
-void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos, const ImVec4& color, const bool outlined = true, const bool centered = true)
+void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos, const ImVec4& color, const bool outlined = false, const bool centered = true)
 {
     if (!text) return;
     auto ImScreen = *reinterpret_cast<const ImVec2*>(&pos);
@@ -142,7 +142,7 @@ void Cheat::Renderer::Drawing::RenderText(const char* text, const FVector2D& pos
 
     // That "outline" doubles text drawn count so heaviest part of code becomes twice as slow while it's absolutely unnecessary
 
-    if (outlined)
+    if (cfg.visuals.bEnable && cfg.visuals.textoutlines)
     {
         window->DrawList->AddText(nullptr, 0.f, ImVec2(ImScreen.x - 1.f, ImScreen.y + 1.f), ImGui::GetColorU32(IM_COL32_BLACK), text);
     }
@@ -517,8 +517,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
     try
     {
         do
-        {         
-
+        {      
             memset(&cache, 0, sizeof(Cache));
             auto const world = *UWorld::GWorld;
 
@@ -560,83 +559,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             bool isWieldedWeapon = false;
             auto item = localCharacter->GetWieldedItem();
 
-            auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);
-
-
-            if (cfg.misc.bEnable && cfg.misc.sword.bEnable && item && item->isSword())
-            {
-                if (cfg.misc.sword.noblockreduce)
-                {
-                    localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__EMeleeWeaponMovementSpeed_MAX;
-                }
-                else
-                {
-                    localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__Slowed;
-                }
-
-                if (cfg.misc.sword.noclamp)
-                {
-                    localSword->DataAsset->HeavyAttack->ClampYawRange = -1.f;
-                }
-                else
-                {
-                    localSword->DataAsset->HeavyAttack->ClampYawRange = 90.f;
-                }
-
-                if (cfg.misc.sword.fasterattack)
-                {
-
-                }
-
-            }
+            auto const localSword = *reinterpret_cast<AMeleeWeapon**>(&item);       
 
             if (item)
                 isWieldedWeapon = item->isWeapon();
 
             auto const localWeapon = *reinterpret_cast<AProjectileWeapon**>(&item);
 
-            if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.shotgun.bEnable)
-            {
-                if (localWeapon->WeaponParameters.NumberOfProjectiles > 1) // SHOTGUN CHECK
-                {
-                    if (cfg.misc.shotgun.nospread_aim)
-                    {
-                        localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDistributionMaxAngle = 0.f;
-                    }
-                    else
-                    {
-                        localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDistributionMaxAngle = 8.f;
-                    }
-
-                    if (cfg.misc.shotgun.nospread_hip)
-                    {
-                        localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDistributionMaxAngle = 0.f;
-                    }
-                    else
-                    {
-                        localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDistributionMaxAngle = 16.f;
-                    }
-                }
-            }
-
-            if (cfg.misc.bEnable && localWeapon && isWieldedWeapon && cfg.misc.allweapons.bEnable)
-            {
-                if (cfg.misc.allweapons.fasterreloading)
-                {
-                    localWeapon->WeaponParameters.EquipDuration = 0.f;
-                    localWeapon->WeaponParameters.RecoilDuration = 0.f;
-                    localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.f; // EYE OF REACH SCOPE FIX
-                    localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
-                    localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
-                    localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
-                    localWeapon->WeaponParameters.TimeoutTolerance = 0.f;
-                    localWeapon->WeaponParameters.StunDuration = 1000.f;
-                }
-                if (cfg.misc.allweapons.fasteraimingspeed)
-                {
-                    localWeapon->WeaponParameters.AimingMoveSpeedScalar = 200.f;
-                }
-            }
             if (cfg.misc.bEnable && cfg.misc.render.bEnable)
             {
                 if (&cfg.misc.render.fpsboost)
@@ -698,71 +627,6 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 }
             }
 
-            if (cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.b_bunnyhop)
-            {
-                static std::uintptr_t desiredTime = 0;
-                if (milliseconds_now() >= desiredTime)
-                {
-                    if (ImGui::IsKeyPressed(VK_SPACE))
-                    {
-                        if (localCharacter->CanJump())
-                        {
-                            localCharacter->Jump();
-                        }
-                    }
-                    desiredTime = milliseconds_now() + 10;
-                }
-            }
-            if (cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.bLootsprint)
-            {
-                static std::uintptr_t desiredTime = 0;
-                if (milliseconds_now() >= desiredTime)
-                {
-                    if (GetAsyncKeyState(0x56) & 0x8000)
-                    {
-                        keybd_event(0x58, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
-                        keybd_event(VK_LSHIFT, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
-                        keybd_event(VK_LSHIFT, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-                        keybd_event(0x45, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
-                        keybd_event(0x45, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-                        keybd_event(0x58, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-                    }
-                    desiredTime = milliseconds_now() + 100;
-                }
-            }
-
-
-            if (cfg.misc.bEnable && cfg.misc.client.bEnable && !localCharacter->IsLoading())
-            {
-                static std::uintptr_t desiredTime = 0;
-                if (milliseconds_now() >= desiredTime)
-                {
-                    int return_value = (int)localCharacter->GetTargetFOV(AACharacter);;
-                    // Logger::Log("return_value = %d\n", return_value); // Print return_value
-                    localController->FOV(cfg.misc.client.fov);
-                    if (return_value == 17.f) //spyglass
-                    {
-                        localController->FOV(cfg.misc.client.fov * 0.2f);
-                    }
-                    desiredTime = milliseconds_now() + 100;
-                }
-            }
-
-            //if (ImGui::IsKeyPressed(VK_F10))
-            //{
-            //   
-            //    localController->PlayerCameraManager->ViewTarget.POV.Location = localCharacter->K2_GetActorLocation() + (localCharacter->GetActorForwardVector() * 400.f);
-            //   
-            //}
- 
-            /*  {
-                if (ImGui::IsKeyPressed(VK_F10))
-                {
-                    Sleep(2000);
-                }
-            }
-            */
-
             if (isCannon)
             {
                 auto cannon = reinterpret_cast<ACannon*>(attachObject);
@@ -772,7 +636,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     std::wstring loaded_name = cannon->LoadedItemInfo->Desc->Title->wide();
                     if (L"Chainshot" == loaded_name) // Checks if Cannon has loaded Chainshot via name of loaded item.
                         cfg.aim.cannon.b_chain_shots = true;
-                   else
+                    else
                         cfg.aim.cannon.b_chain_shots = false;
                 }
 
@@ -832,45 +696,355 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     if (cannonball_tracers.at(i).drawn >= cannonball_tracers.at(i).draw_times)
                         cannonball_tracers.erase(cannonball_tracers.begin() + i);
 
-            if (cfg.visuals.bEnable && cfg.visuals.client.b_cannon_tracers && !localCharacter->IsLoading())
-            {
-                for (int i = 0; i < cannonball_tracers.size(); i++)
-                {
-                    FVector location = cannonball_tracers[i].location;
-                    const int dist = localLoc.DistTo(location) * 0.01f;
-                    FVector2D screen;
-                    if (localController->ProjectWorldLocationToScreen(location, screen) && dist <= 515)
-                        drawList->AddCircle({ screen.X - 1, screen.Y - 1 }, 2, ImGui::GetColorU32(cfg.visuals.client.cannon_tracers_color), 6, 1);
-
-                    cannonball_tracers[i].drawn++;
-                }
-            }
-
 
             FVector2D radar_pos = { 1750.f, 175.f };
             //radar frame
-            if (cfg.visuals.bEnable && cfg.visuals.radar.bEnable && localCharacter->GetCurrentShip() && !localCharacter->IsLoading())
+
+            if (cfg.visuals.bEnable && !localCharacter->IsLoading())
             {
-                //fill
-                drawList->AddCircleFilled({ radar_pos.X, radar_pos.Y }, (cfg.visuals.radar.i_size / 2.f), 0x44000000, 60);
+                if (cfg.visuals.client.b_cannon_tracers)
+                {
+                    for (int i = 0; i < cannonball_tracers.size(); i++)
+                    {
+                        FVector location = cannonball_tracers[i].location;
+                        const int dist = localLoc.DistTo(location) * 0.01f;
+                        FVector2D screen;
+                        if (localController->ProjectWorldLocationToScreen(location, screen) && dist <= 515)
+                            drawList->AddCircle({ screen.X - 1, screen.Y - 1 }, 2, ImGui::GetColorU32(cfg.visuals.client.cannon_tracers_color), 6, 1);
 
-                //frame
-                drawList->AddCircle({ radar_pos.X, radar_pos.Y }, (cfg.visuals.radar.i_size / 2.f) + 1.f, 0xFF000000, 60, 1.f);
+                        cannonball_tracers[i].drawn++;
+                    }
+                }
 
-                //horizontal
-                drawList->AddLine({ radar_pos.X - (cfg.visuals.radar.i_size / 2.f), radar_pos.Y }, { radar_pos.X + (cfg.visuals.radar.i_size / 2.f), radar_pos.Y }, 0xFF000000, 1);
+                if (cfg.visuals.radar.bEnable && localCharacter->GetCurrentShip())
+                {
+                    //fill
+                    drawList->AddCircleFilled({ radar_pos.X, radar_pos.Y }, (cfg.visuals.radar.i_size / 2.f), 0x44000000, 60);
 
-                //center outline
-                drawList->AddCircleFilled({ radar_pos.X, radar_pos.Y }, 6, 0xFF000000, 15);
+                    //frame
+                    drawList->AddCircle({ radar_pos.X, radar_pos.Y }, (cfg.visuals.radar.i_size / 2.f) + 1.f, 0xFF000000, 60, 1.f);
 
-                //dir outline
-                drawList->AddLine({ radar_pos.X, radar_pos.Y }, { radar_pos.X, radar_pos.Y - 26 }, 0xFF000000, 3);
+                    //horizontal
+                    drawList->AddLine({ radar_pos.X - (cfg.visuals.radar.i_size / 2.f), radar_pos.Y }, { radar_pos.X + (cfg.visuals.radar.i_size / 2.f), radar_pos.Y }, 0xFF000000, 1);
 
-                //center
-                drawList->AddCircleFilled({ radar_pos.X, radar_pos.Y }, 5, 0xFF00FF00, 15);
+                    //center outline
+                    drawList->AddCircleFilled({ radar_pos.X, radar_pos.Y }, 6, 0xFF000000, 15);
 
-                //dir
-                drawList->AddLine({ radar_pos.X, radar_pos.Y }, { radar_pos.X, radar_pos.Y - 25 }, 0xFF00FF00, 1);
+                    //dir outline
+                    drawList->AddLine({ radar_pos.X, radar_pos.Y }, { radar_pos.X, radar_pos.Y - 26 }, 0xFF000000, 3);
+
+                    //center
+                    drawList->AddCircleFilled({ radar_pos.X, radar_pos.Y }, 5, 0xFF00FF00, 15);
+
+                    //dir
+                    drawList->AddLine({ radar_pos.X, radar_pos.Y }, { radar_pos.X, radar_pos.Y - 25 }, 0xFF00FF00, 1);
+                }
+
+                if (cfg.visuals.client.bCompass)
+                {
+
+                    const char* directions[] = { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
+                    int yaw = ((int)cameraRot.Yaw + 450) % 360;
+                    int index = int(yaw + 22.5f) % 360 * 0.0222222f;
+
+
+                    FVector2D pos = { io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.02f };
+                    auto col = ImVec4(1.f, 1.f, 1.f, 1.f);
+                    Drawing::RenderText(const_cast<char*>(directions[index]), pos, col);
+                    char buf[0x30];
+                    int len = sprintf(buf, "%d", yaw);
+                    pos.Y += 15.f;
+                    Drawing::RenderText(buf, pos, col);
+
+
+                }
+
+                if (cfg.visuals.client.bOxygen && localCharacter->IsInWater())
+                {
+                    auto drownComp = localCharacter->DrowningComponent;
+                    if (!drownComp) break;
+                    auto level = drownComp->GetOxygenLevel();
+                    auto posX = io.DisplaySize.x * 0.5f;
+                    auto posY = io.DisplaySize.y * 0.85f;
+                    auto barWidth2 = io.DisplaySize.x * 0.05f;
+                    auto barHeight2 = io.DisplaySize.y * 0.0030f;
+                    drawList->AddRectFilled({ posX - barWidth2, posY - barHeight2 }, { posX + barWidth2, posY + barHeight2 }, ImGui::GetColorU32(IM_COL32(0, 0, 0, 255)));
+                    drawList->AddRectFilled({ posX - barWidth2, posY - barHeight2 }, { posX - barWidth2 + barWidth2 * level * 2.f, posY + barHeight2 }, ImGui::GetColorU32(IM_COL32(0, 200, 255, 255)));
+                }
+
+                if (cfg.visuals.client.bCrosshair)
+                {
+                    drawList->AddLine({ io.DisplaySize.x * 0.5f - cfg.visuals.client.fCrosshair, io.DisplaySize.y * 0.5f }, { io.DisplaySize.x * 0.5f + cfg.visuals.client.fCrosshair, io.DisplaySize.y * 0.5f }, ImGui::GetColorU32(cfg.visuals.client.crosshairColor));
+                    drawList->AddLine({ io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f - cfg.visuals.client.fCrosshair }, { io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f + cfg.visuals.client.fCrosshair }, ImGui::GetColorU32(cfg.visuals.client.crosshairColor));
+                }
+
+                if (cfg.visuals.islands.bEnable)
+                {
+                    if (cfg.visuals.islands.bName)
+                    {
+                        do
+                        {
+                            auto const islandService = gameState->IslandService;
+                            if (!islandService) break;
+
+                            auto const islandDataAsset = islandService->IslandDataAsset;
+                            if (!islandDataAsset) break;
+
+                            auto const islandDataEntries = islandDataAsset->IslandDataEntries;
+                            if (!islandDataEntries.Data)break;
+
+                            for (auto i = 0u; i < islandDataEntries.Count; i++)
+                            {
+
+                                auto const island = islandDataEntries[i];
+
+                                auto const WorldMapData = island->WorldMapData;
+
+                                if (!WorldMapData) continue;
+
+                                const FVector islandLoc = WorldMapData->WorldSpaceCameraPosition;
+                                const int dist = localLoc.DistTo(islandLoc) * 0.01f;
+                                if (dist > cfg.visuals.islands.intMaxDist) continue;
+                                FVector2D screen;
+                                if (localController->ProjectWorldLocationToScreen(islandLoc, screen))
+                                {
+                                    char buf[0x64];
+                                    auto len = island->LocalisedName->multi(buf, 0x50);
+                                    sprintf_s(buf + len, sizeof(buf) - len, " [%dm]", dist);
+                                    Drawing::RenderText(buf, screen, cfg.visuals.islands.textCol);
+
+                                }
+                            }
+                        } while (false);
+                    }
+                }
+            }
+
+            if (cfg.misc.bEnable && !localCharacter->IsLoading())
+            {
+                if (cfg.misc.client.bEnable)
+                {
+                    if (cfg.misc.client.bShipInfo)
+                    {
+                        auto ship = localCharacter->GetCurrentShip();
+                        if (ship)
+                        {
+                            FVector velocity = ship->GetVelocity() / 100.f;
+                            char buf[0xFF];
+
+                            FVector2D pos{ 1.f, 45.f };
+                            ImVec4 col{ 1.f,1.f,1.f,1.f };
+
+                            auto speed = velocity.Size();
+                            sprintf(buf, "Speed: %.0fm/s", speed);
+                            pos.Y += 5.f;
+                            Drawing::RenderText(buf, pos, col, true, false);
+
+                            int holes = ship->GetHullDamage()->ActiveHullDamageZones.Count;
+                            sprintf(buf, "Holes: %d", holes);
+                            pos.Y += 20.f;
+                            Drawing::RenderText(buf, pos, col, true, false);
+
+                            int amount = 0;
+                            auto water = ship->GetInternalWater();
+                            if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                            sprintf(buf, "Water: %d%%", amount);
+                            pos.Y += 20.f;
+                            Drawing::RenderText(buf, pos, col, true, false);
+
+                            pos.Y += 22.f;
+                            float internal_water_percent = ship->GetInternalWater()->GetNormalizedWaterAmount();
+                            drawList->AddLine({ pos.X - 1, pos.Y }, { pos.X + 100 + 1, pos.Y }, 0xFF000000, 6);
+                            drawList->AddLine({ pos.X, pos.Y }, { pos.X + 100, pos.Y }, 0xFF00FF00, 4);
+                            drawList->AddLine({ pos.X, pos.Y }, { pos.X + (100.f * internal_water_percent), pos.Y }, 0xFF0000FF, 4);
+                        }
+                    }
+
+                    static std::uintptr_t desiredTime = 0;
+                    if (milliseconds_now() >= desiredTime)
+                    {
+                        int return_value = (int)localCharacter->GetTargetFOV(AACharacter);;
+                        // Logger::Log("return_value = %d\n", return_value); // Print return_value
+                        localController->FOV(cfg.misc.client.fov);
+                        if (return_value == 17.f) //spyglass
+                        {
+                            localController->FOV(cfg.misc.client.fov * 0.2f);
+                        }
+                        desiredTime = milliseconds_now() + 100;
+                    }
+                }
+
+                if (cfg.misc.sword.bEnable && item && item->isSword())
+                {
+                    if (cfg.misc.sword.noblockreduce)
+                    {
+                        localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__EMeleeWeaponMovementSpeed_MAX;
+                    }
+                    else
+                    {
+                        localSword->DataAsset->BlockingMovementSpeed = EMeleeWeaponMovementSpeed::EMeleeWeaponMovementSpeed__Slowed;
+                    }
+
+                    if (cfg.misc.sword.noclamp)
+                    {
+                        localSword->DataAsset->HeavyAttack->ClampYawRange = -1.f;
+                    }
+                    else
+                    {
+                        localSword->DataAsset->HeavyAttack->ClampYawRange = 90.f;
+                    }
+
+                    if (cfg.misc.sword.fasterattack)
+                    {
+
+                    }
+                }
+
+                if (cfg.misc.macro.bEnable)
+                {
+                    if (cfg.misc.macro.bLootsprint)
+                    {
+                        static std::uintptr_t desiredTime = 0;
+                        if (milliseconds_now() >= desiredTime)
+                        {
+                            if (GetAsyncKeyState(0x56) & 0x8000)
+                            {
+                                keybd_event(0x58, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                                keybd_event(VK_LSHIFT, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                                keybd_event(VK_LSHIFT, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                                keybd_event(0x46, 42, KEYEVENTF_EXTENDEDKEY | 0, 0);
+                                keybd_event(0x46, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                                keybd_event(0x58, 42, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+                                // if f=pickup bind then keybd_event(0x45 = keybd_event(0x46
+                            }
+                            desiredTime = milliseconds_now() + 100;
+                        }
+                    }
+
+                    if (cfg.misc.macro.b_bunnyhop)
+                    {
+                        static std::uintptr_t desiredTime = 0;
+                        if (milliseconds_now() >= desiredTime)
+                        {
+                            if (ImGui::IsKeyPressed(VK_SPACE))
+                            {
+                                if (localCharacter->CanJump())
+                                {
+                                    localCharacter->Jump();
+                                }
+                            }
+                            desiredTime = milliseconds_now() + 10;
+                        }
+                    }
+
+                    if (localController->IdleDisconnectEnabled && cfg.misc.macro.bIdleKick)
+                    {
+                        localController->IdleDisconnectEnabled = false;
+                    }
+                }
+
+                if (cfg.misc.game.bEnable)
+                {
+                    if (cfg.misc.game.bShowPlayers && !localCharacter->IsLoading())
+                    {
+                        ImGui::PopStyleColor();
+                        ImGui::PopStyleVar(2);
+                        ImGui::SetNextWindowSize(ImVec2(335.f, 700.f), ImGuiCond_Once);
+                        ImGui::SetNextWindowPos(ImVec2(10.f, 180.f), ImGuiCond_Once);
+                        ImGui::Begin("PlayersList", 0, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_AlwaysAutoResize | ImGuiColumnsFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
+                        auto shipsService = gameState->ShipService;
+                        if (shipsService)
+                        {
+                            ImGui::BeginChild("Info", { 0.f, 18.f });
+                            ImGui::Text("Server Player List | Total Ships (Including AI): %d", shipsService->GetNumShips());
+                            ImGui::EndChild();
+                        }
+
+                        auto crewService = gameState->CrewService;
+                        auto crews = crewService->Crews;
+                        if (crews.Data)
+                        {
+                            ImGui::Columns(2, "CrewPlayers", ImGuiColumnsFlags_NoResize);
+                            ImGui::Separator();
+                            ImGui::Text("Name"); ImGui::NextColumn();
+                            ImGui::SetColumnOffset(1, 185.0f);
+                            ImGui::Text("Activity"); ImGui::NextColumn();
+                            ImGui::Separator();
+                            for (uint32_t i = 0; i < crews.Count; i++)
+                            {
+                                auto& crew = crews[i];
+                                auto players = crew.Players;
+                                if (players.Data)
+                                {
+                                    for (uint32_t k = 0; k < players.Count; k++)
+                                    {
+                                        auto& player = players[k];
+                                        char buf[0x64];
+                                        player->PlayerName.multi(buf, 0x50);
+                                        ImGui::Text(buf);
+                                        ImGui::NextColumn();
+                                        const char* actions[] = { "None", "Bailing", "Cannon", "Cannon_END", "Anchor", "Anchor_END", "Carrying Item", "Carrying Item_END", "Dead", "Dead_END", "Digging", "Extinguishing Fire", "Emptying Bucket", "Harpoon", "Harpoon_END", "Losing Health", "Repairing", "Sails", "Sails_END", "Undoing Repair", "Wheel", "Wheel_END" };
+                                        auto activity = (uint8_t)player->GetPlayerActivity();
+                                        if (activity < 21) { ImGui::Text(actions[activity]); }
+
+                                        ImGui::NextColumn();
+                                    }
+                                    ImGui::Separator();
+                                }
+
+                            }
+                            ImGui::Columns();
+                        }
+                        ImGui::End();
+                        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
+                        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+                        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
+                    }
+                }
+
+                if (cfg.misc.shotgun.bEnable && localWeapon && isWieldedWeapon)
+                {
+                    if (localWeapon->WeaponParameters.NumberOfProjectiles > 1) // SHOTGUN CHECK
+                    {
+                        if (cfg.misc.shotgun.nospread_aim)
+                        {
+                            localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDistributionMaxAngle = 0.f;
+                        }
+                        else
+                        {
+                            localWeapon->WeaponParameters.AimDownSightsProjectileShotParams.ProjectileDistributionMaxAngle = 8.f;
+                        }
+
+                        if (cfg.misc.shotgun.nospread_hip)
+                        {
+                            localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDistributionMaxAngle = 0.f;
+                        }
+                        else
+                        {
+                            localWeapon->WeaponParameters.HipFireProjectileShotParams.ProjectileDistributionMaxAngle = 16.f;
+                        }
+                    }
+                }
+                
+                if (cfg.misc.allweapons.bEnable && localWeapon && isWieldedWeapon)
+                {
+                    if (cfg.misc.allweapons.fasterreloading)
+                    {
+                        localWeapon->WeaponParameters.EquipDuration = 0.f;
+                        localWeapon->WeaponParameters.RecoilDuration = 0.f;
+                        localWeapon->WeaponParameters.SecondsUntilZoomStarts = 0.f; // EYE OF REACH SCOPE FIX
+                        localWeapon->WeaponParameters.SecondsUntilPostStarts = 0.f;
+                        localWeapon->WeaponParameters.ZoomedRecoilDurationIncrease = 0.f;
+                        localWeapon->WeaponParameters.IntoAimingDuration = 0.f;
+                        localWeapon->WeaponParameters.TimeoutTolerance = 0.f;
+                        localWeapon->WeaponParameters.StunDuration = 1000.f;
+                    }
+
+                    if (cfg.misc.allweapons.fasteraimingspeed)
+                    {
+                        localWeapon->WeaponParameters.AimingMoveSpeedScalar = 200.f;
+                    }
+                }
             }
 
             for (auto l = 0u; l < levels.Count; l++)
@@ -922,198 +1096,625 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         //}
                     }
 
-                    if (cfg.visuals.bEnable && cfg.visuals.ships.bEnable && !localCharacter->IsLoading())
+                    if (cfg.visuals.bEnable && !localCharacter->IsLoading())
                     {
-                        const FVector location = actor->K2_GetActorLocation();
-                        const int dist = localLoc.DistTo(location) * 0.01f;
-                        int amount = 0;
-                        FVector2D screen;
-
-                        if (cfg.visuals.ships.bName && actor->isShip() && dist < 1726)
+                        if (cfg.visuals.megalodon.bEnable)
                         {
-                            if (localController->ProjectWorldLocationToScreen(location, screen))
+                            if (actor->isMegalodon())
                             {
-                                auto water = actor->GetInternalWater();
-                                if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                                auto type = actor->GetName();
-                                char name[0x64];
-                                if (type.find("BP_SmallShip") != std::string::npos)
-                                    sprintf(name, "Sloop (%d%% Water) [%dm]", amount, dist);
-                                else if (type.find("BP_MediumShip") != std::string::npos)
-                                    sprintf(name, "Brig (%d%% Water) [%dm]", amount, dist);
-                                else if (type.find("BP_LargeShip") != std::string::npos)
-                                    sprintf(name, "Galleon (%d%% Water) [%dm]", amount, dist);
-                                else if (type.find("BP_AISmallShip") != std::string::npos)
-                                    sprintf(name, "Skeleton Sloop (%d%% Water) [%dm]", amount, dist);
-                                else if (type.find("BP_AILargeShip") != std::string::npos)
-                                    sprintf(name, "Skeleton Galleon (%d%% Water) [%dm]", amount, dist);
-                                Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                            }
-                        }
-
-                        if (cfg.visuals.ships.bName && actor->isFarShip() && dist > 1725)
-                        {
-                            if (localController->ProjectWorldLocationToScreen(location, screen))
-                            {
-                                auto type = actor->GetName();
-                                char name[0x64];
-                                if (type.find("BP_SmallShip") != std::string::npos)
-                                    sprintf(name, "Sloop [%dm]", dist);
-                                else if (type.find("BP_MediumShip") != std::string::npos)
-                                    sprintf(name, "Brig [%dm]", dist);
-                                else if (type.find("BP_LargeShip") != std::string::npos)
-                                    sprintf(name, "Galleon [%dm]", dist);
-                                else if (type.find("BP_AISmallShip") != std::string::npos)
-                                    sprintf(name, "Skeleton Sloop [%dm]", dist);
-                                else if (type.find("BP_AILargeShip") != std::string::npos)
-                                    sprintf(name, "Skeleton Galleon [%dm]", dist);
-                                Drawing::RenderText(name, screen, cfg.visuals.ships.textCol);
-                            }
-                        }
-
-                        if (actor->isShip() && !localCharacter->IsLoading())
-                        {
-                            if (cfg.visuals.ships.bDamage && dist <= 225)
-                            {
-                                auto const damage = actor->GetHullDamage();
-                                if (!damage) continue;
-                                const auto holes = damage->ActiveHullDamageZones;
-                                for (auto h = 0u; h < holes.Count; h++)
+                                const FVector location = actor->K2_GetActorLocation();
+                                const int dist = localLoc.DistTo(location) * 0.01f;
+                                if (dist > cfg.visuals.mermaids.drawdistance) continue;
+                                if (cfg.visuals.mermaids.bName && dist)
                                 {
-                                    auto const hole = holes[h];
-
-                                    const FVector location = hole->K2_GetActorLocation();
-                                    if (localController->ProjectWorldLocationToScreen(location, screen))
-                                    {
-                                        auto color = cfg.visuals.ships.damageColor;
-                                        drawList->AddLine({ screen.X - 6.f, screen.Y + 6.f }, { screen.X + 6.f, screen.Y - 6.f }, ImGui::GetColorU32(color));
-                                        drawList->AddLine({ screen.X - 6.f, screen.Y - 6.f }, { screen.X + 6.f, screen.Y + 6.f }, ImGui::GetColorU32(color));
-                                    };
+                                    FVector2D screen;
+                                    if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                        char buf[0x16];
+                                        sprintf(buf, "Megalodon [%dm]", dist);
+                                        Drawing::RenderText(buf, screen, cfg.visuals.mermaids.textCol);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if (cfg.visuals.bEnable && cfg.visuals.mermaids.bEnable && !localCharacter->IsLoading())
-                    {
-                        if (actor->isMermaid())
+                        if (cfg.visuals.ships.bEnable)
                         {
                             const FVector location = actor->K2_GetActorLocation();
                             const int dist = localLoc.DistTo(location) * 0.01f;
-                            if (cfg.visuals.mermaids.bName && dist <= 200)
+                            int amount = 0;
+                            FVector2D screen;
+                            FVector velocity = actor->GetVelocity() / 100.f;
+                                    auto speed = velocity.Size();
+
+                            if (cfg.visuals.ships.bName && actor->isShip() && dist < 1726)
                             {
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                    char name[0x16];
-                                    sprintf(name, "Mermaid [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.mermaids.textCol);
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto water = actor->GetInternalWater();
+                                    if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
+                                    auto type = actor->GetName();
+                                    char buf[0x64];
+                                    if (type.find("BP_SmallShip") != std::string::npos)
+                                        sprintf(buf, "Sloop (%d%% Water) [%dm] [%.0fm/s]", amount, dist, speed);
+                                    else if (type.find("BP_MediumShip") != std::string::npos)
+                                        sprintf(buf, "Brig (%d%% Water) [%dm] [%.0fm/s]", amount, dist, speed);
+                                    else if (type.find("BP_LargeShip") != std::string::npos)
+                                        sprintf(buf, "Galleon (%d%% Water) [%dm] [%.0fm/s]", amount, dist, speed);
+                                    else if (type.find("BP_AISmallShip") != std::string::npos)
+                                        sprintf(buf, "Skeleton Sloop (%d%% Water) [%dm] [%.0fm/s]", amount, dist, speed);
+                                    else if (type.find("BP_AILargeShip") != std::string::npos)
+                                        sprintf(buf, "Skeleton Galleon (%d%% Water) [%dm] [%.0fm/s]", amount, dist, speed);
+                                    Drawing::RenderText(buf, screen, cfg.visuals.ships.textCol);
+                                }
+                            }
+
+                            if (cfg.visuals.ships.bName && actor->isFarShip() && dist > 1725)
+                            {
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto type = actor->GetName();
+                                    char buf[0x64];
+                                    if (type.find("BP_SmallShip") != std::string::npos)
+                                        sprintf(buf, "Sloop [%dm]", dist);
+                                    else if (type.find("BP_MediumShip") != std::string::npos)
+                                        sprintf(buf, "Brig [%dm]", dist);
+                                    else if (type.find("BP_LargeShip") != std::string::npos)
+                                        sprintf(buf, "Galleon [%dm]", dist);
+                                    else if (type.find("BP_AISmallShip") != std::string::npos)
+                                        sprintf(buf, "Skeleton Sloop [%dm]", dist);
+                                    else if (type.find("BP_AILargeShip") != std::string::npos)
+                                        sprintf(buf, "Skeleton Galleon [%dm]", dist);
+                                    Drawing::RenderText(buf, screen, cfg.visuals.ships.textCol);
+                                }
+                            }
+
+                            if (actor->isShip())
+                            {
+                                if (cfg.visuals.ships.bDamage && dist <= 225)
+                                {
+                                    auto const damage = actor->GetHullDamage();
+                                    if (!damage) continue;
+                                    const auto holes = damage->ActiveHullDamageZones;
+                                    for (auto h = 0u; h < holes.Count; h++)
+                                    {
+                                        auto const hole = holes[h];
+
+                                        const FVector location = hole->K2_GetActorLocation();
+                                        if (localController->ProjectWorldLocationToScreen(location, screen))
+                                        {
+                                            auto color = cfg.visuals.ships.damageColor;
+                                            drawList->AddLine({ screen.X - 6.f, screen.Y + 6.f }, { screen.X + 6.f, screen.Y - 6.f }, ImGui::GetColorU32(color));
+                                            drawList->AddLine({ screen.X - 6.f, screen.Y - 6.f }, { screen.X + 6.f, screen.Y + 6.f }, ImGui::GetColorU32(color));
+                                        };
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    if (cfg.visuals.bEnable && cfg.visuals.rowboats.bEnable && cfg.visuals.rowboats.bName && actor->isRowboat() && !localCharacter->IsLoading())
-                    {
-                        const FVector location = actor->K2_GetActorLocation();
-                        FVector2D screen;
-
-                        if (localController->ProjectWorldLocationToScreen(location, screen))
+                        if (cfg.visuals.mermaids.bEnable)
                         {
-                            auto type = actor->GetName();
-                            const int dist = localLoc.DistTo(location) * 0.01f;
-                            char name[0x64];
-                            if (type.find("BP_SwampRowboat") != std::string::npos)
-                                sprintf(name, "Rowboat [%dm]", dist);
-                            else if (type.find("BP_Rowboat") != std::string::npos)
-                                sprintf(name, "Rowboat [%dm]", dist);
-                            else if (type.find("Harpoon") != std::string::npos)
-                                sprintf(name, "Harpoon Rowboat [%dm]", dist);
-                            Drawing::RenderText(name, screen, cfg.visuals.rowboats.textCol);
+                            if (actor->isMermaid())
+                            {
+                                const FVector location = actor->K2_GetActorLocation();
+                                const int dist = localLoc.DistTo(location) * 0.01f;
+                                if (dist > cfg.visuals.mermaids.drawdistance) continue;
+                                if (cfg.visuals.mermaids.bName && dist)
+                                {
+                                    FVector2D screen;
+                                    if (localController->ProjectWorldLocationToScreen(location, screen)) {
+                                        char buf[0x16];
+                                        sprintf(buf, "Mermaid [%dm]", dist);
+                                        Drawing::RenderText(buf, screen, cfg.visuals.mermaids.textCol);
+                                    }
+                                }
+                            }
                         }
-                    }
 
-                    if (cfg.visuals.bEnable && cfg.visuals.world.bEnable && actor->isEvent() && !localCharacter->IsLoading())
-                    {
-                        const FVector location = actor->K2_GetActorLocation();
-                        FVector2D screen;
-
-                        if (localController->ProjectWorldLocationToScreen(location, screen))
+                        if (cfg.visuals.rowboats.bEnable)
                         {
-                            auto type = actor->GetName();
-                            const int dist = localLoc.DistTo(location) * 0.01f;
-                            char name[0x64];
-                            if (type.find("ShipCloud") != std::string::npos)
-                                sprintf(name, "Fleet [%dm]", dist);
-                            else if (type.find("AshenLord") != std::string::npos)
-                                sprintf(name, "Ashen Lord [%dm]", dist);
-                            else if (type.find("Flameheart") != std::string::npos)
-                                sprintf(name, "Flame Heart [%dm]", dist); 
-                            else if (type.find("LegendSkellyFort") != std::string::npos)
-                                sprintf(name, "Fort of Fortune [%dm]", dist);
-                            else if (type.find("RitualSkullcloud") != std::string::npos)
-                                sprintf(name, "FOTD [%dm]", dist);
-                            else if (type.find("BP_SkellyFort") != std::string::npos)
-                                sprintf(name, "Skull Fort [%dm]", dist);
-                            Drawing::RenderText(name, screen, cfg.visuals.world.textCol);
+                            if (cfg.visuals.rowboats.bName)
+                            {
+                                if (actor->isRowboat())
+                                {
+                                    const FVector location = actor->K2_GetActorLocation();
+                                    FVector2D screen;
+
+                                    if (localController->ProjectWorldLocationToScreen(location, screen))
+                                    {
+                                        auto type = actor->GetName();
+                                        const int dist = localLoc.DistTo(location) * 0.01f;
+                                        if (dist > cfg.visuals.rowboats.drawdistance) continue;
+                                        char buf[0x64];
+                                        if (type.find("BP_SwampRowboat") != std::string::npos)
+                                            sprintf(buf, "Rowboat [%dm]", dist);
+                                        else if (type.find("BP_Rowboat") != std::string::npos)
+                                            sprintf(buf, "Rowboat [%dm]", dist);
+                                        else if (type.find("Harpoon") != std::string::npos)
+                                            sprintf(buf, "Harpoon Rowboat [%dm]", dist);
+                                        Drawing::RenderText(buf, screen, cfg.visuals.rowboats.textCol);
+                                    }
+                                }
+                            }
+
                         }
-                    }
 
-                    if (cfg.visuals.items.bEnable && cfg.visuals.items.barrelitems)
-                    {
-                        const FVector location = actor->K2_GetActorLocation();
-                        const int dist = localLoc.DistTo(location) * 0.01f;
-                        FVector2D screen;
-                        if (actor->isBarrel() && dist <= 200)
+                        if (cfg.visuals.world.bEnable)
                         {
+                            if (actor->isEvent())
+                            {
+                                const FVector location = actor->K2_GetActorLocation();
+                                FVector2D screen;
+
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto type = actor->GetName();
+                                    const int dist = localLoc.DistTo(location) * 0.01f;
+                                    if (dist > cfg.visuals.world.drawdistance) continue;
+                                    char buf[0x64];
+                                    if (type.find("ShipCloud") != std::string::npos)
+                                        sprintf(buf, "Fleet [%dm]", dist);
+                                    else if (type.find("AshenLord") != std::string::npos)
+                                        sprintf(buf, "Ashen Lord [%dm]", dist);
+                                    else if (type.find("Flameheart") != std::string::npos)
+                                        sprintf(buf, "Flame Heart [%dm]", dist);
+                                    else if (type.find("LegendSkellyFort") != std::string::npos)
+                                        sprintf(buf, "Fort of Fortune [%dm]", dist);
+                                    else if (type.find("RitualSkullcloud") != std::string::npos)
+                                        sprintf(buf, "FOTD [%dm]", dist);
+                                    else if (type.find("BP_SkellyFort") != std::string::npos)
+                                        sprintf(buf, "Skull Fort [%dm]", dist);
+                                    Drawing::RenderText(buf, screen, cfg.visuals.world.textCol);
+                                }
+                            }
+                        }
+
+                        if (cfg.visuals.items.bEnable)
+                        {
+                            if (cfg.visuals.items.bName && actor->isItem())
+                            {
+                                auto location = actor->K2_GetActorLocation();
+                                FVector2D screen;
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto const desc = actor->GetItemInfo()->Desc;
+                                    if (!desc) continue;
+                                    const int dist = localLoc.DistTo(location) * 0.01f;
+                                    if (dist > cfg.visuals.items.drawdistance) continue;
+                                    char buf[0x64];
+                                    const int len = desc->Title->multi(buf, 0x50);
+                                    snprintf(buf + len, sizeof(buf) - len, " [%dm]", dist);
+                                    Drawing::RenderText(buf, screen, cfg.visuals.items.textCol);
+                                };
+                            }
+
+                            if (cfg.visuals.items.barrelitems)
+                            {
+                                const FVector location = actor->K2_GetActorLocation();
+                                const int dist = localLoc.DistTo(location) * 0.01f;
+                                FVector2D screen;
+                                if (actor->isBarrel() && dist)
+                                {
+                                    if (localController->ProjectWorldLocationToScreen(location, screen))
+                                    {
+                                        char buf[0x64];
+                                        sprintf(buf, "B");
+                                        Drawing::RenderText(buf, screen, cfg.visuals.items.barreltextCol);
+                                    }
+                                }
+                            }
+
+                            if (cfg.visuals.items.ammochests)
+                            {
+                                const FVector location = actor->K2_GetActorLocation();
+                                const int dist = localLoc.DistTo(location) * 0.01f;
+                                if (dist > cfg.visuals.items.drawdistance) continue;
+                                FVector2D screen;
+                                if (actor->isAmmoChest())
+                                {
+                                    if (localController->ProjectWorldLocationToScreen(location, screen))
+                                    {
+                                        char buf[0x64];
+                                        sprintf(buf, "Ammo Chest [%dm]", dist);
+                                        Drawing::RenderText(buf, screen, cfg.visuals.items.ammotextCol);
+                                    }
+                                }
+                            }
+                        }
+
+                        if (cfg.visuals.radar.bEnable && localCharacter->GetCurrentShip())
+                        {
+                            do
+                            {
+                                if (!actor->isShip())
+                                    break;
+
+                                auto local_ship = localCharacter->GetCurrentShip();
+                                if (!local_ship)
+                                    break;
+
+                                if (local_ship == actor)
+                                    break;
+
+                                const FVector target_location = actor->K2_GetActorLocation();
+                                const FVector target_front_location = target_location + (actor->GetActorForwardVector() * (20.f * (float)cfg.visuals.radar.i_scale));
+
+                                const FVector local_location = local_ship->K2_GetActorLocation();
+                                const FRotator rotation = local_ship->K2_GetActorRotation();
+
+                                FVector2D radar_point_1 = rotate_radar(target_location, local_location, rotation);
+                                if (cfg.visuals.radar.i_scale != 0)
+                                    radar_point_1 *= (1.f / cfg.visuals.radar.i_scale);
+
+                                FVector2D radar_point_2 = rotate_radar(target_front_location, local_location, rotation);
+                                if (cfg.visuals.radar.i_scale != 0)
+                                    radar_point_2 *= (1.f / cfg.visuals.radar.i_scale);
+
+                                float distance_to_center = std::sqrtf(radar_point_1.X * radar_point_1.X + radar_point_1.Y * radar_point_1.Y);
+                                if (distance_to_center < ((float)cfg.visuals.radar.i_size / 2.f))
+                                {
+                                    //point 1
+                                    drawList->AddCircleFilled({ radar_pos.X + radar_point_1.X, radar_pos.Y - radar_point_1.Y }, 5, 0xFF000000, 15);
+                                    drawList->AddCircleFilled({ radar_pos.X + radar_point_1.X, radar_pos.Y - radar_point_1.Y }, 4, 0xFF0000FF, 15);
+
+                                    //point 2
+                                    drawList->AddLine({ radar_pos.X + radar_point_1.X, radar_pos.Y - radar_point_1.Y }, { radar_pos.X + radar_point_2.X, radar_pos.Y - radar_point_2.Y }, 0xFF0000FF, 1.f);
+                                }
+
+                            } while (false);
+                        }
+
+                        if (cfg.visuals.client.bEnable)
+                        {
+                            if (cfg.visuals.client.b_cannon_tracers)
+                            {
+                                if (actor->isCannonProjectile())
+                                {
+                                    cannonball_location add_location = {};
+                                    add_location.location = actor->K2_GetActorLocation();
+                                    add_location.draw_times = cfg.visuals.client.cannon_tracers_length;
+                                    add_location.drawn = 0;
+                                    cannonball_tracers.push_back(add_location);
+                                }
+                            }
+                        }
+
+                        if (cfg.visuals.client.bDebug)
+                        {
+                            const FVector location = actor->K2_GetActorLocation();
+                            const float dist = localLoc.DistTo(location) * 0.01f;
+                            if (dist < cfg.visuals.client.fDebug)
+                            {
+                                auto const actorClass = actor->Class;
+                                if (!actorClass) continue;
+                                auto super = actorClass->SuperField;
+                                if (!super) continue;
+                                FVector2D screen;
+                                if (localController->ProjectWorldLocationToScreen(location, screen))
+                                {
+                                    auto superName = super->GetNameFast();
+                                    auto className = actorClass->GetNameFast();
+                                    if (superName && className)
+                                    {
+                                        char buf[0x128];
+                                        sprintf(buf, "%s %s [%dm] (%p)", className, superName, (int)dist, actor);
+                                        Drawing::RenderText(buf, screen, ImVec4(1.f, 1.f, 1.f, 1.f));
+                                    }
+                                }
+                            }
+                        }
+
+                        if (cfg.visuals.skeletons.bEnable && actor->isSkeleton() && !actor->IsDead())
+                        {
+                            // todo: make a function to draw both skeletons and players as they are similar
+                            FVector origin, extent;
+                            actor->GetActorBounds(true, origin, extent);
+
+                            const FVector location = actor->K2_GetActorLocation();
+                            FVector2D headPos;
+                            if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z + extent.Z }, headPos)) continue;
+                            FVector2D footPos;
+                            if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z - extent.Z }, footPos)) continue;
+
+                            const float height = abs(footPos.Y - headPos.Y);
+                            const float width = height * 0.4f;
+
+                            const bool bVisible = localController->LineOfSightTo(actor, cameraLoc, false);
+                            const ImVec4 col = bVisible ? cfg.visuals.skeletons.colorVis : cfg.visuals.skeletons.colorInv;
+
+                            switch (cfg.visuals.skeletons.boxType)
+                            {
+                            case Config::EBox::E2DBoxes:
+                            {
+                                Drawing::Render2DBox(headPos, footPos, height, width, col);
+                                break;
+                            }
+                            case Config::EBox::E3DBoxes:
+                            {
+                                FRotator rotation = actor->K2_GetActorRotation();
+                                if (!Drawing::Render3DBox(localController, origin, extent, rotation, col)) continue;
+                                break;
+                            }
+                            /*
+                            case Config::EBox::EDebugBoxes:
+                            {
+                                UKismetMathLibrary::DrawDebugBox(actor, origin, extent, *reinterpret_cast<const FLinearColor*>(&col), actor->K2_GetActorRotation(), 0.0f);
+                                break;
+                            }
+                            */
+                            }
+
+                            if (cfg.visuals.skeletons.bName)
+                            {
+                                const int dist = localLoc.DistTo(location) * 0.01f;
+                                if (dist > cfg.visuals.skeletons.drawdistance) continue;
+                                char buf[0x20];
+                                sprintf(buf, "Skeleton [%dm]", dist);
+                                Drawing::RenderText(buf, headPos, cfg.visuals.skeletons.textCol);
+                            }
+
+                            if (cfg.visuals.skeletons.barType != Config::EBar::ENone)
+                            {
+                                auto const healthComp = actor->HealthComponent;
+                                if (!healthComp) continue;
+                                const float hp = healthComp->GetCurrentHealth() / healthComp->GetMaxHealth();
+                                const float width2 = width * 0.5f;
+                                const float adjust = height * 0.025f;
+
+                                switch (cfg.visuals.skeletons.barType)
+                                {
+                                case Config::EBar::ELeft:
+                                {
+                                    const float len = height * hp;
+                                    drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, headPos.Y }, { headPos.X - width2 - adjust, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, footPos.Y - len }, { headPos.X - width2 - adjust, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    break;
+                                }
+                                case Config::EBar::ERight:
+                                {
+                                    const float len = height * hp;
+                                    drawList->AddRectFilled({ headPos.X + width2 + adjust, headPos.Y }, { headPos.X + width2 + adjust * 2.f, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X + width2 + adjust, footPos.Y - len }, { headPos.X + width2 + adjust * 2.f, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    break;
+                                }
+                                case Config::EBar::EBottom:
+                                {
+                                    const float len = width * hp;
+                                    drawList->AddRectFilled({ headPos.X - width2, footPos.Y + adjust }, { headPos.X - width2 + len, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X - width2 + len, footPos.Y + adjust }, { headPos.X + width2, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    break;
+                                }
+                                case Config::EBar::ETop:
+                                {
+                                    const float len = width * hp;
+                                    drawList->AddRectFilled({ headPos.X - width2, headPos.Y - adjust * 2.f }, { headPos.X - width2 + len, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X - width2 + len, headPos.Y - adjust * 2.f }, { headPos.X + width2, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    break;
+                                }
+                                }
+                            }
+                        }
+
+                        if (cfg.visuals.shipwrecks.bEnable && actor->isShipwreck())
+                        {
+                            auto location = actor->K2_GetActorLocation();
+                            FVector2D screen;
                             if (localController->ProjectWorldLocationToScreen(location, screen))
                             {
+                                const int dist = localLoc.DistTo(location) * 0.01f;
+                                if (dist > cfg.visuals.shipwrecks.drawdistance) continue;
                                 char buf[0x64];
-                                sprintf(buf, "B");
-                                Drawing::RenderText(buf, screen, cfg.visuals.items.barreltextCol);
+                                sprintf(buf, "Shipwreck [%dm]", dist);
+                                Drawing::RenderText(buf, screen, cfg.visuals.shipwrecks.textCol);
                             }
                         }
-                    }
 
-                    if (cfg.visuals.radar.bEnable && localCharacter->GetCurrentShip())
-                    {
-                        do
+                        if (cfg.visuals.players.bEnable && actor->isPlayer() && actor != localCharacter && !actor->IsDead())
                         {
-                            if (!actor->isShip())
-                                break;
+                            const bool teammate = UCrewFunctions::AreCharactersInSameCrew(actor, localCharacter);
+                            if (teammate && !cfg.visuals.players.bDrawTeam) continue;
 
-                            auto local_ship = localCharacter->GetCurrentShip();
-                            if (!local_ship)
-                                break;
-                        
-                            if (local_ship == actor)
-                                break;
-                            
-                            const FVector target_location = actor->K2_GetActorLocation();
-                            const FVector target_front_location = target_location + (actor->GetActorForwardVector() * (20.f * (float)cfg.visuals.radar.i_scale));
+                            FVector origin, extent;
+                            actor->GetActorBounds(true, origin, extent);
+                            const FVector location = actor->K2_GetActorLocation();
 
-                            const FVector local_location = local_ship->K2_GetActorLocation();
-                            const FRotator rotation = local_ship->K2_GetActorRotation();
+                            FVector2D headPos;
+                            if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z + extent.Z }, headPos)) continue;
+                            FVector2D footPos;
+                            if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z - extent.Z }, footPos)) continue;
 
-                            FVector2D radar_point_1 = rotate_radar(target_location, local_location, rotation);
-                            if (cfg.visuals.radar.i_scale != 0)
-                                radar_point_1 *= (1.f / cfg.visuals.radar.i_scale);
-                            
-                            FVector2D radar_point_2 = rotate_radar(target_front_location, local_location, rotation);
-                            if (cfg.visuals.radar.i_scale != 0)
-                                radar_point_2 *= (1.f / cfg.visuals.radar.i_scale);
-                            
-                            float distance_to_center = std::sqrtf(radar_point_1.X * radar_point_1.X + radar_point_1.Y * radar_point_1.Y);
-                            if (distance_to_center < ((float)cfg.visuals.radar.i_size / 2.f))
+                            const float height = abs(footPos.Y - headPos.Y);
+                            const float width = height * 0.4f;
+
+                            const bool bVisible = localController->LineOfSightTo(actor, cameraLoc, false);
+
+                            ImVec4 col;
+                            if (teammate) col = bVisible ? cfg.visuals.players.teamColorVis : cfg.visuals.players.teamColorInv;
+                            else  col = bVisible ? cfg.visuals.players.enemyColorVis : cfg.visuals.players.enemyColorInv;
+
+                            switch (cfg.visuals.players.boxType)
                             {
-                                //point 1
-                                drawList->AddCircleFilled({ radar_pos.X + radar_point_1.X, radar_pos.Y - radar_point_1.Y }, 5, 0xFF000000, 15);
-                                drawList->AddCircleFilled({ radar_pos.X + radar_point_1.X, radar_pos.Y - radar_point_1.Y }, 4, 0xFF0000FF, 15);
-
-                                //point 2
-                                drawList->AddLine({ radar_pos.X + radar_point_1.X, radar_pos.Y - radar_point_1.Y }, { radar_pos.X + radar_point_2.X, radar_pos.Y - radar_point_2.Y }, 0xFF0000FF, 1.f);
+                            case Config::EBox::E2DBoxes:
+                            {
+                                Drawing::Render2DBox(headPos, footPos, height, width, col);
+                                break;
+                            }
+                            case Config::EBox::E3DBoxes:
+                            {
+                                FRotator rotation = actor->K2_GetActorRotation();
+                                FVector ext = { 35.f, 35.f, extent.Z };
+                                if (!Drawing::Render3DBox(localController, location, ext, rotation, col)) continue;
+                                break;
                             }
 
-                        } while (false);
+                            /*
+                            case Config::EBox::EDebugBoxes:
+                            {
+                                FVector ext = { 35.f, 35.f, extent.Z };
+                                UKismetMathLibrary::DrawDebugBox(actor, location, ext, *reinterpret_cast<FLinearColor*>(&col), actor->K2_GetActorRotation(), 0.0f);
+                                break;
+                            }
+                            */
+                            }
+
+                            if (cfg.visuals.players.bSkeleton)
+                            {
+                                auto const mesh = actor->Mesh;
+                                if (!actor->Mesh) continue;
+
+                                const BYTE bodyHead[] = { 4, 5, 6, 51, 7, 6, 80, 7, 8, 9 };
+                                const BYTE neckHandR[] = { 80, 81, 82, 83, 84 };
+                                const BYTE neckHandL[] = { 51, 52, 53, 54, 55 };
+                                const BYTE bodyFootR[] = { 4, 111, 112, 113, 114 };
+                                const BYTE bodyFootL[] = { 4, 106, 107, 108, 109 };
+
+                                const std::pair<const BYTE*, const BYTE> skeleton[] = { {bodyHead, 10}, {neckHandR, 5}, {neckHandL, 5}, {bodyFootR, 5}, {bodyFootL, 5} };
+
+                                const FMatrix comp2world = mesh->K2_GetComponentToWorld().ToMatrixWithScale();
+                                if (!Drawing::RenderSkeleton(localController, mesh, comp2world, skeleton, 5, col)) continue;
+                            }
+
+                            if (cfg.visuals.players.bName)
+                            {
+                                auto const playerState = actor->PlayerState;
+                                if (!playerState)
+                                {
+                                    continue;
+                                }
+                                const auto playerName = playerState->PlayerName;
+                                if (!playerName.Data)
+                                {
+                                    continue;
+                                }
+                                char buf[0x30];
+                                const int len = playerName.multi(buf, 0x20);
+                                const int dist = localLoc.DistTo(origin) * 0.01f;
+                                if (dist > cfg.visuals.players.drawdistance) continue;
+                                snprintf(buf + len, sizeof(buf) - len, " [%dm]", dist);
+                                const float adjust = height * 0.05f;
+                                FVector2D pos = { headPos.X, headPos.Y - adjust };
+                                Drawing::RenderText(buf, pos, cfg.visuals.players.textCol);
+                            }
+
+                            if (cfg.visuals.players.bWeaponanmes)
+                            {
+                            }
+
+                            if (cfg.visuals.players.barType != Config::EBar::ENone)
+                            {
+                                auto const healthComp = actor->HealthComponent;
+                                if (!healthComp)
+                                    continue;
+
+                                const float hp = healthComp->GetCurrentHealth() / healthComp->GetMaxHealth();
+                                const float width2 = width * 0.5f;
+                                const float adjust = height * 0.025f;
+                                switch (cfg.visuals.players.barType)
+                                {
+                                case Config::EBar::ELeft:
+                                {
+                                    const float len = height * hp;
+                                    drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, headPos.Y }, { headPos.X - width2 - adjust, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, footPos.Y - len }, { headPos.X - width2 - adjust, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    break;
+                                }
+                                case Config::EBar::ERight:
+                                {
+                                    const float len = height * hp;
+                                    drawList->AddRectFilled({ headPos.X + width2 + adjust, headPos.Y }, { headPos.X + width2 + adjust * 2.f, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X + width2 + adjust, footPos.Y - len }, { headPos.X + width2 + adjust * 2.f, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    break;
+                                }
+                                case Config::EBar::EBottom:
+                                {
+                                    const float len = width * hp;
+                                    drawList->AddRectFilled({ headPos.X - width2, footPos.Y + adjust }, { headPos.X - width2 + len, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X - width2 + len, footPos.Y + adjust }, { headPos.X + width2, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    break;
+                                }
+                                case Config::EBar::ETop:
+                                {
+                                    const float len = width * hp;
+                                    drawList->AddRectFilled({ headPos.X - width2, headPos.Y - adjust * 2.f }, { headPos.X - width2 + len, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
+                                    drawList->AddRectFilled({ headPos.X - width2 + len, headPos.Y - adjust * 2.f }, { headPos.X + width2, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
+                                    break;
+                                }
+                                }
+
+                            }
+                        }
+
+                        if (cfg.visuals.animals.bEnable && actor->isAnimal())
+                        {
+                            FVector origin, extent;
+                            actor->GetActorBounds(true, origin, extent);
+
+                            FVector2D headPos;
+                            if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z + extent.Z }, headPos)) continue;
+                            FVector2D footPos;
+                            if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z - extent.Z }, footPos)) continue;
+
+                            float height = abs(footPos.Y - headPos.Y);
+                            float width = height * 0.6f;
+
+                            if (cfg.visuals.animals.bName)
+                            {
+
+                                auto displayName = reinterpret_cast<AFauna*>(actor)->DisplayName;
+                                if (displayName) {
+                                    const int dist = localLoc.DistTo(origin) * 0.01f;
+                                    if (dist > cfg.visuals.animals.drawdistance) continue;
+                                    char buf[0x32];
+                                    const int len = displayName->multi(buf, 0x50);
+                                    snprintf(buf + len, sizeof(buf) - len, " [%dm]", dist);
+                                    const float adjust = height * 0.05f;
+                                    FVector2D pos = { headPos.X, headPos.Y - adjust };
+                                    Drawing::RenderText(buf, pos, cfg.visuals.animals.textCol);
+                                }
+                            }
+                        }
+
+                        if (cfg.visuals.sharks.bEnable && actor->isShark())
+                        {
+                            FVector origin, extent;
+                            actor->GetActorBounds(true, origin, extent);
+
+                            FVector2D headPos;
+                            if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z + extent.Z }, headPos)) continue;
+                            FVector2D footPos;
+                            if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z - extent.Z }, footPos)) continue;
+
+                            const float height = abs(footPos.Y - headPos.Y);
+                            const float width = height * 0.6f;
+
+                            if (cfg.visuals.sharks.bName)
+                            {
+                                char buf[0x20];
+                                const int dist = localLoc.DistTo(origin) * 0.01f;
+                                if (dist > cfg.visuals.sharks.drawdistance) continue;
+                                sprintf(buf, "Shark [%dm]", dist);
+                                const float adjust = height * 0.05f;
+                                FVector2D pos = { headPos.X, headPos.Y - adjust };
+                                Drawing::RenderText(buf, pos, cfg.visuals.sharks.textCol);
+                            }
+                        }
+
+                        if (cfg.visuals.puzzles.bEnable && actor->isPuzzleVault())
+                        {
+                            auto vault = reinterpret_cast<APuzzleVault*>(actor);
+                            if (cfg.visuals.puzzles.bDoor)
+                            {
+                                const FVector location = reinterpret_cast<ACharacter*>(vault->OuterDoor)->K2_GetActorLocation();
+                                FVector2D screen;
+                                if (localController->ProjectWorldLocationToScreen(location, screen)) 
+                                {
+                                    char buf[0x64];
+                                    const int dist = localLoc.DistTo(location) * 0.01f;
+                                    if (dist > cfg.visuals.puzzles.drawdistance) continue;
+                                    sprintf(buf, "Vault Door [%dm]", dist);
+                                    Drawing::RenderText(buf, screen, cfg.visuals.puzzles.textCol);
+                                }
+                            }
+                        }
                     }
 
                     if (cfg.misc.client.b_map_pins)
@@ -1127,35 +1728,23 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 for (int i = 0; i < map_pins.Count; i++)
                                 {
                                     FVector2D current_map_pin = map_pins[i];
-                                    
+
                                     current_map_pin *= 100.f;
                                     FVector current_map_pin_world;
                                     current_map_pin_world.X = current_map_pin.X;
                                     current_map_pin_world.Y = current_map_pin.Y;
                                     current_map_pin_world.Z = 0.f;
-                                    
+
                                     FVector2D screen;
                                     if (localController->ProjectWorldLocationToScreen(current_map_pin_world, screen))
                                     {
                                         const int dist = localLoc.DistTo(current_map_pin_world) * 0.01f;
-                                        char name[0x64];
-                                        snprintf(name, sizeof(name), "Map Pin [%dm]", dist);
-                                        Drawing::RenderText(name, { screen.X, screen.Y - 8 }, { 1.f,1.f,1.f,1.f }, true, true);
+                                        char buf[0x64];
+                                        snprintf(buf, sizeof(buf), "Map Pin [%dm]", dist);
+                                        Drawing::RenderText(buf, { screen.X, screen.Y - 8 }, { 1.f,1.f,1.f,1.f }, true, true);
                                     }
                                 }
                             }
-                        }
-                    }
-                    
-                    if (cfg.visuals.bEnable && cfg.visuals.client.b_cannon_tracers && !localCharacter->IsLoading())
-                    {
-                        if (actor->isCannonProjectile())
-                        {
-                            cannonball_location add_location = {};
-                            add_location.location = actor->K2_GetActorLocation();
-                            add_location.draw_times = cfg.visuals.client.cannon_tracers_length;
-                            add_location.drawn = 0;
-                            cannonball_tracers.push_back(add_location);
                         }
                     }
 
@@ -1168,15 +1757,21 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                 do
                                 {
                                     if (actor == localCharacter->GetCurrentShip())          //target is own ship
+                                    {
                                         break;
+                                    }
 
                                     FVector location = actor->K2_GetActorLocation();
 
                                     if (cfg.aim.cannon.bVisibleOnly && !localController->LineOfSightTo(actor, cameraLoc, false))
+                                    {
                                         break;
+                                    }
 
                                     if (location.DistTo(cameraLoc) > 55000)                 //cannons have max range of around 500m
+                                    {
                                         break;
+                                    }
 
                                     auto cannon = reinterpret_cast<ACannon*>(attachObject);
 
@@ -1224,18 +1819,17 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                                         aimBest.delta = low;
                                         aimBest.best = sum;
                                     }
-                                }
-                                while (false);
+                                } while (false);
                             }
                         }
                         else if (isHarpoon)
                         {
                             if (actor->isItem())
                             {
-                                do 
+                                do
                                 {
                                     FVector location = actor->K2_GetActorLocation();
-                                    
+
                                     float dist = cameraLoc.DistTo(location);
                                     if (dist > 7770.f || dist < 260.f) { break; }
                                     if (cfg.aim.harpoon.bVisibleOnly) if (!localController->LineOfSightTo(actor, cameraLoc, false)) { break; }
@@ -1263,7 +1857,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                         {
                             if (cfg.aim.players.bEnable && actor->isPlayer() && actor != localCharacter && !actor->IsDead())
                             {
-                                do 
+                                do
                                 {
                                     FVector playerLoc = actor->K2_GetActorLocation();
 
@@ -1327,7 +1921,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                             }
                             else if (cfg.aim.skeletons.bEnable && actor->isSkeleton() && !actor->IsDead())
                             {
-                                do 
+                                do
                                 {
                                     const FVector playerLoc = actor->K2_GetActorLocation();
                                     const float dist = localLoc.DistTo(playerLoc);
@@ -1353,466 +1947,15 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                 } while (false);
                             }
-                        }                        
-                    }
-                    if (cfg.visuals.bEnable && !localCharacter->IsLoading())
-                    {
-                        if (cfg.visuals.client.bDebug)
-                        {
-                            const FVector location = actor->K2_GetActorLocation();
-                            const float dist = localLoc.DistTo(location) * 0.01f;
-                            if (dist < cfg.visuals.client.fDebug)
-                            {
-                                auto const actorClass = actor->Class;
-                                if (!actorClass) continue;
-                                auto super = actorClass->SuperField;
-                                if (!super) continue;
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    auto superName = super->GetNameFast();
-                                    auto className = actorClass->GetNameFast();
-                                    if (superName && className)
-                                    {
-                                        char buf[0x128];
-                                        sprintf(buf, "%s %s [%dm] (%p)", className, superName, (int)dist, actor);
-                                        Drawing::RenderText(buf, screen, ImVec4(1.f, 1.f, 1.f, 1.f));
-                                    }
-                                }
-                            }
-                        }
-                        else 
-                        {
-                            if (cfg.visuals.items.bEnable && actor->isItem()) 
-                            {
-                                if (cfg.visuals.items.bName)
-                                {
-                                    auto location = actor->K2_GetActorLocation();
-                                    FVector2D screen;
-                                    if (localController->ProjectWorldLocationToScreen(location, screen))
-                                    {
-                                        auto const desc = actor->GetItemInfo()->Desc;
-                                        if (!desc) continue;
-                                        const int dist = localLoc.DistTo(location) * 0.01f;
-                                        char name[0x64];
-                                        const int len = desc->Title->multi(name, 0x50);
-                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
-                                        Drawing::RenderText(name, screen, cfg.visuals.items.textCol);
-                                    }; 
-                                }
-
-                                continue;
-                            }
-
-                            else if (cfg.visuals.shipwrecks.bEnable && actor->isShipwreck())
-                            {
-                                auto location = actor->K2_GetActorLocation();
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(location, screen))
-                                {
-                                    const int dist = localLoc.DistTo(location) * 0.01f;
-                                    char name[0x64];
-                                    sprintf(name, "Shipwreck [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.shipwrecks.textCol);
-                                };
-                                continue;
-                            }
-
-
-                            else if (cfg.visuals.players.bEnable && actor->isPlayer()  && actor != localCharacter && !actor->IsDead())
-                            {
-                                const bool teammate = UCrewFunctions::AreCharactersInSameCrew(actor, localCharacter);
-                                if (teammate && !cfg.visuals.players.bDrawTeam) continue;
-
-                                FVector origin, extent;
-                                actor->GetActorBounds(true, origin, extent);
-                                const FVector location = actor->K2_GetActorLocation();
-
-                                FVector2D headPos;
-                                if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z + extent.Z }, headPos)) continue;
-                                FVector2D footPos;
-                                if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z - extent.Z }, footPos)) continue;
-
-                                const float height = abs(footPos.Y - headPos.Y);
-                                const float width = height * 0.4f;
-
-                                const bool bVisible = localController->LineOfSightTo(actor, cameraLoc, false);
-
-                                ImVec4 col;
-                                if (teammate) col = bVisible ? cfg.visuals.players.teamColorVis : cfg.visuals.players.teamColorInv;
-                                else  col = bVisible ? cfg.visuals.players.enemyColorVis : cfg.visuals.players.enemyColorInv;
-                               
-                                switch (cfg.visuals.players.boxType)
-                                {
-                                case Config::EBox::E2DBoxes: 
-                                {
-                                    Drawing::Render2DBox(headPos, footPos, height, width, col);
-                                    break;
-                                }
-                                case Config::EBox::E3DBoxes: 
-                                {
-                                    FRotator rotation = actor->K2_GetActorRotation();
-                                    FVector ext = { 35.f, 35.f, extent.Z };
-                                    if (!Drawing::Render3DBox(localController, location, ext, rotation, col)) continue;
-                                    break;
-                                }
-                                
-                                /*
-                                case Config::EBox::EDebugBoxes: 
-                                {
-                                    FVector ext = { 35.f, 35.f, extent.Z };
-                                    UKismetMathLibrary::DrawDebugBox(actor, location, ext, *reinterpret_cast<FLinearColor*>(&col), actor->K2_GetActorRotation(), 0.0f);
-                                    break;
-                                }
-                                */
-                                }
-
-                                if (cfg.visuals.players.bSkeleton)
-                                {
-                                    auto const mesh = actor->Mesh;
-                                    if (!actor->Mesh) continue;
-                                    
-                                    const BYTE bodyHead[] = { 4, 5, 6, 51, 7, 6, 80, 7, 8, 9 };
-                                    const BYTE neckHandR[] = { 80, 81, 82, 83, 84 };
-                                    const BYTE neckHandL[] = { 51, 52, 53, 54, 55 };
-                                    const BYTE bodyFootR[] = { 4, 111, 112, 113, 114 };
-                                    const BYTE bodyFootL[] = { 4, 106, 107, 108, 109 };
-                                   
-                                    const std::pair<const BYTE*, const BYTE> skeleton[] = { {bodyHead, 10}, {neckHandR, 5}, {neckHandL, 5}, {bodyFootR, 5}, {bodyFootL, 5} };
-                                    
-                                    const FMatrix comp2world = mesh->K2_GetComponentToWorld().ToMatrixWithScale();
-                                    if (!Drawing::RenderSkeleton(localController, mesh, comp2world, skeleton, 5, col)) continue;
-                                }
-
-                                if (cfg.visuals.players.bName)
-                                {
-                                    auto const playerState = actor->PlayerState;
-                                    if (!playerState)
-                                    {
-                                        continue;
-                                    }
-                                    const auto playerName = playerState->PlayerName;
-                                    if (!playerName.Data)
-                                    {                                     
-                                        continue;
-                                    }                                    
-                                    char name[0x30];
-                                    const int len = playerName.multi(name, 0x20);
-                                    const int dist = localLoc.DistTo(origin) * 0.01f;
-                                    snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
-                                    const float adjust = height * 0.05f;
-                                    FVector2D pos = { headPos.X, headPos.Y - adjust };
-                                    Drawing::RenderText(name, pos, cfg.visuals.players.textCol);                                   
-                                }
-
-                                if (cfg.visuals.players.bWeaponanmes)
-                                {
-                                }
-
-                                if (cfg.visuals.players.barType != Config::EBar::ENone)
-                                {
-                                    auto const healthComp = actor->HealthComponent;                                    
-                                    if (!healthComp)
-                                        continue;
-
-                                    const float hp = healthComp->GetCurrentHealth() / healthComp->GetMaxHealth();
-                                    const float width2 = width * 0.5f;
-                                    const float adjust = height * 0.025f;
-                                    switch (cfg.visuals.players.barType)
-                                    {
-                                    case Config::EBar::ELeft: 
-                                    {
-                                        const float len = height * hp;
-                                        drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, headPos.Y }, { headPos.X - width2 - adjust, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, footPos.Y - len }, { headPos.X - width2 - adjust, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        break;
-                                    }
-                                    case Config::EBar::ERight:
-                                    {
-                                        const float len = height * hp;
-                                        drawList->AddRectFilled({ headPos.X + width2 + adjust, headPos.Y }, { headPos.X + width2 + adjust * 2.f, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X + width2 + adjust, footPos.Y - len }, { headPos.X + width2 + adjust * 2.f, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        break;
-                                    }
-                                    case Config::EBar::EBottom:
-                                    {
-                                        const float len = width * hp;
-                                        drawList->AddRectFilled({ headPos.X - width2, footPos.Y + adjust }, { headPos.X - width2 + len, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X - width2 + len, footPos.Y + adjust }, { headPos.X + width2, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        break;
-                                    }
-                                    case Config::EBar::ETop:
-                                    {
-                                        const float len = width * hp;
-                                        drawList->AddRectFilled({ headPos.X - width2, headPos.Y - adjust * 2.f }, { headPos.X - width2 + len, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X - width2 + len, headPos.Y - adjust * 2.f }, { headPos.X + width2, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        break;
-                                    }
-                                    }
-          
-                                }
-                                         
-                                continue;
-                            
-                                
-                            
-                            }
-                       
-                            else if (cfg.visuals.skeletons.bEnable && actor->isSkeleton() && !actor->IsDead()) {
-                                // todo: make a function to draw both skeletons and players as they are similar
-                                FVector origin, extent;
-                                actor->GetActorBounds(true, origin, extent);
-                            
-                                const FVector location = actor->K2_GetActorLocation();
-                                FVector2D headPos;
-                                if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z + extent.Z }, headPos)) continue;
-                                FVector2D footPos;
-                                if (!localController->ProjectWorldLocationToScreen({ location.X, location.Y, location.Z - extent.Z }, footPos)) continue;
-
-                                const float height = abs(footPos.Y - headPos.Y);
-                                const float width = height * 0.4f;
-
-                                const bool bVisible = localController->LineOfSightTo(actor, cameraLoc, false);
-                                const ImVec4 col = bVisible ? cfg.visuals.skeletons.colorVis : cfg.visuals.skeletons.colorInv;
-
-                                switch (cfg.visuals.skeletons.boxType)
-                                {
-                                case Config::EBox::E2DBoxes:
-                                {
-                                    Drawing::Render2DBox(headPos, footPos, height, width, col);
-                                    break;
-                                }
-                                case Config::EBox::E3DBoxes:
-                                {
-                                    FRotator rotation = actor->K2_GetActorRotation();
-                                    if (!Drawing::Render3DBox(localController, origin, extent, rotation, col)) continue;
-                                    break;
-                                }
-                                /*
-                                case Config::EBox::EDebugBoxes:
-                                {
-                                    UKismetMathLibrary::DrawDebugBox(actor, origin, extent, *reinterpret_cast<const FLinearColor*>(&col), actor->K2_GetActorRotation(), 0.0f);
-                                    break;
-                                }
-                                */
-                                }
-
-                                if (cfg.visuals.skeletons.bName)
-                                {
-                                    const int dist = localLoc.DistTo(location) * 0.01f;
-                                    char name[0x20];
-                                    sprintf(name, "Skeleton [%dm]", dist);
-                                    Drawing::RenderText(name, headPos, cfg.visuals.skeletons.textCol);
-                                }
-
-                                if (cfg.visuals.skeletons.barType != Config::EBar::ENone)
-                                {
-                                    auto const healthComp = actor->HealthComponent;
-                                    if (!healthComp) continue;
-                                    const float hp = healthComp->GetCurrentHealth() / healthComp->GetMaxHealth();
-                                    const float width2 = width * 0.5f;
-                                    const float adjust = height * 0.025f;
-
-                                    switch (cfg.visuals.skeletons.barType)
-                                    {
-                                    case Config::EBar::ELeft:
-                                    {
-                                        const float len = height * hp;
-                                        drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, headPos.Y }, { headPos.X - width2 - adjust, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X - width2 - adjust * 2.f, footPos.Y - len }, { headPos.X - width2 - adjust, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        break;
-                                    }
-                                    case Config::EBar::ERight:
-                                    {
-                                        const float len = height * hp;
-                                        drawList->AddRectFilled({ headPos.X + width2 + adjust, headPos.Y }, { headPos.X + width2 + adjust * 2.f, footPos.Y - len }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X + width2 + adjust, footPos.Y - len }, { headPos.X + width2 + adjust * 2.f, footPos.Y }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        break;
-                                    }
-                                    case Config::EBar::EBottom:
-                                    {
-                                        const float len = width * hp;
-                                        drawList->AddRectFilled({ headPos.X - width2, footPos.Y + adjust }, { headPos.X - width2 + len, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X - width2 + len, footPos.Y + adjust }, { headPos.X + width2, footPos.Y + adjust * 2.f }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        break;
-                                    }
-                                    case Config::EBar::ETop:
-                                    {
-                                        const float len = width * hp;
-                                        drawList->AddRectFilled({ headPos.X - width2, headPos.Y - adjust * 2.f }, { headPos.X - width2 + len, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(0, 255, 0, 255)));
-                                        drawList->AddRectFilled({ headPos.X - width2 + len, headPos.Y - adjust * 2.f }, { headPos.X + width2, headPos.Y - adjust }, ImGui::GetColorU32(IM_COL32(255, 0, 0, 255)));
-                                        break;
-                                    }
-                                    }
-
-                                }
-
-                                
-                                continue;
-                            }
-
-                            else if (cfg.visuals.animals.bEnable && actor->isAnimal())
-                            {
-                                FVector origin, extent;
-                                actor->GetActorBounds(true, origin, extent);
-                               
-                                FVector2D headPos;
-                                if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z + extent.Z }, headPos)) continue;
-                                FVector2D footPos;
-                                if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z - extent.Z }, footPos)) continue;
-
-                                float height = abs(footPos.Y - headPos.Y);
-                                float width = height * 0.6f;
-
-                                if (cfg.visuals.animals.bName)
-                                {
-
-                                    auto displayName = reinterpret_cast<AFauna*>(actor)->DisplayName;
-                                    if (displayName) {
-                                        const int dist = localLoc.DistTo(origin) * 0.01f;
-                                        char name[0x32];
-                                        const int len = displayName->multi(name, 0x50);
-                                        snprintf(name + len, sizeof(name) - len, " [%dm]", dist);
-                                        const float adjust = height * 0.05f;
-                                        FVector2D pos = { headPos.X, headPos.Y - adjust };
-                                        Drawing::RenderText(name, pos, cfg.visuals.animals.textCol);
-                                    }
-                                }
-
-                                continue;
-                            }
-                            else if (cfg.visuals.sharks.bEnable && actor->isShark())
-                            {
-                                FVector origin, extent;
-                                actor->GetActorBounds(true, origin, extent);
-
-                                FVector2D headPos;
-                                if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z + extent.Z }, headPos)) continue;
-                                FVector2D footPos;
-                                if (!localController->ProjectWorldLocationToScreen({ origin.X, origin.Y, origin.Z - extent.Z }, footPos)) continue;
-
-                                const float height = abs(footPos.Y - headPos.Y);
-                                const float width = height * 0.6f;
-
-                                if (cfg.visuals.sharks.bName)
-                                {
-                                    char name[0x20];
-                                    const int dist = localLoc.DistTo(origin) * 0.01f;
-                                    sprintf(name, "Shark [%dm]", dist);
-                                    const float adjust = height * 0.05f;
-                                    FVector2D pos = { headPos.X, headPos.Y - adjust };
-                                    Drawing::RenderText(name, pos, cfg.visuals.sharks.textCol);
-                                }
-
-                                continue;
-                            }
-                            if (cfg.visuals.puzzles.bEnable && actor->isPuzzleVault())
-                            {
-                                auto vault = reinterpret_cast<APuzzleVault*>(actor);
-                                if (cfg.visuals.puzzles.bDoor)
-                                {
-                                    const FVector location = reinterpret_cast<ACharacter*>(vault->OuterDoor)->K2_GetActorLocation();
-                                    FVector2D screen;
-                                    if (localController->ProjectWorldLocationToScreen(location, screen)) {
-                                        char name[0x64];
-                                        const int dist = localLoc.DistTo(location) * 0.01f;
-                                        sprintf(name, "Vault Door [%dm]", dist);
-                                        Drawing::RenderText(name, screen, cfg.visuals.puzzles.textCol);
-                                    };
-                                }
-                                continue;
-                            }
                         }
                     }
-                }
-            }
-            
-            if (cfg.visuals.bEnable && !localCharacter->IsLoading())
-            {
-                if (cfg.visuals.islands.bEnable)
-                {
-                    if (cfg.visuals.islands.bName)
-                    {
-                        do 
-                        {
-                            auto const islandService = gameState->IslandService;
-                            if (!islandService) break;
-
-                            auto const islandDataAsset = islandService->IslandDataAsset;
-                            if (!islandDataAsset) break;
-
-                            auto const islandDataEntries = islandDataAsset->IslandDataEntries;
-                            if (!islandDataEntries.Data)break;
-
-                            for (auto i = 0u; i < islandDataEntries.Count; i++)
-                            {
-
-                                auto const island = islandDataEntries[i];
-
-                                auto const WorldMapData = island->WorldMapData;
-
-                                if (!WorldMapData) continue;
-
-                                const FVector islandLoc = WorldMapData->WorldSpaceCameraPosition;
-                                const int dist = localLoc.DistTo(islandLoc) * 0.01f;
-                                if (dist > cfg.visuals.islands.intMaxDist) continue;
-                                FVector2D screen;
-                                if (localController->ProjectWorldLocationToScreen(islandLoc, screen))
-                                {
-                                    char name[0x64];
-                                    auto len = island->LocalisedName->multi(name, 0x50);
-                                    sprintf_s(name + len, sizeof(name) - len, " [%dm]", dist);
-                                    Drawing::RenderText(name, screen, cfg.visuals.islands.textCol);
-
-                                }
-                            }
-                        } while (false);
-                    }
-                }
-                
-                if (cfg.visuals.client.bCrosshair)
-                {
-                    drawList->AddLine({ io.DisplaySize.x * 0.5f - cfg.visuals.client.fCrosshair, io.DisplaySize.y * 0.5f }, { io.DisplaySize.x * 0.5f + cfg.visuals.client.fCrosshair, io.DisplaySize.y * 0.5f }, ImGui::GetColorU32(cfg.visuals.client.crosshairColor));
-                    drawList->AddLine({ io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f - cfg.visuals.client.fCrosshair }, { io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f + cfg.visuals.client.fCrosshair }, ImGui::GetColorU32(cfg.visuals.client.crosshairColor));
-                }
-
-                if (cfg.visuals.client.bOxygen && localCharacter->IsInWater())
-                {
-                    auto drownComp = localCharacter->DrowningComponent;
-                    if (!drownComp) break;
-                    auto level = drownComp->GetOxygenLevel();
-                    auto posX = io.DisplaySize.x * 0.5f;
-                    auto posY = io.DisplaySize.y * 0.85f;
-                    auto barWidth2 = io.DisplaySize.x * 0.05f;
-                    auto barHeight2 = io.DisplaySize.y * 0.0030f;
-                    drawList->AddRectFilled({ posX - barWidth2, posY - barHeight2 }, { posX + barWidth2, posY + barHeight2 }, ImGui::GetColorU32(IM_COL32(0, 0, 0, 255)));
-                    drawList->AddRectFilled({ posX - barWidth2, posY - barHeight2 }, { posX - barWidth2 + barWidth2 * level * 2.f, posY + barHeight2 }, ImGui::GetColorU32(IM_COL32(0, 200, 255, 255)));
-                }
-
-                if (cfg.visuals.client.bCompass)
-                {
-               
-                    const char* directions[] = { "N", "NE", "E", "SE", "S", "SW", "W", "NW" };
-                    int yaw = ((int)cameraRot.Yaw + 450) % 360;
-                    int index = int(yaw + 22.5f) % 360 * 0.0222222f;
-
-                
-                    FVector2D pos = { io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.02f };
-                    auto col = ImVec4(1.f, 1.f, 1.f, 1.f);
-                    Drawing::RenderText(const_cast<char*>(directions[index]), pos, col);
-                    char buf[0x30];
-                    int len = sprintf(buf, "%d", yaw);
-                    pos.Y += 15.f;
-                    Drawing::RenderText(buf, pos, col);
-                
-                
                 }
             }
 
             if (aimBest.target != nullptr)
             {
                 FVector2D screen;
-                if (localController->ProjectWorldLocationToScreen(aimBest.location, screen)) 
+                if (localController->ProjectWorldLocationToScreen(aimBest.location, screen))
                 {
                     auto col = ImGui::GetColorU32(IM_COL32(0, 200, 0, 255));
                     drawList->AddLine({ io.DisplaySize.x * 0.5f , io.DisplaySize.y * 0.5f }, { screen.X, screen.Y }, col);
@@ -1837,18 +1980,14 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                                 if (cfg.aim.cannon.b_instant_shoot && cannon->IsReadyToFire())
                                 {
-                                    cannon->Fire();;
+                                    cannon->Fire();
                                 }
                             }
                         }
                     }
-                    if (isHarpoon)
+                    else if (isHarpoon)
                     {
                         reinterpret_cast<AHarpoonLauncher*>(attachObject)->rotation = aimBest.delta;
-                    } 
-                    if (cfg.aim.kegs.bEnable)
-                    {
-
                     }
                     else
                     {
@@ -1880,127 +2019,13 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
 
                             aimBest.delta = UKismetMathLibrary::NormalizedDeltaRotator(UKismetMathLibrary::FindLookAtRotation(cameraLoc, aimBest.location), cameraRot);
                             auto smoothness = 1.f / aimBest.smoothness;
-                            localController->AddYawInput(aimBest.delta.Yaw* smoothness);
+                            localController->AddYawInput(aimBest.delta.Yaw * smoothness);
                             localController->AddPitchInput(aimBest.delta.Pitch * -smoothness);
                         }
 
                     }
                 }
-               
             }
-
-            if (!localController->IdleDisconnectEnabled && !(cfg.misc.bEnable && cfg.misc.macro.bEnable && cfg.misc.macro.bIdleKick))
-            {
-                localController->IdleDisconnectEnabled = true;
-            }
-
-            if (cfg.misc.bEnable && !localCharacter->IsLoading())
-            {
-                if (cfg.misc.client.bEnable) 
-                {
-                    if (cfg.misc.client.bShipInfo)
-                    {
-                        auto ship = localCharacter->GetCurrentShip();
-                        if (ship)
-                        {
-                            FVector velocity = ship->GetVelocity() / 100.f;
-                            char buf[0xFF];
-
-                            FVector2D pos {1.f, 45.f};
-                            ImVec4 col{ 1.f,1.f,1.f,1.f };
-
-                            auto speed = velocity.Size();
-                            sprintf(buf, "Speed: %.0fm/s", speed);
-                            pos.Y += 5.f;
-                            Drawing::RenderText(buf, pos, col, true, false);
-
-                            int holes = ship->GetHullDamage()->ActiveHullDamageZones.Count;
-                            sprintf(buf, "Holes: %d", holes);
-                            pos.Y += 20.f;
-                            Drawing::RenderText(buf, pos, col, true, false);
-
-                            int amount = 0;
-                            auto water = ship->GetInternalWater();
-                            if (water) amount = water->GetNormalizedWaterAmount() * 100.f;
-                            sprintf(buf, "Water: %d%%", amount);
-                            pos.Y += 20.f;
-                            Drawing::RenderText(buf, pos, col, true, false);
-
-                            pos.Y += 22.f;
-                            float internal_water_percent = ship->GetInternalWater()->GetNormalizedWaterAmount();
-                            drawList->AddLine({ pos.X - 1, pos.Y }, { pos.X + 100 + 1, pos.Y }, 0xFF000000, 6);
-                            drawList->AddLine({ pos.X, pos.Y }, { pos.X + 100, pos.Y }, 0xFF00FF00, 4);
-                            drawList->AddLine({ pos.X, pos.Y }, { pos.X + (100.f * internal_water_percent), pos.Y }, 0xFF0000FF, 4);
-                        }
-                    }
-                    if (localController->IdleDisconnectEnabled && cfg.misc.macro.bIdleKick)
-                    {
-                        localController->IdleDisconnectEnabled = false;
-                    }
-
-                }
-                if (cfg.misc.game.bEnable)
-                {
-                    if (cfg.misc.game.bShowPlayers && !localCharacter->IsLoading())
-                    {
-                        ImGui::PopStyleColor();
-                        ImGui::PopStyleVar(2);
-                        ImGui::SetNextWindowSize(ImVec2(335.f, 700.f), ImGuiCond_Once);
-                        ImGui::SetNextWindowPos(ImVec2(10.f, 180.f), ImGuiCond_Once);
-                        ImGui::Begin("PlayersList", 0, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_AlwaysAutoResize | ImGuiColumnsFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar);
-                        auto shipsService = gameState->ShipService;
-                        if (shipsService && !localCharacter->IsLoading())
-                        {
-                            ImGui::BeginChild("Info", { 0.f, 18.f });
-                            ImGui::Text("Server Player List | Total Ships (Including AI): %d", shipsService->GetNumShips());
-                            ImGui::EndChild();
-                        }
-                        
-                        auto crewService = gameState->CrewService;
-                        auto crews = crewService->Crews;
-                        if (crews.Data && !localCharacter->IsLoading())
-                        {
-                            ImGui::Columns(2, "CrewPlayers", ImGuiColumnsFlags_NoResize);
-                            ImGui::Separator();
-                            ImGui::Text("Name"); ImGui::NextColumn();
-                            ImGui::SetColumnOffset(1, 185.0f);
-                            ImGui::Text("Activity"); ImGui::NextColumn();
-                            ImGui::Separator();
-                            for (uint32_t i = 0; i < crews.Count; i++)
-                            {
-                                auto& crew = crews[i];
-                                auto players = crew.Players;
-                                if (players.Data)
-                                {
-                                    for (uint32_t k = 0; k < players.Count; k++)
-                                    {
-                                        auto& player = players[k];
-                                        char buf[0x64];
-                                        player->PlayerName.multi(buf, 0x50);
-                                        ImGui::Text(buf);
-                                        ImGui::NextColumn();
-                                        const char* actions[] = { "None", "Bailing", "Cannon", "Cannon_END", "Anchor", "Anchor_END", "Carrying Item", "Carrying Item_END", "Dead", "Dead_END", "Digging", "Extinguishing Fire", "Emptying Bucket", "Harpoon", "Harpoon_END", "Losing Health", "Repairing", "Sails", "Sails_END", "Undoing Repair", "Wheel", "Wheel_END" };
-                                        auto activity = (uint8_t)player->GetPlayerActivity();
-                                        if (activity < 21) { ImGui::Text(actions[activity]); }
-                                      
-                                        ImGui::NextColumn();
-                                    }
-                                    ImGui::Separator();
-                                }
-                                
-                            }
-                            ImGui::Columns();
-                        }
-                        ImGui::End();
-                        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0);
-                        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
-                        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
-                    }
-                    
-                }
-            }
-
-            
         } while (false);
     }
     catch (...) 
@@ -2076,9 +2101,10 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
             if (ImGui::BeginTabItem(ICON_FA_EYE " Visuals")) 
             {
                 ImGui::Text("Global Visuals");
-                if (ImGui::BeginChild("Global", ImVec2(170.f, 29.f), false, 0))
+                if (ImGui::BeginChild("Global", ImVec2(170.f, 50.f), false, 0))
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.bEnable);
+                    ImGui::Checkbox("Text Outlines", &cfg.visuals.textoutlines);
                 }
                 ImGui::EndChild();
 
@@ -2101,6 +2127,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::ColorEdit4("Visible Team Color", &cfg.visuals.players.teamColorVis.x, 0);
                     ImGui::ColorEdit4("Invisible Team Color", &cfg.visuals.players.teamColorInv.x, 0);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.players.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.players.drawdistance, 0.f, 5000.f, "%.0f");
                 }
                 ImGui::EndChild();
 
@@ -2115,6 +2142,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::ColorEdit4("Visible Color", &cfg.visuals.skeletons.colorVis.x, 0);
                     ImGui::ColorEdit4("Invisible Color", &cfg.visuals.skeletons.colorInv.x, 0);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.skeletons.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.skeletons.drawdistance, 0.f, 5000.f, "%.0f");
 
                 }
                 ImGui::EndChild();
@@ -2152,8 +2180,11 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.items.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.items.bName);
                     ImGui::Checkbox("Barrels", &cfg.visuals.items.barrelitems);
+                    ImGui::Checkbox("Ammo Chests", &cfg.visuals.items.ammochests);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.items.textCol.x, 0);
                     ImGui::ColorEdit4("Barrel Text Color", &cfg.visuals.items.barreltextCol.x, 0);
+                    ImGui::ColorEdit4("Ammo Chest Text Color", &cfg.visuals.items.ammotextCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.items.drawdistance, 0.f, 5000.f, "%.0f");
                 }
                 ImGui::EndChild();
 
@@ -2165,8 +2196,20 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.animals.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.animals.bName);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.animals.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.animals.drawdistance, 0.f, 5000.f, "%.0f");
                 }
+                ImGui::EndChild();
 
+                ImGui::NextColumn();
+
+                ImGui::Text("Megalodon");
+                if (ImGui::BeginChild("MegalodonSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
+                {
+                    ImGui::Checkbox("Enable", &cfg.visuals.megalodon.bEnable);
+                    ImGui::Checkbox("Draw Name", &cfg.visuals.megalodon.bName);
+                    ImGui::ColorEdit4("Text Color", &cfg.visuals.megalodon.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.megalodon.drawdistance, 0.f, 5000.f, "%.0f");
+                }
                 ImGui::EndChild();
 
                 ImGui::NextColumn();
@@ -2177,6 +2220,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.sharks.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.sharks.bName);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.sharks.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.sharks.drawdistance, 0.f, 5000.f, "%.0f");
                 }
                 ImGui::EndChild();
 
@@ -2188,6 +2232,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.mermaids.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.mermaids.bName);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.mermaids.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.mermaids.drawdistance, 0.f, 5000.f, "%.0f");
                 }
                 ImGui::EndChild();
 
@@ -2199,6 +2244,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.rowboats.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.rowboats.bName);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.rowboats.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.rowboats.drawdistance, 0.f, 5000.f, "%.0f");
                 }
                 ImGui::EndChild();
 
@@ -2211,6 +2257,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.puzzles.bEnable);
                     ImGui::Checkbox("Draw Doors", &cfg.visuals.puzzles.bDoor);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.puzzles.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.puzzles.drawdistance, 0.f, 5000.f, "%.0f");
 
                 }
                 ImGui::EndChild();
@@ -2223,6 +2270,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Enable", &cfg.visuals.shipwrecks.bEnable);
                     ImGui::Checkbox("Draw Name", &cfg.visuals.shipwrecks.bName);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.shipwrecks.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.shipwrecks.drawdistance, 0.f, 5000.f, "%.0f");
                 }
                 ImGui::EndChild();
 
@@ -2231,7 +2279,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 ImGui::Text("Client");
                 if (ImGui::BeginChild("ClientSettings", ImVec2(0.f, 200.f), true, 0 | ImGuiWindowFlags_NoScrollWithMouse))
                 {
-
+                    ImGui::Checkbox("Enable", &cfg.visuals.client.bEnable);
                     ImGui::Checkbox("Crosshair", &cfg.visuals.client.bCrosshair);
                     if (cfg.visuals.client.bCrosshair)
                     {
@@ -2275,6 +2323,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                 {
                     ImGui::Checkbox("Enable", &cfg.visuals.world.bEnable);
                     ImGui::ColorEdit4("Text Color", &cfg.visuals.world.textCol.x, 0);
+                    ImGui::SliderFloat("Draw Distance", &cfg.visuals.world.drawdistance, 0.f, 20000.f, "%.0f");
                 }
                 ImGui::EndChild();
 
@@ -2355,6 +2404,7 @@ HRESULT Cheat::Renderer::PresentHook(IDXGISwapChain* swapChain, UINT syncInterva
                     ImGui::Checkbox("Chain Aimbot", &cfg.aim.cannon.b_chain_shots);
                     ImGui::Checkbox("Visible Only", &cfg.aim.cannon.bVisibleOnly);
                     ImGui::Checkbox("Instant Shoot & Reload", &cfg.aim.cannon.b_instant_shoot);
+                    ImGui::Checkbox("New Holes", &cfg.aim.cannon.new_holes);
                     ImGui::SliderFloat("Yaw", &cfg.aim.cannon.fYaw, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                     ImGui::SliderFloat("Pitch", &cfg.aim.cannon.fPitch, 1.f, 100.f, "%.0f", ImGuiSliderFlags_AlwaysClamp);
                 }

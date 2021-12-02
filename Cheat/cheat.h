@@ -31,6 +31,7 @@ private:
         struct
         {
             bool bEnable = false;
+            bool textoutlines = false;
             struct
             {
                 bool bEnable = false;
@@ -39,6 +40,7 @@ private:
                 bool bHealth = false;
                 bool bName = false;
                 bool bWeaponanmes = false;
+                float drawdistance = 0.f;
                 EBox boxType = EBox::ENone;
                 EBar barType = EBar::ENone;
                 ImVec4 enemyColorVis = { 1.f, 0.f, 0.f, 1.f };
@@ -56,6 +58,7 @@ private:
                 ImVec4 colorVis = { 0.f, 1.f, 0.5f, 1.f };
                 ImVec4 colorInv = { 1.f, 0.f, 1.f, 1.f };
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+                float drawdistance = 0.f;
             } skeletons;
             struct
             {
@@ -77,31 +80,45 @@ private:
                 bool bEnable = false;
                 bool bName = false;
                 bool barrelitems = false;
+                bool ammochests = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 barreltextCol = { 1.f, 1.f, 1.f, 1.f };
+                ImVec4 ammotextCol = { 1.f, 1.f, 1.f, 1.f };
             } items;
             struct
             {
                 bool bEnable = false;
                 bool bName = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } animals;
             struct
             {
                 bool bEnable = false;
                 bool bName = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } sharks;
             struct
             {
                 bool bEnable = false;
                 bool bName = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } mermaids;
             struct
             {
                 bool bEnable = false;
                 bool bName = false;
+                float drawdistance = 0.f;
+                ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
+            } megalodon;
+            struct
+            {
+                bool bEnable = false;
+                bool bName = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } rowboats;
             struct 
@@ -110,16 +127,19 @@ private:
                 bool bName = false;
                 bool bDoor = false;
                 bool bKeyPlace = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } puzzles;
             struct 
             {
                 bool bEnable = false;
                 bool bName = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } shipwrecks;
             struct 
             {
+                bool bEnable = false;
                 bool bCrosshair = false;
                 bool bOxygen = false;
                 bool bCompass = false;
@@ -140,6 +160,7 @@ private:
             struct 
             {
                 bool bEnable = false;
+                float drawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
             } world;
         } visuals;
@@ -187,6 +208,7 @@ private:
                 bool bVisibleOnly = false;
                 bool b_instant_shoot = false;
                 bool auto_reload = false;
+                bool new_holes = false;
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
