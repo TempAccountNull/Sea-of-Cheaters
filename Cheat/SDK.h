@@ -360,6 +360,19 @@ struct UFOVHandlerFunctions_GetTargetFOV_Params
 	float ReturnValue;
 };
 
+struct AGameCustomizationService_SetTime_Params
+{
+	int Hours;
+
+	void SetTime(int Hours)
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.GameCustomizationService.SetTime");
+		AGameCustomizationService_SetTime_Params params;
+		params.Hours = Hours;
+		ProcessEvent(this, fn, &params);
+	}
+};
+
 struct UFOVHandlerFunctions_SetTargetFOV_Params
 {
 	class AAthenaPlayerCharacter* Character;
@@ -436,6 +449,14 @@ struct AController {
 	APlayerCameraManager* PlayerCameraManager; //0x0460
 	char pad_04f8[0x1031];
 	bool IdleDisconnectEnabled; // 0x14D1
+
+	void SetTime(int Hours)
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.GameCustomizationService.SetTime");
+		AGameCustomizationService_SetTime_Params params;
+		params.Hours = Hours;
+		ProcessEvent(this, fn, &params);
+	}
 
 	void SendToConsole(FString& cmd) {
 		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerController.SendToConsole");
@@ -539,6 +560,8 @@ struct UHealthComponent {
 		return health;
 	};
 };
+
+
 
 struct USkeletalMeshComponent {
 	char pad[0x5A8];
@@ -700,6 +723,60 @@ struct FProjectileWeaponParameters {
 	char UnknownData_1BD[0x3]; // 0x1bd(0x03)
 	float StunDuration; // 0x1c0(0x04)
 	struct FVector TargetingOffset; // 0x1c4(0x0c)
+};
+
+struct URepairableComponent {
+	unsigned char                                      UnknownData_WIVW[0x18];                                    // 0x0118(0x0018) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	float                                              InteractionPointDepthOffset;                               // 0x0160(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              MaximumRepairAngleToRepairer;                              // 0x0164(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              MaximumRepairDistance;                                     // 0x0168(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              RepairTime;                                                // 0x016C(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UClass* RepairType;                                                // 0x0170(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class USceneComponent* RepairMountParent;                                         // 0x0178(0x0008) (Edit, BlueprintVisible, ExportObject, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FTransform                                  RepairMountOffset;                                         // 0x0180(0x0030) (Edit, BlueprintVisible, IsPlainOldData, NoDestructor)
+	struct FName                                       RepairMountSocket;                                         // 0x01B0(0x0008) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int                                                MaxDamageLevel;                                            // 0x01B8(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_CZX3[0x4];                                     // 0x01BC(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	class UClass* AIInteractionType;                                         // 0x01C0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	struct FVector                                     AIInteractionOffset;                                       // 0x01C8(0x000C) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_SYYG[0x4];                                     // 0x01D4(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	unsigned char                                      UnknownData_EU9A[0x3];                                     // 0x01F1(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	int                                                DamageLevel;                                               // 0x01F4(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_Z10X[0x87];                                    // 0x01F9(0x0087) MISSED OFFSET (PADDING)
+};
+
+struct ABucket {
+	char pad1[0x0798];
+	class UInventoryItemComponent* InventoryItem;                                             // 0x0798(0x0008) (Edit, BlueprintVisible, ExportObject, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<struct FBucketContentsInfo>                 BucketContentsInfos;                                       // 0x07A0(0x0010) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance)
+	class UWwiseEvent* ScoopSfx;                                                  // 0x07B0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FName                                       ThrowSocketName;                                           // 0x07B8(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FName                                       DrenchWielderSocketName;                                   // 0x07C0(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ScoopActionTime;                                           // 0x07C8(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ScoopCompleteTime;                                         // 0x07CC(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ThrowActionTime;                                           // 0x07D0(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ThrowCompleteTime;                                         // 0x07D4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              DrenchWielderActionTime;                                   // 0x07D8(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              DrenchWielderCompleteTime;                                 // 0x07DC(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              RequestToleranceTimeOnServer;                              // 0x07E0(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ProjectileSpeed;                                           // 0x07E4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ProjectileAdditionalLiftAngle;                             // 0x07E8(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              WaterFillFromShip;                                         // 0x07EC(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              WaterFillFromSea;                                          // 0x07F0(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              WaterTransferFillAmountModifier;                           // 0x07F4(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              ScoopBufferDistance;                                       // 0x07F8(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_Z3K3[0x3];                                     // 0x07FD(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	class UClass* BucketScoopCooldownType;                                   // 0x0800(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UClass* BucketThrowCooldownType;                                   // 0x0808(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UClass* BucketDouseCooldownType;                                   // 0x0810(0x0008) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	float                                              ThrowLiquidAINoiseRange;                                   // 0x0818(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_1WAE[0x4];                                     // 0x081C(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	class UNamedNotificationInputComponent* NamedNotificationInputComponent;                           // 0x0820(0x0008) (Edit, ExportObject, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash)
+	class ULiquidContainerComponent* LiquidContainer;                                           // 0x0828(0x0008) (Edit, ExportObject, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_7SEW[0x1];                                     // 0x0870(0x0001) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	unsigned char                                      UnknownData_NP3V[0x76];                                    // 0x0872(0x0076) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	class UParticleSystemComponent* BucketContentsEffect;                                      // 0x08E8(0x0008) (ExportObject, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_ZK3R[0x10];                                    // 0x08F0(0x0010) MISSED OFFSET (PADDING)
 };
 
 struct AProjectileWeapon {
@@ -872,6 +949,19 @@ struct ACrewService {
 	TArray<FCrew> Crews; // 0x04A8
 };
 
+struct AShip
+{
+	char pad1[0x0518];
+	bool                                               EmissaryFlagActive;                                        // 0x0FBA(0x0001) (Net, ZeroConstructor, IsPlainOldData, NoDestructor)
+
+	FVector GetCurrentVelocity() {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.Ship.GetCurrentVelocity");
+		FVector params;
+		ProcessEvent(this, fn, &params);
+		return params;
+	}
+};
+
 struct AShipService
 {
 	int GetNumShips()
@@ -983,6 +1073,41 @@ struct FFloatRange {
 	float min;
 	float pad2;
 	float max;
+};
+
+struct ULoadableComponent
+{
+	char pad1[0x00D0];
+	float                                              LoadTime;                                                  // 0x00D0(0x0004) (Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              UnloadTime;                                                // 0x00D4(0x0004) (Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UClass* DefaultObjectToLoad;                                       // 0x00D8(0x0008) (Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_GZLH[0x50];                                    // 0x00E0(0x0050) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	struct FTransform                                  UnloadingPoint;                                            // 0x0130(0x0030) (Edit, BlueprintVisible, DisableEditOnInstance, IsPlainOldData, NoDestructor, Protected)
+	unsigned char                                      UnknownData_8A3T[0x18];                                    // 0x0160(0x0018) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	bool                                               AlwaysLoaded;                                              // 0x0188(0x0001) (Net, ZeroConstructor, IsPlainOldData, NoDestructor)
+	unsigned char                                      UnknownData_FGJ0[0x57];                                    // 0x0189(0x0057) MISSED OFFSET (PADDING)
+};
+
+struct UBootyStorageSettings
+{
+	char pad1[0x0038];
+	float                                              StoreHoldTime;                                             // 0x0038(0x0004) (Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              RetrieveHoldTime;                                          // 0x003C(0x0004) (Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              PickupPointSpawnDepth;                                     // 0x0040(0x0004) (Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              PickupDismissDuration;                                     // 0x0044(0x0004) (Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              PickupDismissDistanceCheck;                                // 0x0048(0x0004) (Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      MaxStoragePerLocation;                                     // 0x004C(0x0001) (Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_V0LN[0x3];                                     // 0x004D(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	TArray<class UClass*>                              BlacklistedCategories;                                     // 0x0060(0x0010) (Edit, ZeroConstructor, Config, UObjectWrapper)
+};
+
+struct ABootyStorageService
+{
+	char pad1[0x0450];
+	class UBootyStorageSettings* BootyStorageSettings;                                      // 0x0450(0x0008) (ZeroConstructor, Transient, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UBootyStorageSettingsAsset* BootyStorageSettingsAsset;                                 // 0x0458(0x0008) (ZeroConstructor, Transient, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<struct FCrewBootyStorage>                   Storage;                                                   // 0x0460(0x0010) (Net, ZeroConstructor, RepNotify)
+	unsigned char                                      UnknownData_7TKK[0x8];                                     // 0x0750(0x0008) MISSED OFFSET (PADDING)
 };
 
 struct ACannon {
@@ -1160,6 +1285,69 @@ struct UInventoryManipulatorComponent {
 	}
 };
 
+class UActorComponent
+{
+	unsigned char                                      UnknownData_GRZN[0x8];                                     // 0x0028(0x0008) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	TArray<struct FName>                               ComponentTags;                                             // 0x0080(0x0010) (Edit, BlueprintVisible, ZeroConstructor)
+	TArray<struct FSimpleMemberReference>              UCSModifiedProperties;                                     // 0x0090(0x0010) (ZeroConstructor)
+	unsigned char                                      UnknownData_1HIB[0x10];                                    // 0x00A0(0x0010) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	TArray<class UAssetUserData*>                      AssetUserData;                                             // 0x00B0(0x0010) (ExportObject, ZeroConstructor, ContainsInstancedReference, Protected)
+	unsigned char                                      UnknownData_2I5J : 3;                                      // 0x00C0(0x0001) BIT_FIELD (PADDING)
+	unsigned char                                      bReplicates : 1;                                           // 0x00C0(0x0001) BIT_FIELD (Edit, BlueprintVisible, BlueprintReadOnly, Net, DisableEditOnInstance, NoDestructor)
+	unsigned char                                      bNetAddressable : 1;                                       // 0x00C0(0x0001) BIT_FIELD (NoDestructor, Protected)
+	unsigned char                                      UnknownData_G3LM : 3;                                      // 0x00C0(0x0001) BIT_FIELD (PADDING)
+	unsigned char                                      UnknownData_UWFN : 6;                                      // 0x00C1(0x0001) BIT_FIELD (PADDING)
+	unsigned char                                      bCreatedByConstructionScript : 1;                          // 0x00C1(0x0001) BIT_FIELD (Deprecated, NoDestructor)
+	unsigned char                                      bInstanceComponent : 1;                                    // 0x00C1(0x0001) BIT_FIELD (Deprecated, NoDestructor)
+	unsigned char                                      bAutoActivate : 1;                                         // 0x00C2(0x0001) BIT_FIELD (Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor)
+	unsigned char                                      bIsActive : 1;                                             // 0x00C2(0x0001) BIT_FIELD (Net, Transient, RepNotify, NoDestructor)
+	unsigned char                                      bEditableWhenInherited : 1;                                // 0x00C2(0x0001) BIT_FIELD (Edit, DisableEditOnInstance, NoDestructor)
+	unsigned char                                      UnknownData_4IP7 : 5;                                      // 0x00C2(0x0001) BIT_FIELD (PADDING)
+	unsigned char                                      UnknownData_66RP : 3;                                      // 0x00C3(0x0001) BIT_FIELD (PADDING)
+	unsigned char                                      bNeedsLoadForClient : 1;                                   // 0x00C3(0x0001) BIT_FIELD (Edit, NoDestructor)
+	unsigned char                                      bNeedsLoadForServer : 1;                                   // 0x00C3(0x0001) BIT_FIELD (Edit, NoDestructor)
+	unsigned char                                      UnknownData_0ZMF[0x2];                                     // 0x00C6(0x0002) MISSED OFFSET (PADDING)
+};
+
+struct UDrunkennessComponentPublicData
+{
+	char pad1[0x0028];
+	TArray<struct FDrunkennessSetupData>               DrunkennessSetupData;                                      // 0x0028(0x0010) (Edit, ZeroConstructor)
+	float                                              VomitingThresholdWhenGettingDrunker;                       // 0x0038(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              VomitingThresholdWhenSobering;                             // 0x003C(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              MinTimeBetweenVomitSpews;                                  // 0x0040(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              MaxTimeBetweenVomitSpews;                                  // 0x0044(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              MinVomitSpewDuration;                                      // 0x0048(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              MaxVomitSpewDuration;                                      // 0x004C(0x0004) (Edit, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              WaterSplashSoberingAmount;                                 // 0x0050(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              WaterSplashSoberingRate;                                   // 0x0054(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UCurveFloat* DrunkennessRemappingCurveForScreenVfx;                     // 0x0058(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UCurveFloat* DrunkennessRemappingCurveForStaggering;                    // 0x0060(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              CameraRollAmp;                                             // 0x0068(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              CameraRollAccel;                                           // 0x006C(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UWwiseObjectPoolWrapper* DrunkennessComponentPool;                                  // 0x0070(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UWwiseEvent* StartDrunkennessSfx;                                       // 0x0078(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UWwiseEvent* StopDrunkennessSfx;                                        // 0x0080(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UWwiseEvent* StartDrunkennessSfxRemotePlayer;                           // 0x0088(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UWwiseEvent* StopDrunkennessSfxRemotePlayer;                            // 0x0090(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FName                                       PlayerDrunkennessAmountRtpc;                               // 0x0098(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FName                                       RemotePlayerDrunkennessAmountRtpc;                         // 0x00A0(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                              MinDrunkennessToToggleLocomotionAnimType;                  // 0x00A8(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_JG4X[0x4];                                     // 0x00AC(0x0004) MISSED OFFSET (PADDING)
+};
+
+struct UDrunkennessComponent
+{
+	char pad1[0x00D0];
+	class UDrunkennessComponentPublicData* PublicData;                                                // 0x00D0(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_N5FF[0x140];                                   // 0x00D8(0x0140) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	float                                              TargetDrunkenness;                                    // 0x0218(0x0008) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
+	float                                              CurrentDrunkenness;                                   // 0x0220(0x0008) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
+	float                                              RemainingAmountToSoberUpDueToWaterSplash;                  // 0x0228(0x0004) (Net, ZeroConstructor, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
+	unsigned char                                      UnknownData_SJF3[0xC];                                     // 0x022C(0x000C) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
+	struct FName                                       VomitVFXType;                                              // 0x0250(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 class ACharacter : public UObject {
 public:
 
@@ -1170,14 +1358,16 @@ public:
 	char pad3[0x38];
 	USkeletalMeshComponent* Mesh; // 0x0448
 	UCharacterMovementComponent* CharacterMovement; // 0x450
-	char pad4[0x3C8];
-	UWieldedItemComponent* WieldedItemComponent; // 0x0820
+	char pad4[0x3D8];
+	UWieldedItemComponent* WieldedItemComponent; // 0x0830
 	char pad43[0x8];
-	UInventoryManipulatorComponent* InventoryManipulatorComponent; // 0x0830
+	UInventoryManipulatorComponent* InventoryManipulatorComponent; // 0x0840
 	char pad5[0x10];
-	UHealthComponent* HealthComponent; // 0x0848
-	char pad6[0x508];
-	UDrowningComponent* DrowningComponent; // 0x0D58
+	UHealthComponent* HealthComponent; // 0x0858(0x0008)
+	char pad6[0x4F8];
+	UDrunkennessComponent* DrunkennessComponent;  // 0x0D58(0x0008) (Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	char pad7[0x8];
+	UDrowningComponent* DrowningComponent; // 0x0D68
 
 	void ReceiveTick(float DeltaSeconds)
 	{
@@ -1200,6 +1390,47 @@ public:
 
 		Origin = params.Origin;
 		BoxExtent = params.BoxExtent;
+	}
+
+	bool K2_SetActorLocation(FVector& NewLocation, bool bSweep, FHitResult& SweepHitResult, bool bTeleport)
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Engine.Actor.K2_SetActorLocation");
+		struct
+		{
+			FVector NewLocation;
+			bool bSweep = false;
+			FHitResult SweepHitResult;
+			bool bTeleport = false;
+		} params;
+
+		params.NewLocation = NewLocation;
+		params.bSweep = bSweep;
+		params.bTeleport = bTeleport;
+
+		ProcessEvent(this, fn, &params);
+
+		SweepHitResult = params.SweepHitResult;
+	}
+
+	bool BlueprintUpdateCamera(FVector& NewCameraLocation, FRotator& NewCameraRotation, float& NewCameraFOV)
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Engine.PlayerCameraManager.BlueprintUpdateCamera");
+		struct
+		{
+			FVector NewCameraLocation;
+			FRotator NewCameraRotation;
+			float NewCameraFOV;
+		} params;
+
+		params.NewCameraLocation = NewCameraLocation;
+		params.NewCameraRotation = NewCameraRotation;
+		params.NewCameraFOV = NewCameraFOV;
+
+		ProcessEvent(this, fn, &params);
+
+		NewCameraLocation = params.NewCameraLocation;
+		NewCameraRotation = params.NewCameraRotation;
+		NewCameraFOV = params.NewCameraFOV;
 	}
 
 	ACharacter* GetCurrentShip() {
@@ -1233,6 +1464,13 @@ public:
 		FVector velocity;
 		ProcessEvent(this, fn, &velocity);
 		return velocity;
+	}
+
+	FVector GetForwardVelocity() {
+		static auto fn = UObject::FindObject<UFunction>("Function Engine.Actor.GetActorForwardVector");
+		FVector ForwardVelocity;
+		ProcessEvent(this, fn, &ForwardVelocity);
+		return ForwardVelocity;
 	}
 
 	AItemInfo* GetItemInfo() {
@@ -1355,8 +1593,6 @@ public:
 		return IsA(obj);
 	}
 
-
-
 	inline bool isHarpoon() {
 		static auto obj = UObject::FindClass("Class Athena.HarpoonLauncher");
 		return IsA(obj);
@@ -1378,7 +1614,7 @@ public:
 	}
 
 	inline bool isAmmoChest() {
-		static auto obj = UObject::FindClass("BlueprintGeneratedClass BP_AmmoChest.BP_AmmoChest_C");
+		static auto obj = UObject::FindClass("Class Athena.AmmoChest");
 		return IsA(obj);
 	}
 
@@ -1405,7 +1641,7 @@ public:
 	}
 
 	inline bool isMegalodon() {
-		static auto obj = UObject::FindClass("");
+		static auto obj = UObject::FindClass("Class Athena.TinyShark");
 		return IsA(obj);
 	}
 
@@ -1429,8 +1665,23 @@ public:
 		return IsA(obj);
 	}
 
+	inline bool isSail() {
+		static auto obj = UObject::FindClass("Class Athena.Sail");
+		return IsA(obj);
+	}
+
+	inline bool isMast() {
+		static auto obj = UObject::FindClass("Class Athena.Mast");
+		return IsA(obj);
+	}
+
 	bool isWeapon() {
 		static auto obj = UObject::FindClass("Class Athena.ProjectileWeapon");
+		return IsA(obj);
+	}
+
+	bool isBucket() {
+		static auto obj = UObject::FindClass("Class Athena.Bucket");
 		return IsA(obj);
 	}
 
@@ -1439,7 +1690,7 @@ public:
 		return IsA(obj);
 	}
 
-	bool isBarrel() {
+	inline bool isBarrel() {
 		static auto obj = UObject::FindClass("Class Athena.StorageContainer");
 		return IsA(obj);
 	}
@@ -1494,12 +1745,32 @@ public:
 		ProcessEvent(this, fn, nullptr);
 	}
 
+	bool IsMastDown() {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.Mast.IsMastFullyDamaged");
+		bool ismastdown = false;
+		ProcessEvent(this, fn, &ismastdown);
+		return ismastdown;
+	}
+
+	void OpenFerryDoor() {
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.GhostShipDoor.OpenForPlayer");
+		ProcessEvent(this, fn, nullptr);
+	}
+
 	float GetTargetFOV(class AAthenaPlayerCharacter* Character) {
 		static auto fn = UObject::FindObject<UFunction>("Function Athena.FOVHandlerFunctions.GetTargetFOV");
 		UFOVHandlerFunctions_GetTargetFOV_Params params;
 		params.Character = Character;
 		ProcessEvent(this, fn, &params);
 		return params.ReturnValue;
+	}
+
+	void SetTime(int Hours)
+	{
+		static auto fn = UObject::FindObject<UFunction>("Function Athena.GameCustomizationService.SetTime");
+		AGameCustomizationService_SetTime_Params params;
+		params.Hours = Hours;
+		ProcessEvent(this, fn, &params);
 	}
 
 	void SetTargetFOV(class AAthenaPlayerCharacter* Character, float TargetFOV) {
@@ -1710,56 +1981,6 @@ struct UMeleeAttackDataAsset
 	char pad[0x0238];
 	float                                              ClampYawRange;                                             // 0x0238(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	float                                              ClampYawRate;                                              // 0x023C(0x0004) (Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              WarmUpDuration;                                            // 0x0030(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              StrikeDuration;                                            // 0x0034(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              RecoverMissDuration;                                       // 0x0038(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              RecoverHitDuration;                                        // 0x003C(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              LungeMoveStartTime;                                        // 0x0040(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              LungeMoveDuration;                                         // 0x0044(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              LungeMoveMaxSpeed;                                         // 0x0048(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	char MeleeWeaponMovementSpeed;                                                         // 0x004C(0x0001) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_8UR2[0x3];                                     // 0x004D(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	float                                              AttackMoveSpeedDeactivationAllowedWindow;                  // 0x0050(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              ComboTime;                                                 // 0x0054(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                               DefenderKnockbackEnabled;                                  // 0x0058(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	unsigned char                                      UnknownData_JSHW[0x3];                                     // 0x0059(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	bool                                               DefenderKnockbackWhenBlockingEnabled;                      // 0x00AC(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	unsigned char                                      UnknownData_KZB5[0x3];                                     // 0x00AD(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	bool                                               AttackerKnockbackEnabled;                                  // 0x0100(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	unsigned char                                      UnknownData_1UY3[0x3];                                     // 0x0101(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	bool                                               AttackerKnockbackWhenBlockingEnabled;                      // 0x0154(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	unsigned char                                      UnknownData_21MV[0x3];                                     // 0x0155(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	bool                                               LockOnEnabled;                                             // 0x01A8(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	unsigned char                                      UnknownData_7A5F[0x3];                                     // 0x01A9(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	float                                              HitStartRange;                                             // 0x01B4(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              HitEndRange;                                               // 0x01B8(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              HitStartAngle;                                             // 0x01BC(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              HitAngleDelta;                                             // 0x01C0(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              HitSphereRadius;                                           // 0x01C4(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              HitTimeOffset;                                             // 0x01C8(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              HitDuration;                                               // 0x01CC(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              AttackDamage;                                              // 0x01D0(0x0004) (Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_EK3Y[0x4];                                     // 0x01D4(0x0004) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	class UClass*                                      DamagerType;                                               // 0x01D8(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	char HealthChangedReason;                                                                 // 0x01E0(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                               IsUnblockable;                                             // 0x01E1(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	bool                                               StunOnMiss;                                                // 0x01E2(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	unsigned char                                      UnknownData_YXC4[0x5];                                     // 0x01E3(0x0005) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	TArray<struct FStunAttackerOnHitSurfacePair>       StunAttackerOnHitSurfaces;                                 // 0x01E8(0x0010) (Edit, ZeroConstructor)
-	bool                                               StunOnHit;                                                 // 0x01F8(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor)
-	unsigned char                                      UnknownData_NMQ1[0x3];                                     // 0x01F9(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	float                                              StunOnHitDurationPlayer;                                   // 0x01FC(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                              StunOnHitDurationCharacter;                                // 0x0200(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	char WieldableItemComplexOneShotLookUpType;		                                          // 0x0204(0x0001)
-	unsigned char                                      UnknownData_LTZQ[0x3];                                     // 0x0205(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	uint32_t                                           AnimationLookupIndex;                                      // 0x0208(0x0004) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	char WieldableItemComplexOneShotAnimType;                                                    // 0x020C(0x0001) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	unsigned char                                      UnknownData_E47J[0x3];                                     // 0x020D(0x0003) MISSED OFFSET (FIX SPACE BETWEEN PREVIOUS PROPERTY)
-	class UClass*                                      ImpactId;                                                  // 0x0210(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UClass*                                      AttackerHitLandedCameraShake;                              // 0x0218(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UForceFeedbackEffect*                        AttackerHitLandedForceFeedbackEffect;                      // 0x0220(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                      DefenderHitReceivedCameraShake;                            // 0x0228(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UForceFeedbackEffect*                        DefenderHitReceivedForceFeedbackEffect;                    // 0x0230(0x0008) (Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 

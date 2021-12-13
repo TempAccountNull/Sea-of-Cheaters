@@ -44,9 +44,6 @@
     <ClCompile Include="..\include\UE4\UE4.cpp">
       <Filter>Sources\UE4</Filter>
     </ClCompile>
-    <ClCompile Include="..\include\imgui\imgui_tables.cpp">
-      <Filter>Sources\imgui</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cheat.h">

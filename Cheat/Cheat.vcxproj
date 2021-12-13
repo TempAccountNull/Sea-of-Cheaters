@@ -75,7 +75,6 @@
     <ClCompile Include="..\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\include\imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="..\include\imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\include\UE4\UE4.cpp" />
     <ClCompile Include="cheat.cpp" />

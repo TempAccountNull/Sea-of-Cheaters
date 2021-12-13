@@ -1,94 +1,119 @@
 ﻿  unity_BUI0H74L7GZL3QTO.cpp
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(359,30): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(365,30): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(378,30): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(368,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(381,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(389,20): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(402,20): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(323): message : see declaration of 'APlayerState'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(463,16): warning C4101: 'ReturnValue': unreferenced local variable
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(678,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(484,16): warning C4101: 'ReturnValue': unreferenced local variable
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(701,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(679,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(702,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(841,65): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(752,19): warning C4099: 'UWwiseEvent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(718): message : see declaration of 'UWwiseEvent'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(894,24): warning C4099: 'USceneComponent': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(894): message : see declaration of 'USceneComponent'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(918,65): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(248): message : see declaration of 'FString'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(852,70): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(929,70): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(248): message : see declaration of 'FString'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(863,27): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(940,27): warning C4099: 'APlayerState': type name first seen using 'struct' now seen using 'class'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(323): message : see declaration of 'APlayerState'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(968,28): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1058,28): warning C4099: 'FString': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(248): message : see declaration of 'FString'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1004,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1107,29): warning C4099: 'UBootyStorageSettings': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1091): message : see declaration of 'UBootyStorageSettings'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1129,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1013,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1138,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1043,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1168,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1044,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1169,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1045,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1170,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1046,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1171,16): warning C4099: 'UObject': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(111): message : see declaration of 'UObject'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1049,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1174,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1050,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1175,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1120,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1245,15): warning C4099: 'UClass': type name first seen using 'class' now seen using 'struct'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(233): message : see declaration of 'UClass'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1497,49): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1328,31): warning C4099: 'UWwiseObjectPoolWrapper': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1161): message : see declaration of 'UWwiseObjectPoolWrapper'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1329,19): warning C4099: 'UWwiseEvent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(718): message : see declaration of 'UWwiseEvent'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1330,19): warning C4099: 'UWwiseEvent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(718): message : see declaration of 'UWwiseEvent'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1331,19): warning C4099: 'UWwiseEvent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(718): message : see declaration of 'UWwiseEvent'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1332,19): warning C4099: 'UWwiseEvent': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(718): message : see declaration of 'UWwiseEvent'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1342,39): warning C4099: 'UDrunkennessComponentPublicData': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1312): message : see declaration of 'UDrunkennessComponentPublicData'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1760,49): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1505,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1776,48): warning C4099: 'AAthenaPlayerCharacter': type name first seen using 'struct' now seen using 'class'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(320): message : see declaration of 'AAthenaPlayerCharacter'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1770,29): warning C4099: 'UMeleeAttackDataAsset': type name first seen using 'struct' now seen using 'class'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1708): message : see declaration of 'UMeleeAttackDataAsset'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1991,29): warning C4099: 'UMeleeAttackDataAsset': type name first seen using 'struct' now seen using 'class'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\SDK.h(1979): message : see declaration of 'UMeleeAttackDataAsset'
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(298,32): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(432,24): warning C4305: '*=': truncation from 'double' to 'float'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(753,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(768,68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(768,40): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(806,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(864,77): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(864,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(908,83): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1025,88): warning C4305: 'argument': truncation from 'ImGuiColumnsFlags_' to 'bool'
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1164,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1164,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1181,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1181,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1192,91): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1257,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1257,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1283,84): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1283,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1309,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1309,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1339,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1339,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1351,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1351,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1367,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1367,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1506,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1506,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1561,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1561,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1648,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1648,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1722,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1722,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1750,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1750,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1769,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(789,17): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(804,68): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(804,40): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(841,31): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(896,77): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(896,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(940,83): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1054,88): warning C4305: 'argument': truncation from 'ImGuiColumnsFlags_' to 'bool'
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1176,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1176,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1209,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1209,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1221,91): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1266,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1266,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1296,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1296,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1317,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1317,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1348,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1348,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1376,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1376,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1396,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1396,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1413,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1413,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1511,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1511,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1606,76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1606,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1617,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1617,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1769,78): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1769,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1786,51): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1799,97): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1799,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1838,80): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1797,74): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1797,48): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1816,80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1816,52): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1833,51): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1846,97): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1846,56): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1861,72): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1861,44): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1862,40): warning C4552: '+': result of expression not used
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1878,49): warning C4552: '+': result of expression not used
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(1919,80): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\Bigga\Desktop\sot\My Destiny\Cheat\cheat.cpp(2080,80): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Generating code
-  1 of 2280 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2288 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     24 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

@@ -81,7 +81,9 @@ private:
                 bool bName = false;
                 bool barrelitems = false;
                 bool ammochests = false;
-                float drawdistance = 0.f;
+                float barreldrawdistance = 0.f;
+                float itemdrawdistance = 0.f;
+                float ammochestsdrawdistance = 0.f;
                 ImVec4 textCol = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 barreltextCol = { 1.f, 1.f, 1.f, 1.f };
                 ImVec4 ammotextCol = { 1.f, 1.f, 1.f, 1.f };
@@ -176,6 +178,7 @@ private:
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
+                float fAimHeight = 1.f;
             } players;
             struct 
             {
@@ -192,6 +195,7 @@ private:
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
+                float fAimHeight = 1.f;
             } skeletons;
             struct 
             {
@@ -204,11 +208,13 @@ private:
             struct 
             {
                 bool bEnable = false;
+                bool playeraimbot = false;
+                bool skeletonaimbot = false;
                 bool b_chain_shots = false;
+                bool deckshots = false;
                 bool bVisibleOnly = false;
                 bool b_instant_shoot = false;
                 bool auto_reload = false;
-                bool new_holes = false;
                 float fYaw = 1.f;
                 float fPitch = 1.f;
                 float fSmoothness = 1.f;
@@ -223,7 +229,8 @@ private:
                 bool bEnable = false;
                 bool bShipInfo = false;
                 bool b_map_pins = false;
-                float fov = 90.f;                
+                float fov = 90.f;   
+                float time = 90.f;
             } client;
             struct 
             {
@@ -243,7 +250,6 @@ private:
                 bool bEnable = false;
                 bool noclamp = false;
                 bool noblockreduce = false;
-                bool fasterattack = false;
             } sword;
             struct 
             {
@@ -251,12 +257,6 @@ private:
                 bool fasterreloading = false;
                 bool fasteraimingspeed = false;
             } allweapons;
-            struct 
-            {
-                bool bEnable = false;
-                bool nospread_hip = false;
-                bool nospread_aim = false;
-            } shotgun;
             struct 
             {
                 bool bEnable = false;
@@ -268,6 +268,14 @@ private:
                 bool fpsboost = false;
                 bool frametime = false;
             } render;
+            struct
+            {
+                bool bEnable = false;
+                bool fasterharpoon = false;
+                bool freecam = false;
+                bool tpitems = false;
+                float itemdistance = 0.f;
+            } others;
         } misc;
     } cfg;
     class Hacks {
